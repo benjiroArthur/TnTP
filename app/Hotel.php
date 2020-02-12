@@ -6,5 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class Hotel extends Model
 {
-    //
+    //fillables
+    protected $fillable = ['code', 'name', 'email', 'address_id', 'image'];
+
+    //return with
+    protected $with = ['address', 'map'];
+
+    //relationship
+    public function address()
+    {
+        return $this->morphOne('App\Address', 'addressable');
+    }
+    public function map()
+    {
+        return $this->morphOne('App\Map', 'mappable');
+    }
+    public function rooms()
+    {
+        return $this->hasMany('App\Room');
+    }
+    public function bookings()
+    {
+        return $this->hasManyThrough('App\Booking', 'App\Room');
+    }
 }

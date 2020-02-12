@@ -29,7 +29,6 @@
                 <i class="nav-icon fas fa-user-circle orange"></i>
                 <p>
                     Profile
-
                 </p>
             </router-link>
         </li>
