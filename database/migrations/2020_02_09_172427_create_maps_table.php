@@ -17,6 +17,8 @@ class CreateMapsTable extends Migration
             $table->bigIncrements('id');
             $table->double('lat');
             $table->double('long');
+            $table->unsignedBigInteger('mappable_id');
+            $table->string('mappable_type');
             $table->timestamps();
         });
     }

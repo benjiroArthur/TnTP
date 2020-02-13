@@ -29,4 +29,8 @@ class Hotel extends Model
     {
         return $this->hasManyThrough('App\Booking', 'App\Room');
     }
+    public function reviews()
+    {
+        return $this->morphMany('App\Review', 'reviewable');
+    }
 }

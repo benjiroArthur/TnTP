@@ -21,7 +21,6 @@ class CreateUsersTable extends Migration
             $table->integer('role_id')->default(1);
             $table->unsignedBigInteger('userable_id');
             $table->string('userable_type');
-            $table->unsignedBigInteger('address_id')->nullable();
             $table->boolean('profile_updated')->default(0);
             $table->rememberToken();
             $table->timestamps();

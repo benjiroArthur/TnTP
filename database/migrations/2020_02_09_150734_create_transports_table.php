@@ -18,8 +18,10 @@ class CreateTransportsTable extends Migration
             $table->string('vehicle_number');
             $table->string('vehicle_brand');
             $table->string('colour');
-            $table->string('email');
-            $table->string('driver_name');
+            $table->string('last_name');
+            $table->string('first_name');
+            $table->string('other_name')->nullable();
+            $table->string('email')->unique();
             $table->timestamps();
         });
     }

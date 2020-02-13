@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'email_verified_at', 'role_id', 'userable_id', 'userable_type', 'profile_updated'
     ];
 
     /**
@@ -24,9 +24,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token',];
 
     /**
      * The attributes that should be cast to native types.
@@ -35,5 +33,33 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'profile_updated' => 'boolean'
     ];
+
+    //relationship
+    public function userable()
+    {
+        return $this->morphTo();
+    }
+
+    public function role()
+    {
+        return $this->belongsTo('App\Role');
+    }
+    public function address()
+    {
+        return $this->morphOne('App\Address', 'addressable');
+    }
+    public function reviews()
+    {
+        return $this->hasMany('App\Review');
+    }
+    public function trips()
+    {
+        return $this->hasMany('App\Trip');
+    }
+    public function bookings()
+    {
+        return $this->hasMany('App\Booking');
+    }
 }

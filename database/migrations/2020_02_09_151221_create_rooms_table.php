@@ -18,9 +18,9 @@ class CreateRoomsTable extends Migration
             $table->unsignedBigInteger('hotel_id');
             $table->string('room_number');
             $table->double('price');
-            $table->string('status')->default('booked');
+            $table->string('status')->default('available');
             $table->longText('description')->nullable();
-            $table->string('image')->default('nohotelimage.jpg');
+            $table->string('image')->default('noroomimage.jpg');
             $table->timestamps();
         });
     }

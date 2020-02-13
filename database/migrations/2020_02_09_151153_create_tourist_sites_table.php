@@ -16,8 +16,6 @@ class CreateTouristSitesTable extends Migration
         Schema::create('tourist_sites', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->unsignedBigInteger('address_id');
-            $table->unsignedBigInteger('map_id');
             $table->string('image')->nullable();
             $table->double('price');
             $table->timestamps();

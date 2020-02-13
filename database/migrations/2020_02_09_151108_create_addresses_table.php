@@ -15,9 +15,12 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('region_id');
             $table->unsignedBigInteger('city_id');
             $table->string('pg_digital_address');
+            $table->unsignedBigInteger('addressable_id');
+            $table->string('addressable_type');
             $table->timestamps();
         });
     }
