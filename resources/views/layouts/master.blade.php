@@ -23,7 +23,7 @@
 <body class="hold-transition sidebar-mini">
 <div class="wrapper" id="app">
     <!--    navbar -->
-        @include('includes.navbar')
+    @include('includes.navbar')
 
 <!-- Main Sidebar Container -->
 

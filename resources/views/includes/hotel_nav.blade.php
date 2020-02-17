@@ -36,7 +36,7 @@
 
         <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}"
-               onclick="preventDefault();
+               onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();">
                 <i class="fas fa-power-off nav-icon red"></i>
                 <p>
