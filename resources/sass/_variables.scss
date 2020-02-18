@@ -18,6 +18,7 @@ $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
 $white: #ffffff;
+$black: #000000;
 
 
 .blue{
@@ -52,5 +53,8 @@ $white: #ffffff;
 }
 .white{
     color:$white;
+}
+.black{
+    color:$black;
 }
 

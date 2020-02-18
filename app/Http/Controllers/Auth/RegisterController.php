@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Hotel;
+use App\HotelCode;
 use App\Http\Controllers\Controller;
+use App\Role;
+use App\Transport;
+use App\Traveller;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -48,11 +53,22 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        if($data['user_type'] == 'hotel') {
+            return Validator::make($data, [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8|confirmed'
+            ]);
+        }
+        else{
+            return Validator::make($data, [
+                'last_name' => 'required|string|max:255',
+                'first_name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users|unique:travellers|unique:transports',
+                'password' => 'required|string|min:8|confirmed'
+            ]);
+        }
+
     }
 
     /**
@@ -63,10 +79,104 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        if($data['user_type'] == 'traveller')
+        {
+            $role = Role::where('name', 'traveller')->first();
+            $traveller = new Traveller();
+
+            $traveller->create([
+                'last_name' => $data['last_name'],
+                'first_name' => $data['first_name'],
+                'other_name' => $data['other_name'],
+                'email' => $data['email']
+            ]);
+
+            //save user instatce
+            $newTrav = Traveller::where('email', $data['email'])->first();
+
+
+           $user = $newTrav->user()->create([
+                'email' => $data['email'],
+                'password'=> Hash::make($data['password']),
+                'role_id'=> $role->id
+            ]);
+            return $user;
+        }
+        elseif ($data['user_type'] == 'transport')
+        {
+            $transport = new Transport();
+            $transport->create([
+                'last_name' => $data['last_name'],
+                'first_name' => $data['first_name'],
+                'other_name' => $data['other_name'],
+                'email' => $data['email']
+            ]);
+
+            //save user instance
+            $role = Role::where('name', 'transport')->first();
+            $newTran = Transport::where('email', $data['email'])->first();
+
+            $user = $newTran->user()->create([
+                'email' => $data['email'],
+                'password'=> Hash::make($data['password']),
+                'role_id'=> $role->id
+            ]);
+            return $user;
+        }
+        else
+        {
+            $code = "";
+            $hcedes = HotelCode::latest()->first();
+            if($hcedes == null)
+            {
+                $val = 1;
+                $rec = new HotelCode();
+                $rec->code = $val;
+                $rec->save();
+
+
+            }
+            else
+            {
+                $val = $hcedes->code + 1;
+                $rec = new HotelCode();
+                $rec->code = $val;
+                $rec->save();
+
+            }
+            if($val < 10)
+            {
+                $code = "tigH000".$val;
+            }
+            elseif($val > 9 && $val < 100){
+                $code = "tigH00".$val;
+            }
+            elseif($val > 99 && $val < 1000){
+                $code = "tigH0".$val;
+            }
+            elseif($val > 900){
+                $code = "tigH".$val;
+            }
+        }
+        $hotel = new Hotel();
+
+
+        $hotel->create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'code' => $code
         ]);
+
+        $role = Role::where('name', 'hotel')->first();
+        $newHotel = Hotel::where('email', $data['email'])->first();
+        $user = $newHotel->user()->create([
+            'email' => $data['email'],
+            'password'=> Hash::make($data['password']),
+            'role_id'=> $role->id
+        ]);
+        return $user;
+
+
     }
+
 }

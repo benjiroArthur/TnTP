@@ -1,4 +1,4 @@
-<aside class="main-sidebar bg-trip elevation-4">
+<aside class="main-sidebar bg-dark elevation-4">
 
     <!-- Brand Logo -->
     <a href="{{url('/')}}" class="brand-link">
