@@ -3,7 +3,7 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <li class="nav-item">
-            <router-link to="/home" class="nav-link">
+            <router-link to="/transport/home" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
                 <p>
                     Home
@@ -11,7 +11,15 @@
             </router-link>
         </li>
         <li class="nav-item">
-            <router-link to="/chat" class="nav-link">
+            <router-link to="/transport/dashboard" class="nav-link">
+                <i class="nav-icon fas fa-home"></i>
+                <p>
+                    Dashboard
+                </p>
+            </router-link>
+        </li>
+        <li class="nav-item">
+            <router-link to="/transport/chat" class="nav-link">
                 <i class="nav-icon fas fa-bed"></i>
                 <p>
                     Rooms
@@ -19,13 +27,13 @@
             </router-link>
         </li>
         <li class="nav-item">
-            <router-link to="/user/chat" class="nav-link">
+            <router-link to="/transport/chat" class="nav-link">
                 <i class="fas fa-circle nav-icon green"></i>
                 <p>Bookings</p>
             </router-link>
         </li>
         <li class="nav-item">
-            <router-link to="/user/profile" class="nav-link">
+            <router-link to="/transport/profile" class="nav-link">
                 <i class="nav-icon fas fa-user-circle orange"></i>
                 <p>
                     Profile

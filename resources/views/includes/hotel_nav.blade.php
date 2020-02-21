@@ -11,6 +11,14 @@
             </router-link>
         </li>
         <li class="nav-item">
+            <router-link to="/dashboard" class="nav-link">
+                <i class="nav-icon fas fa-home"></i>
+                <p>
+                    Dashboard
+                </p>
+            </router-link>
+        </li>
+        <li class="nav-item">
             <router-link to="/chat" class="nav-link">
                 <i class="nav-icon fas fa-bed"></i>
                 <p>
