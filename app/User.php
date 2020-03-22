@@ -36,6 +36,8 @@ class User extends Authenticatable
         'profile_updated' => 'boolean'
     ];
 
+    protected $with = ['role', 'userable', 'address'];
+
     //relationship
     public function userable()
     {

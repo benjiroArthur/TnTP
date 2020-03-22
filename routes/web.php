@@ -13,11 +13,27 @@
 
 Route::get('/', function () {
     return view('welcome');
+
+});
+
+Route::get('/js/popper.js.map', function () {
+    return redirect('/home');
+});
+Route::get('/js/vuejs-datatable.esm.js.map', function () {
+    return redirect('/home');
 });
 
 Auth::routes();
 Route::post('/new-register', 'Auth\MyRegisterController@userRegister')->name('userRegister');
 //Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'data', 'as' => 'data.'], function() {
+    Route::get('/profile', 'ProfileController@getProfile');
+    Route::post('/profile', 'ProfileController@getProfile');
+    Route::get('/address', 'ProfileController@address');
+    Route::get('/region', 'ProfileController@region');
+    Route::get('/city/{region}', 'ProfileController@city');
+});
 
 
 

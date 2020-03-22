@@ -22,5 +22,9 @@ class Admin extends Model
         return $this->morphOne('App\User', 'userable');
     }
 
+    public function getImageAttribute($val){
+        return asset('assets/ProfilePictures/'.$val);
+    }
+
 
 }

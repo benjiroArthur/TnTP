@@ -18,4 +18,8 @@ class Room extends Model
     {
         return $this->hasMany('App\Booking');
     }
+
+    public function getImageAttribute($val){
+        return asset('assets/ProfilePictures/'.$val);
+    }
 }

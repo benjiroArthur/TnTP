@@ -22,8 +22,12 @@ class TouristSite extends Model
         return $this->morphOne('App\Address', 'addressable');
     }
      public function trips()
-        {
-            return $this->hasMany('App\Trips');
-        }
+    {
+        return $this->hasMany('App\Trips');
+    }
+
+    public function getImageAttribute($val){
+        return asset('assets/ProfilePictures/'.$val);
+    }
 
 }

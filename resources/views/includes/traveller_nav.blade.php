@@ -10,35 +10,14 @@
                 </p>
             </router-link>
         </li>
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-                <i class="nav-icon mdi mdi-account-multiple purple"></i>
+        <li class="nav-item">
+            <router-link to="/user/trips" class="nav-link">
+                <i class="nav-icon mdi mdi-car purple"></i>
                 <p>
                     Trips
-                    <i class="right mdi mdi-chevron-right"></i>
                 </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <router-link to="/admin/upcoming-appointment" class="nav-link">
-                        <i class="far fa-circle nav-icon indigo"></i>
-                        <p>My Trips</p>
-                    </router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/admin/past-appointment" class="nav-link">
-                        <i class="far fa-circle nav-icon indigo"></i>
-                        <p>Add Trip</p>
-                    </router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/admin/past-appointment" class="nav-link">
-                        <i class="far fa-circle nav-icon indigo"></i>
-                        <p>Bookings</p>
-                    </router-link>
-                </li>
+            </router-link>
 
-            </ul>
         </li>
         <li class="nav-item">
             <router-link to="/user/profile" class="nav-link">

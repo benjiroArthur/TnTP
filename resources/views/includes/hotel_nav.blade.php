@@ -11,7 +11,7 @@
             </router-link>
         </li>
         <li class="nav-item">
-            <router-link to="/dashboard" class="nav-link">
+            <router-link to="/hotel/dashboard" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
                 <p>
                     Dashboard
@@ -19,7 +19,7 @@
             </router-link>
         </li>
         <li class="nav-item">
-            <router-link to="/chat" class="nav-link">
+            <router-link to="/hotel/rooms" class="nav-link">
                 <i class="nav-icon fas fa-bed"></i>
                 <p>
                     Rooms
@@ -27,13 +27,13 @@
             </router-link>
         </li>
         <li class="nav-item">
-            <router-link to="/user/chat" class="nav-link">
+            <router-link to="/hotel/bookings" class="nav-link">
                 <i class="fas fa-circle nav-icon green"></i>
                 <p>Bookings</p>
             </router-link>
         </li>
         <li class="nav-item">
-            <router-link to="/user/profile" class="nav-link">
+            <router-link to="/hotel/profile" class="nav-link">
                 <i class="nav-icon fas fa-user-circle orange"></i>
                 <p>
                     Profile

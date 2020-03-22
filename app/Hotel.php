@@ -33,4 +33,8 @@ class Hotel extends Model
     {
         return $this->morphMany('App\Review', 'reviewable');
     }
+
+    public function getImageAttribute($val){
+        return asset('assets/ProfilePictures/'.$val);
+    }
 }

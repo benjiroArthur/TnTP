@@ -77,7 +77,7 @@
                             </div>
 
                             <div class="col-12">
-                                <a href="{{route('register')}}" class="btn btn-primary">Sign Up</a>
+                                <a href="{{route('register')}}" class="btn btn-primary form-control">Sign Up</a>
                             </div>
                         </div>
 

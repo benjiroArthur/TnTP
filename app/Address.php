@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
     //fillables
-    protected $fillable = ['region_id', 'city_id', 'pg_digital_address', 'addressable_id', 'addressable_type'];
+    protected $fillable = ['region', 'city', 'pg_digital_address', 'addressable_id', 'addressable_type'];
 
     //return with
     protected $with = ['region', 'city'];

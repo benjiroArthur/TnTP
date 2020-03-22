@@ -25,4 +25,8 @@ class Transport extends Model
     public function user(){
         return $this->morphOne('App\User', 'userable');
     }
+
+    public function getImageAttribute($val){
+        return asset('assets/ProfilePictures/'.$val);
+    }
 }
