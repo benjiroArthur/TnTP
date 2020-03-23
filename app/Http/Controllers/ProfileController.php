@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\City;
 use App\Region;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\File;
 
 class ProfileController extends Controller
 {
@@ -34,11 +37,9 @@ class ProfileController extends Controller
      */
     public function updateProfile(Request $request)
     {
-        $this->validate($request, [
-            'region' => 'required',
-            'city' => 'required',
-        ]);
         $user = Auth()->user();
+        $user->profile_updated = 1;
+        $user->save();
         $user->userable()->update($request->all());
         return response('success');
     }
@@ -53,12 +54,16 @@ class ProfileController extends Controller
         $this->validate($request, [
             'region' => 'required',
             'city' => 'required',
+            'gp_digital_address' => 'required',
         ]);
+
+
         $data = [
             'region' => $request->region,
             'city' => $request->city,
-            'pg_digital_address' => $request->pg_digital_address
+            'gp_digital_address' => $request->gp_digital_address
         ];
+
         $user = Auth()->user();
 
         if($user->address === null){
@@ -85,5 +90,56 @@ class ProfileController extends Controller
         $city = City::where('region_id', $region_id)->get();
 
         return response()->json($city);
+    }
+
+    public function uploadImage(Request $request){
+        $user = Auth()->user()->userable;
+
+        $oldImage = $user->image;
+        $oldSplit = explode('/', $oldImage);
+        $oldSplit = $oldSplit[sizeof($oldSplit) -1];
+
+
+        if($request->hasfile('image')){
+
+            try {
+                $this->validate($request, [
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
+                ]);
+            } catch (ValidationException $e) {
+                return response($e);
+            }
+
+            $image_file = $request->file('image');
+
+            $imageNameWithExt = $image_file->getClientOriginalName();
+            //Get just extension
+            $extension = $image_file->getClientOriginalExtension();
+
+            //Filename to store
+            $imageNameToStore = time().'.'.$extension;
+
+            //upload file
+
+//      $path = $image_file->storeAs('public/assets/ProfilePictures/', $imageNameToStore);
+//
+            $image_path = public_path().'/assets/ProfilePictures/'.$imageNameToStore;
+            //resize image
+            Image::make($image_file->getRealPath())->resize(140,128)->save($image_path);
+
+            if(File::exists(public_path('/assets/ProfilePictures/'.$oldSplit)) && $oldSplit !== 'noimage.jpg'){
+
+                File::delete(public_path('/assets/ProfilePictures/'.$oldSplit));
+            }
+
+            $user->image = $imageNameToStore;
+            $user->save();
+
+            return response('Success');
+        }
+        else
+        {
+            return response('No file selected');
+        }
     }
 }

@@ -25,12 +25,13 @@ Route::get('/js/vuejs-datatable.esm.js.map', function () {
 
 Auth::routes();
 Route::post('/new-register', 'Auth\MyRegisterController@userRegister')->name('userRegister');
-//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/checkUpdate', 'HomeController@checkUpdate');
 
 Route::group(['prefix' => 'data', 'as' => 'data.'], function() {
     Route::get('/profile', 'ProfileController@getProfile');
-    Route::post('/profile', 'ProfileController@getProfile');
-    Route::get('/address', 'ProfileController@address');
+    Route::post('/user/profile/image', 'ProfileController@uploadImage');
+    Route::put('/profile', 'ProfileController@updateProfile');
+    Route::post('/address', 'ProfileController@address');
     Route::get('/region', 'ProfileController@region');
     Route::get('/city/{region}', 'ProfileController@city');
 });

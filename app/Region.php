@@ -14,8 +14,5 @@ class Region extends Model
     {
         return $this->hasMany('App\City');
     }
-    public function address()
-    {
-        return $this->belongsToMany('App\Address');
-    }
+
 }

@@ -11,9 +11,11 @@
     @auth
         <meta name="user-id" content="{{ Auth::user()->id }}">
         <meta name="status" content="{{ Auth::user()->active }}">
+        <meta name="pro-update" content="{{ Auth::user()->profile_updated }}">
     @else
         <meta name="user-id" content="0">
         <meta name="status" content="0">
+        <meta name="pro-update" content="2">
     @endauth
 
     <title>{{ config('app.name', 'TripitGh') }}</title>
@@ -44,10 +46,13 @@
         <div class="container-fluid mt-3">
             @include('includes.messages')
             @yield('content')
+            <transition name="router-anim" enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutDown">
             <router-view>
 
                 {{--Vue elements goes here--}}
             </router-view>
+            </transition>
+            <vue-progress-bar></vue-progress-bar>
         </div>
 
     </div>

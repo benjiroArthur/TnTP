@@ -44,16 +44,15 @@
                                     <div class="col-sm-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>Date Of Birth</label>
-                                            <input v-model="form.dob" type="date" name="dob"
-                                                   class="form-control" :class="{ 'is-invalid': form.errors.has('dob') }">
+                                            <date-picker :config="options" v-model="form.dob" name="dob" class="form-control" :class="{ 'is-invalid': form.errors.has('dob') }"></date-picker>
                                             <has-error :form="form" field="dob"></has-error>
                                         </div>
                                         <div class="form-group">
                                             <label>Gender</label>
                                             <select v-model="form.gender" type="text" name="gender"
                                                     class="form-control" :class="{ 'is-invalid': form.errors.has('gender') }" >
-                                                <option>Male</option>
-                                                <option>Female</option>
+                                                <option >Male</option>
+                                                <option >Female</option>
 
                                             </select>
                                             <has-error :form="form" field="gender"></has-error>
@@ -69,8 +68,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-danger" v-on:click="profileInfo">Cancel</button>
-                                <button type="submit" class="btn btn-success">Update <i class="fas fa-upload"></i></button>
+                                <button type="button" class="btn btn-danger" v-on:click="resetFields('profile')">Cancel</button>
+                                <button type="submit" class="btn bg-trip">Update <i class="fas fa-upload"></i></button>
                             </div>
                         </form>
 
@@ -79,7 +78,7 @@
             </div>
             <div class="col-md-12 col-lg-4 c0l-sm-12">
                 <div class="card">
-                    <div class="card-header"><h3>My Profile</h3></div>
+                    <div class="card-header"><h3>Address</h3></div>
 
                     <div class="card-body">
 
@@ -101,7 +100,9 @@
                                             <label>City</label>
                                             <select v-model="address.city" name="city"
                                                     class="form-control" :class="{ 'is-invalid': address.errors.has('city') }" >
-                                                <option disabled value="">Select City</option>
+                                                <!--<option selected>{{address.city}}</option>-->
+                                                <option v-if="address.city !== ''" selected>{{address.city}}</option>
+                                                <option v-else disabled value="">Select City</option>
                                                 <option v-for="city in cities">{{city.name}}</option>
 
                                             </select>
@@ -117,8 +118,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-danger" v-on:click="profileInfo">Cancel</button>
-                                <button type="submit" class="btn btn-success">Update <i class="fas fa-upload"></i></button>
+                                <button type="button" class="btn btn-danger" v-on:click="resetFields('address')">Cancel</button>
+                                <button type="submit" class="btn bg-trip">Update <i class="fas fa-upload"></i></button>
                             </div>
                         </form>
 
@@ -153,7 +154,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" @click="submitImage">Upload <i class="fas fa-user-plus"></i></button>
+                        <button type="submit" class="btn bg-trip" @click="submitImage">Upload <i class="fas fa-user-plus"></i></button>
                     </div>
 
                 </div>
@@ -164,8 +165,9 @@
 </template>
 
 <script>
+    import DatePicker from "vue-bootstrap-datetimepicker/src/component";
     export default {
-        name: "Profile",
+        components: {DatePicker},
         data(){
             return{
                 formData: new FormData(),
@@ -187,12 +189,15 @@
                     phone_number: ''
                 }),
                 address: new Form({
-                    id: '',
                     region: '',
                     city: '',
                     gp_digital_address: '',
 
                 }),
+                options: {
+                    format: 'YYYY-MM-DD',
+                    useCurrent:false
+                },
             };
         },
         methods:{
@@ -265,22 +270,42 @@
             },
             updateProfile(){
                 this.$Progress.start();
-                this.form.put('/records/admin/'+this.$userId)
+                this.form.put('/data/profile')
                     .then((response) => {
                         Fire.$emit('profileUpdate');
                         console.log(response.data);
-                        this.$Progress.finish();
+
                         swal.fire(
                             'Update',
                             'User Profile Updated Successfully',
                             'success'
                         );
+                        this.$Progress.finish();
                     })
                     .catch((error) => {
                         console.log(error.message);
                     });
             },
-            updateAddress(){},
+            updateAddress(){
+                this.$Progress.start();
+                this.address.post('/data/address')
+                    .then((response) => {
+                        console.log(response.data);
+                        if(response.data === 'success')
+                        {
+                            Fire.$emit('profileUpdate');
+                            swal.fire(
+                                'Update',
+                                'User Address Updated Successfully',
+                                'success'
+                            );
+                        }
+                        this.$Progress.finish();
+                    })
+                    .catch((error) => {
+                        console.log(error.message);
+                    });
+            },
             getRegion(){
                 this.loading = true;
                 axios
@@ -307,6 +332,17 @@
                     this.loading = false;
                     this.error = error.response.data.message || error.message;
                 });
+            },
+
+            resetFields(choice){
+                if(choice === 'address'){
+                    this.address.reset();
+                    this.profileInfo();
+                }
+                else if(choice === 'profile'){
+                    this.form.reset();
+                    this.profileInfo();
+                }
             },
 
         },

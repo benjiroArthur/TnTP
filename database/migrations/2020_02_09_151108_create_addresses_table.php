@@ -17,7 +17,7 @@ class CreateAddressesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('region');
             $table->unsignedBigInteger('city');
-            $table->string('pg_digital_address');
+            $table->string('gp_digital_address');
             $table->unsignedBigInteger('addressable_id');
             $table->string('addressable_type');
             $table->timestamps();

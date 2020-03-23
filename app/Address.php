@@ -7,20 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
     //fillables
-    protected $fillable = ['region', 'city', 'pg_digital_address', 'addressable_id', 'addressable_type'];
+    protected $fillable = ['region', 'city', 'gp_digital_address', 'addressable_id', 'addressable_type'];
 
     //return with
-    protected $with = ['region', 'city'];
+
 
     //relationship
-    public function region()
-    {
-        return $this->belongsTo('App/Region');
-    }
-    public function city()
-    {
-        return $this->belongsTo('App/City');
-    }
 
     public function addressable()
     {

@@ -2,20 +2,20 @@
 {
     font-family: Arial bold; font-size: 16px; font-weight: bolder;
     text-shadow: rgb(110,110,110) 3px 3px 5px;
-    color: #09378c;
+    color: #00b44e;
 
 }
 .logotext1
 {
     font-family: Arial bold; font-size: 9px; font-weight: bold;
     text-shadow: rgb(110,110,110) 3px 3px 5px;
-    color: #09378c;
+    color: #00b44e;
 
 }
 #inout
 {
     background: transparent;
-    border: 4px #09378c;
+    border: 4px #00b44e;
     border-radius: 25px;
     color: white;
     /*top: 20px;*/
@@ -24,7 +24,7 @@
 }
 #bgg:hover
 {
-    background: #09378c;
+    background: #00b44e;
 }
 
 section
@@ -122,7 +122,7 @@ h2
     height: 40px;
     color: #fff;
     font-size: 24px;
-    background: #09378c;
+    background: #00b44e;
     cursor: pointer;
     border-radius: 20px;
 }
@@ -138,7 +138,7 @@ h2
 }
 .loginBox input[type="submit"]:hover
 {
-    background: green;
+    background: #00b44e;
 
 }
 .loginBox a{
@@ -166,7 +166,7 @@ h2
 
 .myNav:hover
 {
-    background-color: #09378c;
+    background-color: #00b44e;
     color: white !important;
 
 }
@@ -262,9 +262,29 @@ h2
 
 .bg-trip{
     background-color: #00b44e;
+  color: white;
 }
 .bg-black{
     background-color: #000000;
+}
+
+.form-control:focus{
+    border-color:#00b44e !important;
+    outline:0;
+    box-shadow:inset 0 0 0 transparent
+}
+
+select.form-control:focus::-ms-value{
+    color:#00b44e !important;
+    border-color:#00b44e !important;
+    background-color:#fff}
+
+select option{
+  box-shadow: inset #00b44e !important;
+}
+
+select option:hover{
+  background-color:#00b44e !important;
 }
 
 

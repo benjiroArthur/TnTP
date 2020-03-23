@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Transport extends Model
 {
     //fillables
-    protected $fillable = ['email', 'vehicle_number', 'vehicle_brand', 'colour', 'last_name', 'first_name', 'other_name'];
+    protected $fillable = ['email', 'vehicle_number', 'vehicle_brand', 'colour', 'last_name', 'first_name', 'other_name', 'image'];
 
     protected $guarded = [];
 

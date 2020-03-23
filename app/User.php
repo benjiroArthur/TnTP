@@ -33,7 +33,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'profile_updated' => 'boolean'
     ];
 
     protected $with = ['role', 'userable', 'address'];

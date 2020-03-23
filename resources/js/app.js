@@ -9,6 +9,10 @@
 require('./bootstrap');
 window.Vue = require('vue');
 
+import {RotateSquare2} from 'vue-loading-spinner';
+
+window.RotateSquare2 = RotateSquare2;
+
 
 Vue.use(VueRouter);
 
@@ -63,6 +67,9 @@ let routes = [
     {path:'/user/add-trip', component: require('./components/Traveller/AddTrip.vue').default},
     {path:'/user/bookings', component: require('./components/Traveller/Bookings.vue').default},
 
+    //traveller
+    {path:'/transport/profile', component: require('./components/Transport/Profile.vue').default},
+
     ];
 
 const router = new VueRouter({
@@ -112,7 +119,24 @@ Vue.use(VueProgressBar, {
 });
 
 
+// Import this component
+import datePicker from 'vue-bootstrap-datetimepicker';
+window.datePicker = datePicker;
 
+jQuery.extend(true, jQuery.fn.datetimepicker.defaults,{
+    icons:{
+        time: 'far fa-clock',
+        date: 'far fa-calendar',
+        up: 'fas fa-arrow-up',
+        down: 'fas fa-arrow-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        today: 'fas fa-calendar',
+        clear: 'far fa-trash-alt',
+        close: 'far fa-times-circle',
+
+    }
+});
 
 
 import Swal from 'sweetalert2';

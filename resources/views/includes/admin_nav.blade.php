@@ -20,7 +20,7 @@
         </li>
         <li class="nav-item">
             <router-link to="/chat" class="nav-link">
-                <i class="nav-icon fas fa-bed"></i>
+                <i class="nav-icon fas fa-treasure-chest"></i>
                 <p>
                     Tourist Sites
                 </p>

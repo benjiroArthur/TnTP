@@ -25,4 +25,10 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function checkUpdate()
+    {
+        $data = Auth()->user()->profile_updated;
+        return response($data);
+    }
 }
