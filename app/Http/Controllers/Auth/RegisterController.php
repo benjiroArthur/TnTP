@@ -146,16 +146,16 @@ class RegisterController extends Controller
             }
             if($val < 10)
             {
-                $code = "tigH000".$val;
+                $code = "TIG-H-000".$val;
             }
             elseif($val > 9 && $val < 100){
-                $code = "tigH00".$val;
+                $code = "TIG-H-00".$val;
             }
             elseif($val > 99 && $val < 1000){
-                $code = "tigH0".$val;
+                $code = "TIG-H-0".$val;
             }
             elseif($val > 900){
-                $code = "tigH".$val;
+                $code = "TIG-H-".$val;
             }
         }
         $hotel = new Hotel();

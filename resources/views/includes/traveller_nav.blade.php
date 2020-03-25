@@ -5,7 +5,7 @@
         <li class="nav-item">
             <router-link to="/home" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
-                <p>
+                <p class="myPss">
                     Home
                 </p>
             </router-link>
@@ -13,7 +13,7 @@
         <li class="nav-item">
             <router-link to="/user/trips" class="nav-link">
                 <i class="nav-icon mdi mdi-car purple"></i>
-                <p>
+                <p class="myPss">
                     Trips
                 </p>
             </router-link>
@@ -22,18 +22,18 @@
         <li class="nav-item">
             <router-link to="/user/profile" class="nav-link">
                 <i class="nav-icon fas fa-user-circle orange"></i>
-                <p>
+                <p class="myPss">
                     Profile
                 </p>
             </router-link>
         </li>
-
-        <li class="nav-item">
+        <br>
+        <li class="nav-item" style="border-top: 1px solid #ffffff;">
             <a class="nav-link" href="{{ route('logout') }}"
                onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();">
                 <i class="fas fa-power-off nav-icon red"></i>
-                <p>
+                <p class="myPss">
                     {{ __('Logout') }}
                 </p>
             </a>

@@ -10,7 +10,7 @@
     <div class="sidebar">
 
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="border-bottom: 1px solid #ffffff; border-top: 1px solid #ffffff; padding-top: 15px">
             <div class="image">
                 <img src="{{Auth()->user()->userable->image}}" class="img-circle elevation-2" alt="User Image">
             </div>
@@ -20,6 +20,7 @@
                 </a>
             </div>
         </div>
+
         @auth
         <!-- Sidebar Menu -->
         @if(auth()->user()->role->name == 'hotel')
@@ -38,3 +39,9 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+
+<style>
+   p{
+        color: #ffffff !important;
+    }
+</style>

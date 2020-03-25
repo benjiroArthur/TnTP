@@ -18,7 +18,7 @@
         <meta name="pro-update" content="2">
     @endauth
 
-    <title>{{ config('app.name', 'TripitGh') }}</title>
+    <title>{{ config('app.name', 'Tripit Gh') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -27,11 +27,14 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    {{--icon--}}
+    <link rel="icon" href="{{asset('assets/images/logo.png')}}">
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper" id="app">
+<body class="hold-transition sidebar-mini bodyColour">
+<div class="wrapper bodyColour" id="app">
     <!--    navbar -->
     @include('includes.navbar')
 
@@ -39,7 +42,7 @@
 
     @include('includes.sidebar')
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div class="content-wrapper bodyColour">
 
     <!-- Main content -->
     <div class="content">
@@ -47,7 +50,7 @@
             @include('includes.messages')
             @yield('content')
             <transition name="router-anim" enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutDown">
-            <router-view>
+            <router-view class="bodyColour">
 
                 {{--Vue elements goes here--}}
             </router-view>

@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-12 col-lg-12 c0l-sm-12">
+            <div class="col-md-12 col-lg-8 c0l-sm-12">
                 <div class="card">
                     <div class="card-header"><h3>My Profile</h3></div>
 
@@ -10,7 +10,7 @@
                         <form @submit.prevent="updateProfile" ref="form">
                             <div class="modal-body">
                                 <div class="login-logo">
-                                    <img :src="this.admin.image" width="100" height="auto" alt="user" class="userImage img-circle">
+                                    <img :src="this.user.image" width="100" height="auto" alt="user" class="userImage img-circle">
                                     <span class="fas fa-camera" data-toggle="modal" data-target="#profileModal" tooltip="Edit Profile Picture"
                                           style="position: absolute; transform: translate(-70%, 200%); -ms-transform: translate(-70%, 200%); width:20px;"></span>
                                 </div>
@@ -23,7 +23,7 @@
                                             <has-error :form="form" field="last_name"></has-error>
                                         </div>
                                         <div class="form-group">
-                                            <label>Firat Name</label>
+                                            <label>First Name</label>
                                             <input v-model="form.first_name" type="text" name="first_name"
                                                    class="form-control" :class="{ 'is-invalid': form.errors.has('first_name') }">
                                             <has-error :form="form" field="first_name"></has-error>
@@ -44,16 +44,15 @@
                                     <div class="col-sm-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>Date Of Birth</label>
-                                            <input v-model="form.dob" type="date" name="dob"
-                                                   class="form-control" :class="{ 'is-invalid': form.errors.has('dob') }">
+                                            <date-picker :config="options" v-model="form.dob" name="dob" class="form-control" :class="{ 'is-invalid': form.errors.has('dob') }"></date-picker>
                                             <has-error :form="form" field="dob"></has-error>
                                         </div>
                                         <div class="form-group">
                                             <label>Gender</label>
                                             <select v-model="form.gender" type="text" name="gender"
                                                     class="form-control" :class="{ 'is-invalid': form.errors.has('gender') }" >
-                                                <option>Male</option>
-                                                <option>Female</option>
+                                                <option >Male</option>
+                                                <option >Female</option>
 
                                             </select>
                                             <has-error :form="form" field="gender"></has-error>
@@ -69,8 +68,58 @@
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success">Update <i class="fas fa-upload"></i></button>
+                                <button type="button" class="btn btn-danger" v-on:click="resetFields('profile')">Cancel</button>
+                                <button type="submit" class="btn bg-trip">Update <i class="fas fa-upload"></i></button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-4 c0l-sm-12">
+                <div class="card">
+                    <div class="card-header"><h3>Address</h3></div>
+
+                    <div class="card-body">
+
+                        <form @submit.prevent="updateAddress" ref="address">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label>Region</label>
+                                            <select v-model="address.region" name="region" v-on:change="getCity"
+                                                    class="form-control" :class="{ 'is-invalid': address.errors.has('region') }" >
+                                                <option disabled value="">Select Region</option>
+                                                <option v-for="region in regions">{{region.name}}</option>
+
+
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>City</label>
+                                            <select v-model="address.city" name="city"
+                                                    class="form-control" :class="{ 'is-invalid': address.errors.has('city') }" >
+                                                <!--<option selected>{{address.city}}</option>-->
+                                                <option v-if="address.city !== ''" selected>{{address.city}}</option>
+                                                <option v-else disabled value="">Select City</option>
+                                                <option v-for="city in cities">{{city.name}}</option>
+
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ghana Post GPS Address</label>
+                                            <input v-model="address.gp_digital_address" type="text" name="gp_digital_address"
+                                                   class="form-control" :class="{ 'is-invalid': address.errors.has('gp_digital_address') }">
+                                            <has-error :form="address" field="gp_digital_address"></has-error>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" class="btn btn-danger" v-on:click="resetFields('address')">Cancel</button>
+                                <button type="submit" class="btn bg-trip">Update <i class="fas fa-upload"></i></button>
                             </div>
                         </form>
 
@@ -105,7 +154,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" @click="submitImage">Upload <i class="fas fa-user-plus"></i></button>
+                        <button type="submit" class="btn bg-trip" @click="submitImage">Upload <i class="fas fa-user-plus"></i></button>
                     </div>
 
                 </div>
@@ -116,13 +165,19 @@
 </template>
 
 <script>
+    import DatePicker from "vue-bootstrap-datetimepicker/src/component";
     export default {
+        components: {DatePicker},
         data(){
             return{
                 formData: new FormData(),
-                hotel: {},
+                user: {},
                 file: null,
                 image_file: '',
+                regions:{},
+                region:'',
+                cities:{},
+                city:'',
                 form: new Form({
                     id: '',
                     last_name: '',
@@ -134,26 +189,28 @@
                     phone_number: ''
                 }),
                 address: new Form({
-                    id: '',
-                    last_name: '',
-                    first_name: '',
-                    other_name: '',
-                    email: '',
-                    dob: '',
-                    gender: '',
-                    phone_number: ''
+                    region: '',
+                    city: '',
+                    gp_digital_address: '',
+
                 }),
+                options: {
+                    format: 'YYYY-MM-DD',
+                    useCurrent:false
+                },
             };
         },
         methods:{
             profileInfo(){
                 this.loading = true;
                 axios
-                    .get('/records/admin/'+ this.$userId)
+                    .get('/data/profile/')
                     .then(response => {
                         this.loading = false;
-                        this.admin = response.data;
-                        this.form.fill(this.admin);
+                        let data1 = response.data;
+                        this.user = data1.userable;
+                        this.form.fill(this.user);
+                        this.address.fill(data1.address);
 
                     }).catch(error => {
                     this.loading = false;
@@ -213,26 +270,86 @@
             },
             updateProfile(){
                 this.$Progress.start();
-                this.form.put('/records/admin/'+this.$userId)
+                this.form.put('/data/profile')
                     .then((response) => {
                         Fire.$emit('profileUpdate');
                         console.log(response.data);
-                        this.$Progress.finish();
+
                         swal.fire(
                             'Update',
                             'User Profile Updated Successfully',
                             'success'
                         );
+                        this.$Progress.finish();
                     })
                     .catch((error) => {
                         console.log(error.message);
                     });
-            }
+            },
+            updateAddress(){
+                this.$Progress.start();
+                this.address.post('/data/address')
+                    .then((response) => {
+                        console.log(response.data);
+                        if(response.data === 'success')
+                        {
+                            Fire.$emit('profileUpdate');
+                            swal.fire(
+                                'Update',
+                                'User Address Updated Successfully',
+                                'success'
+                            );
+                        }
+                        this.$Progress.finish();
+                    })
+                    .catch((error) => {
+                        console.log(error.message);
+                    });
+            },
+            getRegion(){
+                this.loading = true;
+                axios
+                    .get('/data/region')
+                    .then(response => {
+                        this.loading = false;
+                        this.regions = response.data;
+
+                    }).catch(error => {
+                    this.loading = false;
+                    this.error = error.response.data.message || error.message;
+                });
+            },
+            getCity(){
+                let re = this.address.region;
+                this.loading = true;
+                axios
+                    .get('/data/city/'+re)
+                    .then(response => {
+                        this.loading = false;
+                        this.cities = response.data;
+
+                    }).catch(error => {
+                    this.loading = false;
+                    this.error = error.response.data.message || error.message;
+                });
+            },
+
+            resetFields(choice){
+                if(choice === 'address'){
+                    this.address.reset();
+                    this.profileInfo();
+                }
+                else if(choice === 'profile'){
+                    this.form.reset();
+                    this.profileInfo();
+                }
+            },
 
         },
         created(){
 
             this.profileInfo();
+            this.getRegion();
             Fire.$on('profileUpdate', () => {
                 this.profileInfo();
             });

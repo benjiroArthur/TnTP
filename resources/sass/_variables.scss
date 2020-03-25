@@ -19,7 +19,12 @@ $teal: #4dc0b5;
 $cyan: #6cb2eb;
 $white: #ffffff;
 $black: #000000;
+$bodyColour: rgba(245, 245, 245, 0.41);
 
+
+.bodyColour{
+    background-color:$bodyColour;
+}
 
 .blue{
     color:$blue;

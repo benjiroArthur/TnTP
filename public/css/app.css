@@ -28878,6 +28878,10 @@ a.text-muted:hover {
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+.bodyColour {
+  background-color: rgba(245, 245, 245, 0.41);
+}
+
 .blue {
   color: #3490dc;
 }
@@ -65478,9 +65482,7 @@ section {
   /*left: 50%;*/
   /*transform: translate(-50%,-50%);*/
   /*width: 700px;*/
-  padding: 80px 40px;
   box-sizing: border-box;
-  background: rgba(0, 0, 0, 0.5);
 }
 
 .user {
@@ -65506,14 +65508,8 @@ h2 {
   margin: 0;
   padding: 0;
   font-weight: bold;
-  color: white;
+  color: #000000;
   text-align: center;
-}
-
-.loginBox input,
-.loginBox textarea {
-  width: 100%;
-  margin-bottom: 20px;
 }
 
 .loginBox input[type="text"],
@@ -65521,22 +65517,37 @@ h2 {
 .loginBox input[type="password"],
 .loginBox input[type="number"] {
   border: none;
-  border-bottom: 1px solid #fff;
+  border-bottom: 2px solid #00b44e;
   background: transparent;
   outline: none;
   height: 40px;
-  color: #fff;
+  color: #000000;
   font-size: 16px;
+}
+
+.divBor {
+  border: none;
+  border-bottom: 2px solid #00b44e;
+  background: transparent;
+  outline: none;
 }
 
 .loginBox textarea[type="text"] {
   border: none;
-  border-bottom: 1px solid #fff;
+  border-bottom: 2px solid #00b44e;
   background: transparent;
   outline: none;
   height: 80px;
-  color: #fff;
+  color: #000000;
   font-size: 16px;
+}
+
+.loginBox select {
+  border: none;
+  border-bottom: 2px solid #00b44e;
+  background: transparent;
+  outline: none;
+  color: #000000;
 }
 
 ::-moz-placeholder {
@@ -65724,6 +65735,10 @@ select option {
 
 select option:hover {
   background-color: #00b44e !important;
+}
+
+.myPss {
+  color: #ffffff !important;
 }
 
 .router-link-exact-active {

@@ -12,13 +12,13 @@
                     <div class="card-body login-card-body">
                         <p class="login-box-msg"><b>WELCOME</b></p>
 
-                        <form action="{{route('login')}}" method="post" class="main-login-form">
+                        <form action="{{route('login')}}" method="post" class="main-login-form loginBox">
                             @csrf
 
                             <div class="input-group mb-3">
                                 <input type="email" class="form-control" placeholder="Email" name="email" id="email">
                                 <div class="input-group-append">
-                                    <div class="input-group-text">
+                                    <div class="input-group-text divBor">
                                         <span class="fas fa-envelope text-success"></span>
                                     </div>
                                 </div>
@@ -31,7 +31,7 @@
                             <div class="input-group mb-3">
                                 <input type="password" class="form-control" placeholder="Password" name="password" id="password">
                                 <div class="input-group-append">
-                                    <div class="input-group-text">
+                                    <div class="input-group-text divBor">
                                         <span class="fas fa-lock text-success"></span>
                                     </div>
                                 </div>

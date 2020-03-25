@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-
+import carousel from 'vue-owl-carousel';
 
 require('./bootstrap');
 window.Vue = require('vue');
@@ -52,6 +52,7 @@ let routes = [
     {path:'/manage/hotel', component: require('./components/Admin/Hotel.vue').default},
     {path:'/manage/tourist-sites', component: require('./components/Admin/TouristSite.vue').default},
     {path:'/manage/traveller', component: require('./components/Admin/Traveller.vue').default},
+    {path:'/manage/transport', component: require('./components/Admin/Transport.vue').default},
     {path:'/manage/admin', component: require('./components/Admin/Admin.vue').default},
     {path:'/admin/profile', component: require('./components/Admin/Profile.vue').default},
 
@@ -67,7 +68,7 @@ let routes = [
     {path:'/user/add-trip', component: require('./components/Traveller/AddTrip.vue').default},
     {path:'/user/bookings', component: require('./components/Traveller/Bookings.vue').default},
 
-    //traveller
+    //driver
     {path:'/transport/profile', component: require('./components/Transport/Profile.vue').default},
 
     ];

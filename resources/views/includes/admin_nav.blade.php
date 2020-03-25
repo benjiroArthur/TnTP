@@ -5,23 +5,23 @@
         <li class="nav-item">
             <router-link to="/home" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
-                <p>
+                <p class="myPss">
                     Home
                 </p>
             </router-link>
         </li>
         <li class="nav-item">
             <router-link to="/dashboard" class="nav-link">
-                <i class="nav-icon fas fa-home"></i>
-                <p>
+                <i class="nav-icon mdi mdi-settings"></i>
+                <p class="myPss">
                     Dashboard
                 </p>
             </router-link>
         </li>
         <li class="nav-item">
-            <router-link to="/chat" class="nav-link">
-                <i class="nav-icon fas fa-treasure-chest"></i>
-                <p>
+            <router-link to="/manage/tourist-sites" class="nav-link">
+                <i class="nav-icon fas fa-water"></i>
+                <p class="myPss">
                     Tourist Sites
                 </p>
             </router-link>
@@ -29,49 +29,55 @@
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
                 <i class="nav-icon mdi mdi-account-multiple purple"></i>
-                <p>
+                <p class="myPss">
                     Manage Users
                     <i class="right mdi mdi-chevron-right"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <router-link to="/admin/upcoming-appointment" class="nav-link">
+                    <router-link to="/manage/admin" class="nav-link">
                         <i class="far fa-circle nav-icon indigo"></i>
-                        <p>Administrators</p>
+                        <p class="myPss">Administrators</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/admin/past-appointment" class="nav-link">
+                    <router-link to="/manage/hotel" class="nav-link">
                         <i class="far fa-circle nav-icon indigo"></i>
-                        <p>Hotel</p>
+                        <p class="myPss">Hotel</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/admin/past-appointment" class="nav-link">
+                    <router-link to="/manage/traveller" class="nav-link">
                         <i class="far fa-circle nav-icon indigo"></i>
-                        <p>Travellers</p>
+                        <p class="myPss">Travellers</p>
                     </router-link>
                 </li>
+                 <li class="nav-item">
+                    <router-link to="/manage/transport" class="nav-link">
+                        <i class="far fa-circle nav-icon indigo"></i>
+                        <p class="myPss">Transports</p>
+                    </router-link>
+                 </li>
 
             </ul>
         </li>
         <li class="nav-item">
-            <router-link to="/user/profile" class="nav-link">
+            <router-link to="/admin/profile" class="nav-link">
                 <i class="nav-icon fas fa-user-circle orange"></i>
-                <p>
+                <p class="myPss">
                     Profile
 
                 </p>
             </router-link>
         </li>
-
-        <li class="nav-item">
+<br>
+        <li class="nav-item" style="border-top: 1px solid #ffffff;">
             <a class="nav-link" href="{{ route('logout') }}"
                onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();">
                 <i class="fas fa-power-off nav-icon red"></i>
-                <p>
+                <p class="myPss">
                     {{ __('Logout') }}
                 </p>
             </a>

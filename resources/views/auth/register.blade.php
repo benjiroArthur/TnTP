@@ -7,11 +7,11 @@
                 <div class="login-logo">
                     <img src="{{asset('assets/images/logo.png')}}" width="auto" height="100">
                 </div>
-                <div class="card shadow-sm bg-success">
+                <div class="card shadow">
 
                     <div class="card-body register-card-body">
                         <p class="login-box-msg">{{ __('Register') }}</p>
-                        <form method="POST" action="{{ route('register') }}">
+                        <form method="POST" action="{{ route('register') }}" class="loginBox">
                             @csrf
                             <div class="row justify-content-center">
 
