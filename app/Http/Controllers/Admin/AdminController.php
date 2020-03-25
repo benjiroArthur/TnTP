@@ -20,9 +20,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $roleId = Role::where('name', 'admin')->first()->get('id');
+        $role = Role::where('name', 'admin')->first();
         //get all admins
-        $admin = User::where('role_id', $roleId)->get();
+        $admin = User::where('role_id', $role->id)->get();
         return response()->json($admin);
     }
 

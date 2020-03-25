@@ -77,7 +77,7 @@
                 </div>
             </div>
             <div class="col-md-12 col-lg-4 c0l-sm-12">
-                <div class="card">
+                <div class="row"><div class="card">
                     <div class="card-header"><h3>Address</h3></div>
 
                     <div class="card-body">
@@ -123,6 +123,38 @@
                             </div>
                         </form>
 
+                    </div>
+                </div></div>
+                <div class="row">
+                    <div class="card">
+                        <div class="card-header"><h3>Map Details</h3></div>
+                        <div class="card-body">
+                            <form @submit.prevent="updateMap" ref="address">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                            <div class="form-group">
+                                                <label>Latitude</label>
+                                                <input v-model="mapForm.lat" type="text" name="lat"
+                                                       class="form-control" :class="{ 'is-invalid': mapForm.errors.has('lat') }">
+                                                <has-error :form="mapForm" field="lat"></has-error>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Longitude</label>
+                                                <input v-model="mapForm.long" type="text" name="long"
+                                                       class="form-control" :class="{ 'is-invalid': mapForm.errors.has('long') }">
+                                                <has-error :form="mapForm" field="long"></has-error>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-danger" v-on:click="resetFields('address')">Cancel</button>
+                                    <button type="submit" class="btn bg-trip">Update <i class="fas fa-upload"></i></button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -180,14 +212,18 @@
                 city:'',
                 form: new Form({
                     id: '',
-                    last_name: '',
-                    first_name: '',
-                    other_name: '',
+                    name: '',
                     email: '',
-                    dob: '',
-                    gender: '',
+                    code: '',
                     phone_number: ''
                 }),
+
+                mapForm: new Form({
+                    lat: '',
+                    long: '',
+                }),
+
+
                 address: new Form({
                     region: '',
                     city: '',
@@ -286,6 +322,24 @@
                         console.log(error.message);
                     });
             },
+            updateMap(){
+                this.$Progress.start();
+                this.form.put('/data/profile')
+                    .then((response) => {
+                        Fire.$emit('profileUpdate');
+                        console.log(response.data);
+
+                        swal.fire(
+                            'Update',
+                            'User Profile Updated Successfully',
+                            'success'
+                        );
+                        this.$Progress.finish();
+                    })
+                    .catch((error) => {
+                        console.log(error.message);
+                    });
+            },
             updateAddress(){
                 this.$Progress.start();
                 this.address.post('/data/address')
@@ -340,6 +394,10 @@
                     this.profileInfo();
                 }
                 else if(choice === 'profile'){
+                    this.form.reset();
+                    this.profileInfo();
+                }
+                else if(choice === 'map'){
                     this.form.reset();
                     this.profileInfo();
                 }

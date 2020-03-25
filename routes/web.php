@@ -34,6 +34,13 @@ Route::group(['prefix' => 'data', 'as' => 'data.'], function() {
     Route::post('/address', 'ProfileController@address');
     Route::get('/region', 'ProfileController@region');
     Route::get('/city/{region}', 'ProfileController@city');
+
+
+    //managed by admin
+    Route::resource('/traveller', 'Admin\travellerController');
+    Route::resource('/hotel', 'Admin\HotelController');
+    Route::resource('/admin', 'Admin\AdminController');
+    Route::resource('/transport', 'Admin\TransportController');
 });
 
 
