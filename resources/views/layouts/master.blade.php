@@ -45,7 +45,7 @@
 <div class="content-wrapper bodyColour">
 
     <!-- Main content -->
-    <div class="content">
+    <div class="content" v-cloak>
         <div class="container-fluid mt-3">
             @include('includes.messages')
             @yield('content')
@@ -58,6 +58,17 @@
             <vue-progress-bar></vue-progress-bar>
         </div>
 
+    </div>
+
+    <div class="animated slower" :class="true ? 'zoomOut':''" v-if="pageLoader"
+         style="display:flex;background-color: #ffffff;width: 100%;height: 100%;top: 0px;position: fixed;left: 0px;">
+        <div style="margin: auto;width: 50%;">
+            <div style="text-align: center" class="justify-content-center">
+                <img src="{{asset('assets/images/logo.png')}}" alt="TripIt GH" height="400px" width="auto">
+                <h2>Loading...</h2>
+            </div>
+
+        </div>
     </div>
     <!-- /.content -->
 

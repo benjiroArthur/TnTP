@@ -137,11 +137,15 @@
                     clickToSelect: true,
                     idField: 'id',
                     selectItemName: 'id',
+                    index: true,
 
                 },
                 myColumns: [
-                    { field: 'index', title: 'ID'},
-                    { field: 'id', title: 'ID', sortable: true,  class: ''},
+                    { field: 'index', title: 'ID',  formatter: function(row, cell, index){
+
+                            return `<p>${index+1}</p>`;
+                        }},
+                    { field: 'id', title: 'ID', sortable: true,  visible: false},
                     { field: 'active', title: 'Active', sortable: true},
                     { field: 'userable.full_name', title: 'Name', sortable: true},
                     { field: 'userable.email', title: 'Email', sortable: true},

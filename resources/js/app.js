@@ -89,6 +89,7 @@ Vue.use(VueRouter, axios, VuejsDatatableFactory);
 
 
 
+
 import * as VueGoogleMaps from 'vue2-google-maps';
 
 Vue.use(VueGoogleMaps, {
@@ -191,5 +192,13 @@ router.afterEach(()=>{
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data: () => ({
+        pageLoader: true,
+    }),
+    mounted() {
+        setTimeout(val => {
+            this.pageLoader = false;
+        }, 4000);
+    }
 });
