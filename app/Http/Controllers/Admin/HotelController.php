@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\NewUser;
+use App\Hotel;
+use App\HotelCode;
 use App\Http\Controllers\Controller;
+use App\Role;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class HotelController extends Controller
 {
@@ -14,7 +20,11 @@ class HotelController extends Controller
      */
     public function index()
     {
-        //
+        //get all Hotels
+        $role = Role::where('name', 'hotel')->first();
+        //get all admins
+        $hotels = User::where('role_id', $role->id)->get();
+        return response()->json($hotels);
     }
 
     /**
@@ -35,7 +45,63 @@ class HotelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validate request
+        $this->validate($request, [
+            'name' => 'string|required|max:255',
+            'email' => 'email|required|max:255|unique:admins|unique:users',
+            'password' => 'required|min:8'
+        ]);
+
+        $code = "";
+        $hcedes = HotelCode::latest()->first();
+        if($hcedes == null)
+        {
+            $val = 1;
+            $rec = new HotelCode();
+            $rec->code = $val;
+            $rec->save();
+
+
+        }
+        else
+        {
+            $val = $hcedes->code + 1;
+            $rec = new HotelCode();
+            $rec->code = $val;
+            $rec->save();
+
+        }
+        if($val < 10)
+        {
+            $code = "TIG-H-000".$val;
+        }
+        elseif($val > 9 && $val < 100){
+            $code = "TIG-H-00".$val;
+        }
+        elseif($val > 99 && $val < 1000){
+            $code = "TIG-H-0".$val;
+        }
+        elseif($val > 900){
+            $code = "TIG-H-".$val;
+        }
+        $hotel = new Hotel();
+
+
+        $newHotel = $hotel->create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'code' => $code
+        ]);
+
+        $role = Role::where('name', 'hotel')->first();
+
+        $user = $newHotel->user()->create([
+            'email' => $request->email,
+            'password'=> Hash::make($request->password),
+            'role_id'=> $role->id
+        ]);
+        broadcast(new NewUser($user));
+        return response('success');
     }
 
     /**

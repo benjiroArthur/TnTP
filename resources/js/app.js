@@ -90,6 +90,8 @@ Vue.use(VueRouter, axios, VuejsDatatableFactory);
 
 
 
+
+
 import * as VueGoogleMaps from 'vue2-google-maps';
 
 Vue.use(VueGoogleMaps, {
@@ -142,7 +144,7 @@ jQuery.extend(true, jQuery.fn.datetimepicker.defaults,{
 
 
 import Swal from 'sweetalert2';
-window.swal = Swal;
+window.Swal = Swal;
 
 
 const Toast = Swal.mixin({
@@ -200,5 +202,11 @@ const app = new Vue({
         setTimeout(val => {
             this.pageLoader = false;
         }, 4000);
-    }
+
+        Echo.channel('newUser').listen('NewUser', function(e){
+            //this.index();
+            console.log(e);
+        });
+    },
+
 });

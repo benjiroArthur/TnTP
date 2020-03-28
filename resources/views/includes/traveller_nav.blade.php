@@ -4,8 +4,8 @@
              with font-awesome or any other icon font library -->
         <li class="nav-item">
             <router-link to="/home" class="nav-link">
-                <i class="nav-icon fas fa-home"></i>
-                <p class="myPss">
+                <i class="nav-icon fas fa-home white"></i>
+                <p>
                     Home
                 </p>
             </router-link>
@@ -13,7 +13,7 @@
         <li class="nav-item">
             <router-link to="/user/trips" class="nav-link">
                 <i class="nav-icon mdi mdi-car purple"></i>
-                <p class="myPss">
+                <p>
                     Trips
                 </p>
             </router-link>
@@ -22,7 +22,7 @@
         <li class="nav-item">
             <router-link to="/user/profile" class="nav-link">
                 <i class="nav-icon fas fa-user-circle orange"></i>
-                <p class="myPss">
+                <p>
                     Profile
                 </p>
             </router-link>
@@ -33,7 +33,7 @@
                onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();">
                 <i class="fas fa-power-off nav-icon red"></i>
-                <p class="myPss">
+                <p>
                     {{ __('Logout') }}
                 </p>
             </a>

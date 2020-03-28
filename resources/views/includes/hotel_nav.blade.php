@@ -5,7 +5,7 @@
         <li class="nav-item">
             <router-link to="/home" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
-                <p class="myPss">
+                <p>
                     Home
                 </p>
             </router-link>
@@ -13,7 +13,7 @@
         <li class="nav-item">
             <router-link to="/hotel/dashboard" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
-                <p class="myPss">
+                <p>
                     Dashboard
                 </p>
             </router-link>
@@ -21,7 +21,7 @@
         <li class="nav-item">
             <router-link to="/hotel/rooms" class="nav-link">
                 <i class="nav-icon fas fa-bed"></i>
-                <p class="myPss">
+                <p>
                     Rooms
                 </p>
             </router-link>
@@ -29,13 +29,13 @@
         <li class="nav-item">
             <router-link to="/hotel/bookings" class="nav-link">
                 <i class="fas fa-circle nav-icon green"></i>
-                <p class="myPss">Bookings</p>
+                <p>Bookings</p>
             </router-link>
         </li>
         <li class="nav-item">
             <router-link to="/hotel/profile" class="nav-link">
                 <i class="nav-icon fas fa-user-circle orange"></i>
-                <p class="myPss">
+                <p>
                     Profile
 
                 </p>
@@ -47,7 +47,7 @@
                onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();">
                 <i class="fas fa-power-off nav-icon red"></i>
-                <p class="myPss">
+                <p>
                     {{ __('Logout') }}
                 </p>
             </a>

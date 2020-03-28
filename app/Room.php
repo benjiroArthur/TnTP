@@ -19,6 +19,11 @@ class Room extends Model
         return $this->hasMany('App\Booking');
     }
 
+    public function images()
+    {
+        return $this->morphMany('App\Image', 'imageable');
+    }
+
     public function getImageAttribute($val){
         return asset('assets/ProfilePictures/'.$val);
     }

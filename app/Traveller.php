@@ -11,12 +11,6 @@ class Traveller extends Model
 
     protected $guarded = [];
 
-    public function getFullNameAttribute(){
-        if($this->other_name === null){
-            return ucfirst($this->first_name).' '.ucfirst($this->last_name);
-        }
-        return ucfirst($this->first_name).' '.ucfirst($this->other_name).' '.ucfirst($this->last_name);
-    }
 
     public function address(){
         return $this->morphOne('App\Address', 'addressable');

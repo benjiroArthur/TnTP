@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\NewUser;
 use App\Hotel;
 use App\HotelCode;
 use App\Http\Controllers\Controller;
@@ -84,15 +85,15 @@ class RegisterController extends Controller
             $role = Role::where('name', 'traveller')->first();
             $traveller = new Traveller();
 
-            $traveller->create([
+            $newTrav = $traveller->create([
                 'last_name' => $data['last_name'],
                 'first_name' => $data['first_name'],
                 'other_name' => $data['other_name'],
                 'email' => $data['email']
             ]);
 
-            //save user instatce
-            $newTrav = Traveller::where('email', $data['email'])->first();
+//            //save user instatce
+//            $newTrav = Traveller::where('email', $data['email'])->first();
 
 
            $user = $newTrav->user()->create([
@@ -100,12 +101,12 @@ class RegisterController extends Controller
                 'password'=> Hash::make($data['password']),
                 'role_id'=> $role->id
             ]);
-            return $user;
+
         }
         elseif ($data['user_type'] == 'transport')
         {
             $transport = new Transport();
-            $transport->create([
+            $newTran = $transport->create([
                 'last_name' => $data['last_name'],
                 'first_name' => $data['first_name'],
                 'other_name' => $data['other_name'],
@@ -114,14 +115,14 @@ class RegisterController extends Controller
 
             //save user instance
             $role = Role::where('name', 'transport')->first();
-            $newTran = Transport::where('email', $data['email'])->first();
+//            $newTran = Transport::where('email', $data['email'])->first();
 
             $user = $newTran->user()->create([
                 'email' => $data['email'],
                 'password'=> Hash::make($data['password']),
                 'role_id'=> $role->id
             ]);
-            return $user;
+
         }
         else
         {
@@ -157,26 +158,27 @@ class RegisterController extends Controller
             elseif($val > 900){
                 $code = "TIG-H-".$val;
             }
+            $hotel = new Hotel();
+
+
+            $newHotel = $hotel->create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'code' => $code
+            ]);
+
+            $role = Role::where('name', 'hotel')->first();
+
+            $user = $newHotel->user()->create([
+                'email' => $data['email'],
+                'password'=> Hash::make($data['password']),
+                'role_id'=> $role->id
+            ]);
+
         }
-        $hotel = new Hotel();
 
-
-        $hotel->create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'code' => $code
-        ]);
-
-        $role = Role::where('name', 'hotel')->first();
-        $newHotel = Hotel::where('email', $data['email'])->first();
-        $user = $newHotel->user()->create([
-            'email' => $data['email'],
-            'password'=> Hash::make($data['password']),
-            'role_id'=> $role->id
-        ]);
+        broadcast(new NewUser($user));
         return $user;
-
-
     }
 
 }

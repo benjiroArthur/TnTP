@@ -7,8 +7,9 @@
                         <h3 class="card-title text-center">Administrators</h3>
                         <div class="card-tools">
                             <div class="input-group input-group-sm">
-                                <button class="btn btn-danger btn-sm mr-2" title="Download template" @click="downloadExcel"><i class="fas fa-download"></i></button>
+                                <!--<button class="btn btn-danger btn-sm mr-2" title="Download template" @click="downloadExcel"><i class="fas fa-download"></i></button>
                                 <button class="btn btn-success btn-sm mr-2" title="Add Bulk Users" data-toggle="modal" data-target="#pharmacyUserModalBulk"><i class="fas fa-file-excel"></i></button>
+                                -->
                                 <button class="btn btn-primary btn-sm mr-2" title="Add New User" data-toggle="modal" data-target="#pharmacyUserModal"><i class="fas fa-plus"></i></button>
                             </div>
                         </div>
@@ -146,7 +147,6 @@
                             return `<p>${index+1}</p>`;
                         }},
                     { field: 'id', title: 'ID', sortable: true,  visible: false},
-                    { field: 'active', title: 'Active', sortable: true},
                     { field: 'userable.full_name', title: 'Name', sortable: true},
                     { field: 'userable.email', title: 'Email', sortable: true},
                     { field: 'userable.dob', title: 'Date Of Birth', sortable: true},
@@ -222,10 +222,10 @@
             createUser(){
                 this.$Progress.start();
                 this.form.post('/data/admin')
-                    .then(function(){
+                    .then((response)=>{
                         $('#pharmacyUserModal').modal('hide');
 
-                        swal.fire({
+                        Swal.fire({
                             toast: true,
                             position: 'top-end',
                             showConfirmButton: false,
@@ -241,7 +241,7 @@
                         this.$Progress.finish();
 
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         this.loading = false;
                         this.error = error.response.message || error.message;
                     });
@@ -342,9 +342,9 @@
             //alert(this.$status);
             //this.getData();
 
-            Echo.private('adminChannel').listen('newUser', function(e){
-                // this.index();
-                comsole.log(e);
+            Echo.channel('newUser').listen('NewUser', (e) => {
+                this.index();
+                console.log(e.data);
             });
 
             Fire.$on('tableUpdate', () => {

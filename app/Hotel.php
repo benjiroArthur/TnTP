@@ -37,4 +37,8 @@ class Hotel extends Model
     public function getImageAttribute($val){
         return asset('assets/ProfilePictures/'.$val);
     }
+
+    public function user(){
+        return $this->morphOne('App\User', 'userable');
+    }
 }

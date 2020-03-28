@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\NewUser;
 use App\Http\Controllers\Controller;
+use App\Role;
+use App\User;
 use Illuminate\Http\Request;
 
 class TransportController extends Controller
@@ -14,7 +17,11 @@ class TransportController extends Controller
      */
     public function index()
     {
-        //
+        //get all Hotels
+        $role = Role::where('name', 'transport')->first();
+        //get all admins
+        $transports = User::where('role_id', $role->id)->get();
+        return response()->json($transports);
     }
 
     /**
@@ -36,6 +43,8 @@ class TransportController extends Controller
     public function store(Request $request)
     {
         //
+        $user=[];
+        broadcast(new NewUser($user));
     }
 
     /**

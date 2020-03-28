@@ -9,6 +9,9 @@ class TouristSite extends Model
     //fillables
     protected $fillable = ['name', 'image', 'price'];
 
+    protected $with = ['map', 'reviews', 'address'];
+    protected $withCount = ['reviews'];
+
     public function map()
     {
         return $this->morphOne('App\Map', 'mappable');
@@ -16,6 +19,11 @@ class TouristSite extends Model
     public function reviews()
     {
         return $this->morphMany('App\Review', 'reviewable');
+    }
+
+    public function images()
+    {
+        return $this->morphMany('App\Image', 'imageable');
     }
     public function address()
     {

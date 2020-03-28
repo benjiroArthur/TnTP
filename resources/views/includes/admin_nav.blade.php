@@ -4,24 +4,24 @@
              with font-awesome or any other icon font library -->
         <li class="nav-item">
             <router-link to="/home" class="nav-link">
-                <i class="nav-icon fas fa-home"></i>
-                <p class="myPss">
+                <i class="nav-icon fas fa-home white"></i>
+                <p>
                     Home
                 </p>
             </router-link>
         </li>
         <li class="nav-item">
             <router-link to="/dashboard" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p class="myPss">
+                <i class="nav-icon fas fa-tachometer-alt yellow"></i>
+                <p>
                     Dashboard
                 </p>
             </router-link>
         </li>
         <li class="nav-item">
             <router-link to="/manage/tourist-sites" class="nav-link">
-                <i class="nav-icon fas fa-water"></i>
-                <p class="myPss">
+                <i class="nav-icon fas fa-water blue"></i>
+                <p>
                     Tourist Sites
                 </p>
             </router-link>
@@ -29,34 +29,34 @@
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
                 <i class="nav-icon mdi mdi-account-multiple purple"></i>
-                <p class="myPss">
+                <p>
                     Manage Users
-                    <i class="right mdi mdi-chevron-right"></i>
+                    <i class="right mdi mdi-chevron-right white"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <router-link to="/manage/admin" class="nav-link">
-                        <i class="far fa-circle nav-icon indigo"></i>
-                        <p class="myPss">Administrators</p>
+                        <i class="fas fa-user nav-icon white"></i>
+                        <p>Administrators</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/manage/hotel" class="nav-link">
-                        <i class="far fa-circle nav-icon indigo"></i>
-                        <p class="myPss">Hotel</p>
+                        <i class="fas fa-hotel nav-icon white"></i>
+                        <p>Hotel</p>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/manage/traveller" class="nav-link">
-                        <i class="far fa-circle nav-icon indigo"></i>
-                        <p class="myPss">Travellers</p>
+                        <i class="fas fa-walking nav-icon white"></i>
+                        <p>Tourist</p>
                     </router-link>
                 </li>
                  <li class="nav-item">
                     <router-link to="/manage/transport" class="nav-link">
-                        <i class="far fa-circle nav-icon indigo"></i>
-                        <p class="myPss">Transports</p>
+                        <i class="fas fa-car nav-icon white"></i>
+                        <p>Transports</p>
                     </router-link>
                  </li>
 
@@ -65,9 +65,8 @@
         <li class="nav-item">
             <router-link to="/admin/profile" class="nav-link">
                 <i class="nav-icon fas fa-user-circle orange"></i>
-                <p class="myPss">
+                <p>
                     Profile
-
                 </p>
             </router-link>
         </li>
@@ -77,7 +76,7 @@
                onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();">
                 <i class="fas fa-power-off nav-icon red"></i>
-                <p class="myPss">
+                <p>
                     {{ __('Logout') }}
                 </p>
             </a>

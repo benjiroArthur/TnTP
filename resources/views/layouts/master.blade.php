@@ -34,7 +34,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini bodyColour">
-<div class="wrapper bodyColour" id="app">
+<div class="wrapper" id="app">
     <!--    navbar -->
     @include('includes.navbar')
 
@@ -49,23 +49,21 @@
         <div class="container-fluid mt-3">
             @include('includes.messages')
             @yield('content')
-            <transition name="router-anim" enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutDown">
-            <router-view class="bodyColour">
+
+            <router-view>
 
                 {{--Vue elements goes here--}}
             </router-view>
-            </transition>
             <vue-progress-bar></vue-progress-bar>
         </div>
 
     </div>
 
-    <div class="animated slower" :class="true ? 'zoomOut':''" v-if="pageLoader"
-         style="display:flex;background-color: #ffffff;width: 100%;height: 100%;top: 0px;position: fixed;left: 0px;">
-        <div style="margin: auto;width: 50%;">
-            <div style="text-align: center" class="justify-content-center">
+    <div class="animated slower myLoadDiv1" :class="true ? 'zoomOut':''" v-if="pageLoader">
+        <div class="myLoadDiv2">
+            <div class="justify-content-center myLoadDiv3">
                 <img src="{{asset('assets/images/logo.png')}}" alt="TripIt GH" height="400px" width="auto">
-                <h2>Loading...</h2>
+                <h2 class="black">Loading...</h2>
             </div>
 
         </div>
