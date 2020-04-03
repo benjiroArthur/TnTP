@@ -262,9 +262,16 @@ h2
     color: #00b44e;
 }
 
+bg-none{
+    background-color: transparent !important;
+    border: none;
+}
+
 .menu-icon-custom{
     display: none;
 }
+.properties{padding: 10px; background-color: #fff;text-align: center; margin-bottom: 20px;}
+.properties .image-holder{position: relative;}
 @media screen and(max-width: 800px) {
     .menu-icon-custom{
         display: block;
@@ -309,10 +316,10 @@ select option:hover{
 }
 .myLoadDiv2{
     margin: auto;
-    width: 50%;
+    width: 100%;
 }
 .myLoadDiv3{
-
+padding-left: 45%;
 }
 
 

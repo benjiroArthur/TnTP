@@ -9,7 +9,7 @@ class TouristSite extends Model
     //fillables
     protected $fillable = ['name', 'image', 'price'];
 
-    protected $with = ['map', 'reviews', 'address'];
+    protected $with = ['map', 'reviews', 'address', 'images'];
     protected $withCount = ['reviews'];
 
     public function map()
@@ -35,7 +35,7 @@ class TouristSite extends Model
     }
 
     public function getImageAttribute($val){
-        return asset('assets/ProfilePictures/'.$val);
+        return asset('assets/TouristSitePictures/'.$val);
     }
 
 }

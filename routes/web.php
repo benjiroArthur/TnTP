@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
     return view('welcome');
 
@@ -41,6 +43,18 @@ Route::group(['prefix' => 'data', 'as' => 'data.'], function() {
     Route::resource('/hotel', 'Admin\HotelController');
     Route::resource('/admin', 'Admin\AdminController');
     Route::resource('/transport', 'Admin\TransportController');
+    Route::resource('/tourist-site', 'TouristSiteController');
+    Route::post('/image-upload/{id}', 'TouristSiteController@imageUpload');
+    Route::resource('/image', 'ImageController');
+
+});
+
+Route::get('/tourist-site/details/{id}', function () {
+    if(Auth::check() && Auth()->user()->role->name === 'admin'){
+        return view('show-site');
+    }
+    else{return redirect('/home');}
+
 });
 
 

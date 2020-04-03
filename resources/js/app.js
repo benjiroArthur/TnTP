@@ -27,8 +27,8 @@ require('bootstrap-table/dist/extensions/print/bootstrap-table-print.min.js');
 require('bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min.css');
 require('bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min.js');
 
-Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
-Vue.prototype.$status = document.querySelector("meta[name='status']").getAttribute('content');
+
+
 
 
 /**
@@ -55,6 +55,8 @@ let routes = [
     {path:'/manage/transport', component: require('./components/Admin/Transport.vue').default},
     {path:'/manage/admin', component: require('./components/Admin/Admin.vue').default},
     {path:'/admin/profile', component: require('./components/Admin/Profile.vue').default},
+
+    {path:'/tourist-site/details/:id', component: require('./components/Admin/TouristSiteDetails').default, name:'tourist-site-details'},
 
     //hotel
     {path:'/hotel/profile', component: require('./components/Hotel/Profile.vue').default},
@@ -186,6 +188,14 @@ router.afterEach(()=>{
 
 });
 
+import VueLazyload from 'vue-lazyload';
+
+Vue.use(VueLazyload);
+
+import VueCropper from 'vue-cropperjs';
+import 'cropperjs/dist/cropper.css';
+Vue.component(VueCropper);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -207,6 +217,10 @@ const app = new Vue({
             //this.index();
             console.log(e);
         });
+    },
+    created(){
+        const $userId = $('meta[name = "user-id"]').attr('content')
+        //Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
     },
 
 });

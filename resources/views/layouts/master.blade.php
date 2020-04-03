@@ -62,8 +62,7 @@
     <div class="animated slower myLoadDiv1" :class="true ? 'zoomOut':''" v-if="pageLoader">
         <div class="myLoadDiv2">
             <div class="justify-content-center myLoadDiv3">
-                <img src="{{asset('assets/images/logo.png')}}" alt="TripIt GH" height="400px" width="auto">
-                <h2 class="black">Loading...</h2>
+                <img src="{{asset('assets/images/logo.png')}}" alt="TripIt GH" height="400px" width="auto" class="animated fadeInDown">
             </div>
 
         </div>
