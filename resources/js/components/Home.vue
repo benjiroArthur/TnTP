@@ -1,15 +1,12 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <p class="text-danger" v-if="check === 0">Please Update Your profile</p>
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">
-                        This is Home Page
-                        <div style="width:200px; border:2px solid red;">bbkjjkj</div>
-                    </div>
+            <div class="col-md-12">
+                <h5>Nearby Sites and landmarks</h5>
+                <div>
+                    <p v-for="site in nearBy">{{site.name}}</p>
+                    <p v-if="nearBy.length < 1">No Sites Found In Your Region</p>
                 </div>
             </div>
         </div>
@@ -22,6 +19,9 @@
         data(){
             return{
                 check:'',
+                sites:[],
+                region:'',
+                nearBy:{},
             }
         },
         methods:{
@@ -39,9 +39,27 @@
                     this.error = error.response.data.message || error.message;
                 });
             },
+            getSite(){
+                this.loading = true;
+                axios
+                    .get('/data/get-sites')
+                    .then(response => {
+                        this.loading = false;
+                        let records = response.data;
+                        this.sites = records.sites;
+                        this.region = records.region;
+                        this.nearBy = records.nearby;
+
+
+                    }).catch(error => {
+                    this.loading = false;
+                    this.error = error.response.data.message || error.message;
+                });
+            },
         },
         created(){
             this.checkUpdate();
+            this.getSite();
         },
 
     }

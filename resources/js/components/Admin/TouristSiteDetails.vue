@@ -258,6 +258,7 @@
                     gp_digital_address: '',
                 }),
                 formData : new FormData(),
+                allsite:{},
                 //formData: new FormData(),
             }
         },
@@ -265,17 +266,18 @@
             getData(){
 
                 axios.get('/data/tourist-site/'+this.id).then((response) => {
-                    let allsite = response.data;
+                    this.allsite = response.data;
                     this.image_files = [];
                     this.image_file = '';
-                    this.site = allsite.site;
-                    this.site_data = allsite.site_data;
+                    this.site = this.allsite.site;
+                    this.site_data = this.allsite.site_data;
                     this.image_file = this.site.image;
                     this.image_files = this.site.images;
                     this.form.reset();
                     this.form.fill(this.site_data);
                 }).catch(console.log());
             },
+
             updateProfile(){
                 axios.put('/data/tourist-site/'+this.id, this.form)
                     .then((response)=>{
@@ -436,7 +438,7 @@
                     Fire.$emit('profileUpdate');
 
                     if(response.data === 'Success'){
-                        swal.fire(
+                        Swal.fire(
                             'Upload',
                             'Images Uploaded Successfully',
                             'success'
@@ -524,9 +526,11 @@
             this.getRegion();
             this.getData();
 
+
             Fire.$on('profileUpdate', () => {
                 this.getRegion();
                 this.getData();
+
             });
 
         },

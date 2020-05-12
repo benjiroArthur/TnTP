@@ -82,7 +82,14 @@
 
         <main class="py-4">
             @include('includes.messages')
-            @yield('content')
+            @auth
+                <router-view>
+                    {{--Vue elements goes here--}}
+                </router-view>
+            @else
+                @yield('content')
+            @endauth
+            <vue-progress-bar></vue-progress-bar>
         </main>
     </div>
 @yield('script')

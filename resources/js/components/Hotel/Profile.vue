@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-12 col-lg-8 c0l-sm-12">
+            <div class="col-md-12 col-lg-6 col-sm-12">
                 <div class="card">
                     <div class="card-header"><h3>My Profile</h3></div>
 
@@ -17,45 +17,25 @@
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6 col-lg-6">
                                         <div class="form-group">
-                                            <label>Last Name</label>
-                                            <input v-model="form.last_name" type="text" name="last_name"
-                                                   class="form-control" :class="{ 'is-invalid': form.errors.has('last_name') }">
-                                            <has-error :form="form" field="last_name"></has-error>
+                                            <label>Hotel Name</label>
+                                            <input v-model="form.name" type="text" name="name"
+                                                   class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                                            <has-error :form="form" field="name"></has-error>
                                         </div>
                                         <div class="form-group">
-                                            <label>First Name</label>
-                                            <input v-model="form.first_name" type="text" name="first_name"
-                                                   class="form-control" :class="{ 'is-invalid': form.errors.has('first_name') }">
-                                            <has-error :form="form" field="first_name"></has-error>
+                                            <label>Hotel Code</label>
+                                            <input v-model="form.code" type="text" name="code"
+                                                   class="form-control" :class="{ 'is-invalid': form.errors.has('code') }" readonly>
+                                            <has-error :form="form" field="code"></has-error>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Other Name</label>
-                                            <input v-model="form.other_name" type="text" name="other_name"
-                                                   class="form-control" :class="{ 'is-invalid': form.errors.has('other_name') }">
-                                            <has-error :form="form" field="other_name"></has-error>
-                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>Email</label>
                                             <input v-model="form.email" type="email" name="email"
                                                    class="form-control" :class="{ 'is-invalid': form.errors.has('email') }" readonly>
                                             <has-error :form="form" field="email"></has-error>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label>Date Of Birth</label>
-                                            <date-picker :config="options" v-model="form.dob" name="dob" class="form-control" :class="{ 'is-invalid': form.errors.has('dob') }"></date-picker>
-                                            <has-error :form="form" field="dob"></has-error>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gender</label>
-                                            <select v-model="form.gender" type="text" name="gender"
-                                                    class="form-control" :class="{ 'is-invalid': form.errors.has('gender') }" >
-                                                <option >Male</option>
-                                                <option >Female</option>
-
-                                            </select>
-                                            <has-error :form="form" field="gender"></has-error>
                                         </div>
                                         <div class="form-group">
                                             <label>Phone Number</label>
@@ -76,84 +56,88 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-4 c0l-sm-12">
-                <div class="row"><div class="card">
-                    <div class="card-header"><h3>Address</h3></div>
-
-                    <div class="card-body">
-
-                        <form @submit.prevent="updateAddress" ref="address">
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-12 col-lg-12">
-                                        <div class="form-group">
-                                            <label>Region</label>
-                                            <select v-model="address.region" name="region" v-on:change="getCity"
-                                                    class="form-control" :class="{ 'is-invalid': address.errors.has('region') }" >
-                                                <option disabled value="">Select Region</option>
-                                                <option v-for="region in regions">{{region.name}}</option>
-
-
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>City</label>
-                                            <select v-model="address.city" name="city"
-                                                    class="form-control" :class="{ 'is-invalid': address.errors.has('city') }" >
-                                                <!--<option selected>{{address.city}}</option>-->
-                                                <option v-if="address.city !== ''" selected>{{address.city}}</option>
-                                                <option v-else disabled value="">Select City</option>
-                                                <option v-for="city in cities">{{city.name}}</option>
-
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Ghana Post GPS Address</label>
-                                            <input v-model="address.gp_digital_address" type="text" name="gp_digital_address"
-                                                   class="form-control" :class="{ 'is-invalid': address.errors.has('gp_digital_address') }">
-                                            <has-error :form="address" field="gp_digital_address"></has-error>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-danger" v-on:click="resetFields('address')">Cancel</button>
-                                <button type="submit" class="btn bg-trip">Update <i class="fas fa-upload"></i></button>
-                            </div>
-                        </form>
-
-                    </div>
-                </div></div>
+            <div class="col-md-12 col-lg-6 col-sm-12">
                 <div class="row">
-                    <div class="card">
-                        <div class="card-header"><h3>Map Details</h3></div>
-                        <div class="card-body">
-                            <form @submit.prevent="updateMap" ref="address">
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 col-lg-12">
-                                            <div class="form-group">
-                                                <label>Latitude</label>
-                                                <input v-model="mapForm.lat" type="text" name="lat"
-                                                       class="form-control" :class="{ 'is-invalid': mapForm.errors.has('lat') }">
-                                                <has-error :form="mapForm" field="lat"></has-error>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Longitude</label>
-                                                <input v-model="mapForm.long" type="text" name="long"
-                                                       class="form-control" :class="{ 'is-invalid': mapForm.errors.has('long') }">
-                                                <has-error :form="mapForm" field="long"></has-error>
-                                            </div>
-                                        </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="card">
+                            <div class="card-header"><h3>Hotel Address</h3></div>
 
+                            <div class="card-body">
+
+                                <form @submit.prevent="updateAddress" ref="address">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                <div class="form-group">
+                                                    <label>Region</label>
+                                                    <select v-model="address.region" name="region" v-on:change="getCity"
+                                                            class="form-control" :class="{ 'is-invalid': address.errors.has('region') }" >
+                                                        <option disabled value="">Select Region</option>
+                                                        <option v-for="region in regions">{{region.name}}</option>
+
+
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>City</label>
+                                                    <select v-model="address.city" name="city"
+                                                            class="form-control" :class="{ 'is-invalid': address.errors.has('city') }" >
+                                                        <!--<option selected>{{address.city}}</option>-->
+                                                        <option v-if="address.city !== ''" selected>{{address.city}}</option>
+                                                        <option v-else disabled value="">Select City</option>
+                                                        <option v-for="city in cities">{{city.name}}</option>
+
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Ghana Post GPS Address</label>
+                                                    <input v-model="address.gp_digital_address" type="text" name="gp_digital_address"
+                                                           class="form-control" :class="{ 'is-invalid': address.errors.has('gp_digital_address') }">
+                                                    <has-error :form="address" field="gp_digital_address"></has-error>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer justify-content-center">
-                                    <button type="button" class="btn btn-danger" v-on:click="resetFields('address')">Cancel</button>
-                                    <button type="submit" class="btn bg-trip">Update <i class="fas fa-upload"></i></button>
-                                </div>
-                            </form>
+                                    <div class="modal-footer justify-content-center">
+                                        <button type="button" class="btn btn-danger" v-on:click="resetFields('address')">Cancel</button>
+                                        <button type="submit" class="btn bg-trip">Update <i class="fas fa-upload"></i></button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="card">
+                            <div class="card-header"><h3>Map Details</h3></div>
+                            <div class="card-body">
+                                <form @submit.prevent="updateMap" ref="map">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                <div class="form-group">
+                                                    <label>Latitude</label>
+                                                    <input v-model="mapForm.lat" type="text" name="lat"
+                                                           class="form-control" :class="{ 'is-invalid': mapForm.errors.has('lat') }">
+                                                    <has-error :form="mapForm" field="lat"></has-error>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Longitude</label>
+                                                    <input v-model="mapForm.long" type="text" name="long"
+                                                           class="form-control" :class="{ 'is-invalid': mapForm.errors.has('long') }">
+                                                    <has-error :form="mapForm" field="long"></has-error>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-center">
+                                        <button type="button" class="btn btn-danger" v-on:click="resetFields('mapForm')">Cancel</button>
+                                        <button type="submit" class="btn bg-trip">Update <i class="fas fa-upload"></i></button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -211,7 +195,6 @@
                 cities:{},
                 city:'',
                 form: new Form({
-                    id: '',
                     name: '',
                     email: '',
                     code: '',
@@ -247,10 +230,11 @@
                         this.user = data1.userable;
                         this.form.fill(this.user);
                         this.address.fill(data1.address);
+                        this.mapForm.fill(this.user.map);
 
                     }).catch(error => {
                     this.loading = false;
-                    this.error = error.response.data.message || error.message;
+                    this.error = error.message;
                 });
             },
             loadImage(e){
@@ -311,7 +295,7 @@
                         Fire.$emit('profileUpdate');
                         console.log(response.data);
 
-                        swal.fire(
+                        Swal.fire(
                             'Update',
                             'User Profile Updated Successfully',
                             'success'
@@ -324,14 +308,14 @@
             },
             updateMap(){
                 this.$Progress.start();
-                this.form.put('/data/profile')
+                this.mapForm.post('/data/hotel/map')
                     .then((response) => {
-                        Fire.$emit('profileUpdate');
                         console.log(response.data);
-
-                        swal.fire(
+                        this.mapForm.reset();
+                        this.mapForm.fill(response.data);
+                        Swal.fire(
                             'Update',
-                            'User Profile Updated Successfully',
+                            'Map Data Updated Successfully',
                             'success'
                         );
                         this.$Progress.finish();
@@ -348,7 +332,7 @@
                         if(response.data === 'success')
                         {
                             Fire.$emit('profileUpdate');
-                            swal.fire(
+                            Swal.fire(
                                 'Update',
                                 'User Address Updated Successfully',
                                 'success'
@@ -370,7 +354,7 @@
 
                     }).catch(error => {
                     this.loading = false;
-                    this.error = error.response.data.message || error.message;
+                    this.error = error.message;
                 });
             },
             getCity(){
@@ -384,7 +368,7 @@
 
                     }).catch(error => {
                     this.loading = false;
-                    this.error = error.response.data.message || error.message;
+                    this.error = error.message;
                 });
             },
 
@@ -398,7 +382,7 @@
                     this.profileInfo();
                 }
                 else if(choice === 'map'){
-                    this.form.reset();
+                    this.mapForm.reset();
                     this.profileInfo();
                 }
             },

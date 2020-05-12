@@ -9,8 +9,8 @@
 
     <!-- SEARCH FORM -->
     <form class="form-inline ml-3">
-        <div class="input-group input-group-sm">
-
+        <div class="input-group input-group-sm text-danger text-bold">
+            {{Auth()->user()->profile_updated == 0 ? "Please Update Your Profile" : ""}}
         </div>
     </form>
 

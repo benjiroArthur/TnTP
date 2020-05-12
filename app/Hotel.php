@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Hotel extends Model
@@ -10,7 +11,8 @@ class Hotel extends Model
     protected $fillable = ['code', 'name', 'email', 'image', 'phone_number'];
 
     //return with
-    protected $with = ['address', 'map'];
+    protected $with = ['map'];
+    protected $appends = ['registered', 'updated', 'full_name', 'first_name'];
 
     //relationship
     public function address()
@@ -40,5 +42,23 @@ class Hotel extends Model
 
     public function user(){
         return $this->morphOne('App\User', 'userable');
+    }
+
+    public function getRegisteredAttribute(){
+        return Carbon::parse($this->created_at)->isoFormat('Do MMMM, YYYY');
+    }
+
+    public function getUpdatedAttribute(){
+        return Carbon::parse($this->updated_at)->isoFormat('Do MMMM, YYYY');
+    }
+    public function getFullNameAttribute(){
+        return $this->name;
+    }
+
+    public function getFirstNameAttribute(){
+        $phName = $this->name;
+        $phName = explode(" ", $phName);
+        $phName = $phName[0];
+        return $phName;
     }
 }

@@ -8,7 +8,7 @@
                         <div class="card-tools">
                             <div class="input-group input-group-sm">
 
-                                <button class="btn btn-primary btn-sm mr-2" title="Add New User" data-toggle="modal" data-target="#sitesModal"><i class="fas fa-plus"></i></button>
+                                <button class="btn btn-primary btn-sm mr-2 bg-trip" title="Add New Tourist Site" data-toggle="modal" data-target="#sitesModal"><i class="fas fa-plus"></i></button>
                             </div>
                         </div>
                     </div>
@@ -131,6 +131,9 @@
 <script>
     import BootstrapTable from 'bootstrap-table/dist/bootstrap-table-vue.min.js';
     import * as router from "vue-router";
+    let vm = new Vue({
+
+    });
     export default {
         name: "TouristSite",
         components: {
@@ -204,7 +207,7 @@
                         events: {
                             'click .show': function (e, value, row){
 
-                                //return this.$router.push({name:'tourist-site-details', params: {id:row.id}})
+                                //return vm.$router.push('/tourist-site/details/'+row.id)
                                 //return router.push({name:'tourist-site-details', params: {id:row.id}})
                                 return window.location.assign('/tourist-site/details/'+row.id)
 
@@ -290,6 +293,8 @@
                                     icon: 'success',
                                     title: 'Tourist Site Added Successfully'
                                 });
+                                this.form.reset();
+                                this.file = '';
                                 Fire.$emit('tableUpdate');
                                 this.$Progress.finish();
                             })

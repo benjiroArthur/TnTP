@@ -24,27 +24,7 @@
             </div>
         </div>
         <!--Bulk upload modal-->
-        <!--<div class="modal" id="hotelUserModalBulk" tabindex="-1" role="dialog" aria-labelledby="hotelUserModalBulkLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                        <h5 class="modal-title">Upload Administrators</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <input type="file" name="file" ref="file" v-on:change="handleFileUpload"/>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success" v-on:click="submitUser">Upload <i class="fas fa-user-plus"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>-->
+
 
         <!-- form modal Add User -->
         <div class="modal" id="hotelUserModal" tabindex="-1" role="dialog" aria-labelledby="hotelUserModalLabel" aria-hidden="true">
@@ -88,6 +68,93 @@
                 </div>
             </div>
         </div>
+        <div class="modal" id="viewUserModal" tabindex="-1" role="dialog" aria-labelledby="viewUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title text-bold">Hotel Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="login-logo">
+                            <img :src="this.hotelUserable.image" width="100" height="auto" alt="user" class="userImage img-circle">
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Hotel Name</label>
+                                    <input v-model="this.hotelUserable.name" type="text" name="name"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Hotel Code</label>
+                                    <input v-model="this.hotelUserable.code" type="text" name="code"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input v-model="this.hotelUserable.email" type="email" name="email"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ghana Post GPS Address</label>
+                                    <input v-model="this.hotelAddressable.gp_digital_address" type="text" name="gp_digital_address"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Date Of Registration</label>
+                                    <input v-model="this.hotelUserable.registered" type="text" name="city"
+                                           class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input v-model="this.hotelUserable.phone_number" type="text" name="phone_number"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Region</label>
+                                    <input v-model="this.hotelAddressable.region" type="text" name="region"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <input v-model="this.hotelAddressable.city" type="text" name="city"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Profile Update</label>
+                                    <input v-model="this.hotelUserable.updated" type="text" name="city"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label>Latitude</label>
+                                            <input v-model="this.hotelMap.lat" type="text" name="city"
+                                                   class="form-control" readonly>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Longitude</label>
+                                            <input v-model="this.hotelMap.long" type="text" name="city"
+                                                   class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
 
     </div>
 </template>
@@ -112,7 +179,10 @@
                     adminShow: {}
                 },
                 hotels: {},
-                hotel: '',
+                hotel: {},
+                hotelUserable: {},
+                hotelAddressable: {},
+                hotelMap:{},
                 file: '',
                 myOptions: {
                     search: true,
@@ -149,7 +219,9 @@
                         },
                         events: {
                             'click .show': function (e, value, row){
-                                return window.location.assign('/admin/show/'+row.id)
+                                //return window.location.assign('/admin/show/'+row.id);
+                                //alert('yes');
+                                Fire.$emit('viewSingleHotel', row);
 
                             },
                             'click .edit': function (e, value, row){
@@ -245,21 +317,46 @@
                     this.error = error.response.data.message || error.message;
                 });
             },
+            viewHotel(row){
+                if(row.profile_updated === 1){
+                    this.hotel = null;
+                    this.hotelUserable = null;
+                    this.hotelAddressable = null;
+                    this.hotel = row;
+                    this.hotelUserable = this.hotel.userable;
+                    this.hotelAddressable = this.hotel.address;
+                    this.hotelMap = this.hotelUserable.map;
+                    $('#viewUserModal').modal('show')
+                }
+                else{
+                    Swal.fire(
+                        'Warning',
+                        'User Profile Not Updated',
+                        'warning'
+                    );
+                }
+
+            },
+            handleIncoming(user){
+                this.hotels.push(user);
+            },
 
         },
-        created()
-        {
+        created() {
             this.index();
 
+
+        },
+        mounted(){
+            Fire.$on('viewSingleHotel', (row) => {
+                this.viewHotel(row);
+            });
             Echo.channel('newUser').listen('NewUser', (e) => {
-                this.index();
-                console.log(e);
+                this.handleIncoming(e.user);
             });
 
-            // Fire.$on('tableUpdate', () => {
-            //     this.index();
-            // });
-        }
+
+        },
     }
 </script>
 

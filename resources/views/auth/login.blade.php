@@ -16,7 +16,7 @@
                             @csrf
 
                             <div class="input-group mb-3">
-                                <input type="email" class="form-control" placeholder="Email" name="email" id="email">
+                                <input id="email" type="email" placeholder="Email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                 <div class="input-group-append">
                                     <div class="input-group-text divBor">
                                         <span class="fas fa-envelope text-success"></span>
@@ -29,7 +29,7 @@
                                 @enderror
                             </div>
                             <div class="input-group mb-3">
-                                <input type="password" class="form-control" placeholder="Password" name="password" id="password">
+                                <input id="password" type="password" placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                                 <div class="input-group-append">
                                     <div class="input-group-text divBor">
                                         <span class="fas fa-lock text-success"></span>
@@ -60,8 +60,6 @@
                             </div>
                         </form>
 
-
-
                         <p class="mb-1">
                             @if (Route::has('password.request'))
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
@@ -70,8 +68,8 @@
                             @endif
                         </p>
                         <div class="row justify-content-center">
-                            <div class="col-12">
-{{--                                <p class="text-center">------------------------------Or------------------------------</p>--}}
+                            <div class="col-12 test-center">
+                                <p class="text-center">----------Or----------</p>
                                 <hr>
                                 <p class="text-center text-danger">Don't Have Account?</p>
                             </div>
@@ -85,10 +83,9 @@
 
                     <!-- /.login-card-body -->
                 </div>
-
-
             </div>
             <!-- /.login-box -->
         </div>
     </div>
+
 @endsection

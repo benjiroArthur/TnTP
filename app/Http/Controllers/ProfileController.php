@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\City;
 use App\Region;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
@@ -140,6 +142,42 @@ class ProfileController extends Controller
         else
         {
             return response('No file selected');
+        }
+    }
+
+    public function passwordUpdate(Request $request, $id){
+        $this->validate($request, [
+            'old_password' => 'required',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::findOrFail($id);
+
+        if(Hash::check($request->old_password, $user->password)){
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
+            return response('success');
+        }
+        else{ return response('Invalid Password');}
+    }
+
+    public function hotelMap(Request $request){
+       $this->validate($request, [
+            'lat' => 'required',
+            'long' => 'required'
+        ]);
+        if(auth()->user()->role->name == 'hotel'){
+            $hotel = auth()->user()->userable;
+            $getMap = $hotel->map()->get();
+            if($getMap->isEmpty()){
+                $map = $hotel->map()->create($request->all());
+            }
+            else{
+                $hotel->map()->update($request->all());
+                $map = $hotel->map()->first();
+            }
+            return response()->json($map);
         }
     }
 }

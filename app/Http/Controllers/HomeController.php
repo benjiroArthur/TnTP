@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\TouristSite;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -30,5 +31,20 @@ class HomeController extends Controller
     {
         $data = Auth()->user()->profile_updated;
         return response($data);
+    }
+
+    public function getSites(){
+        $region = Auth()->user()->address->region;
+        $sites = TouristSite::all();
+
+        $nearby = TouristSite::whereHas('address', function ($query) use($region){
+            $query->where('region', $region);
+        })->get();
+        $data = [
+            'region' => $region,
+            'sites' => $sites,
+            'nearby' => $nearby
+        ];
+        return response()->json($data);
     }
 }

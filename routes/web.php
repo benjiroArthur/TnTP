@@ -24,6 +24,9 @@ Route::get('/js/popper.js.map', function () {
 Route::get('/js/vuejs-datatable.esm.js.map', function () {
     return redirect('/home');
 });
+Route::get('/js/vuetify.js.map', function () {
+    return redirect('/home');
+});
 
 Auth::routes();
 Route::post('/new-register', 'Auth\MyRegisterController@userRegister')->name('userRegister');
@@ -36,7 +39,10 @@ Route::group(['prefix' => 'data', 'as' => 'data.'], function() {
     Route::post('/address', 'ProfileController@address');
     Route::get('/region', 'ProfileController@region');
     Route::get('/city/{region}', 'ProfileController@city');
-
+    Route::post('/hotel/map', 'ProfileController@hotelMap');
+    Route::get('/get-sites', 'HomeController@getSites');
+    Route::resource('/users', 'UsersController');
+    Route::post('/password/update/{id}', 'ProfileController@passwordUpdate');
 
     //managed by admin
     Route::resource('/traveller', 'Admin\travellerController');

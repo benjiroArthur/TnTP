@@ -41,6 +41,15 @@
                 </p>
             </router-link>
         </li>
+        <li class="nav-item">
+            <router-link to="/password/update" class="nav-link">
+                <i class="nav-icon fas fa-lock yellow"></i>
+                <p>
+                    Password Update
+                </p>
+            </router-link>
+        </li>
+
         <br>
         <li class="nav-item" style="border-top: 1px solid #ffffff;">
             <a class="nav-link" href="{{ route('logout') }}"

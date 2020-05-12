@@ -34,6 +34,9 @@ class NewUser implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('newUser');
+        return new PrivateChannel('newUser' );
+    }
+    public function broadcastWith(){
+        return ["user" => $this->user];
     }
 }

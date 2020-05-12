@@ -10,7 +10,7 @@
                 <div class="card shadow">
 
                     <div class="card-body register-card-body">
-                        <p class="login-box-msg">{{ __('Register') }}</p>
+                        <p class="login-box-msg"><b>{{ __('REGISTER') }}</b></p>
                         <form method="POST" action="{{ route('register') }}" class="loginBox">
                             @csrf
                             <div class="row justify-content-center">

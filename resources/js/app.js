@@ -9,6 +9,9 @@ import carousel from 'vue-owl-carousel';
 require('./bootstrap');
 window.Vue = require('vue');
 
+import Vuetify from 'vuetify';
+Vue.use(Vuetify);
+
 import {RotateSquare2} from 'vue-loading-spinner';
 
 window.RotateSquare2 = RotateSquare2;
@@ -46,6 +49,7 @@ require('bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-c
 let routes = [
     //general home
     {path:'/home', component: require('./components/Home.vue').default},
+    {path:'/password/update', component: require('./components/Password.vue').default},
 
     //admin
     {path:'/admin/dashboard', component: require('./components/Admin/Dashboard.vue').default},
@@ -60,8 +64,8 @@ let routes = [
 
     //hotel
     {path:'/hotel/profile', component: require('./components/Hotel/Profile.vue').default},
-    {path:'/hotel/rooms', component: require('./components/Hotel/Profile.vue').default},
-    {path:'/hotel/bookings', component: require('./components/Hotel/Profile.vue').default},
+    {path:'/hotel/rooms', component: require('./components/Hotel/Rooms.vue').default},
+    {path:'/hotel/bookings', component: require('./components/Hotel/Bookings.vue').default},
     {path:'/hotel/dashboard', component: require('./components/Hotel/Dashboard.vue').default},
 
     //traveller
@@ -109,12 +113,24 @@ Vue.use(VueGoogleMaps, {
     },});
 
 
-import {Form, HasError, AlertError} from 'vform';
-
+//import {Form, HasError, AlertError} from 'vform';
+import {
+    Form,
+    HasError,
+    AlertError,
+    AlertErrors,
+    AlertSuccess
+} from 'vform';
 
 window.Form = Form;
 Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
+Vue.component(AlertErrors.name, AlertErrors);
+Vue.component(AlertSuccess.name, AlertSuccess);
+
+
+/*Vue.component(HasError.name, HasError);
+Vue.component(AlertError.name, AlertError);*/
 
 import VueProgressBar from 'vue-progressbar'
 
@@ -165,7 +181,7 @@ window.toast = Toast;
 import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);
 
-
+import moment from 'moment';
 Vue.filter('uptext', function(text){
     return text.charAt(0).toUpperCase() + text.slice(1);
 });
@@ -176,6 +192,7 @@ Vue.filter('myDate', function(text){
 Vue.filter('fromdate', function(text){
     return moment(text).fromNow();
 });
+
 
 router.beforeResolve((to, from, next)=>{
     if(to.path){
@@ -205,8 +222,10 @@ Vue.component(VueCropper);
 const app = new Vue({
     el: '#app',
     router,
+    vuetify: new Vuetify(),
     data: () => ({
         pageLoader: true,
+        userId: '',
     }),
     mounted() {
         setTimeout(val => {
@@ -219,7 +238,7 @@ const app = new Vue({
         });
     },
     created(){
-        const $userId = $('meta[name = "user-id"]').attr('content')
+        this.userId = $('meta[name = "user-id"]').attr('content')
         //Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
     },
 

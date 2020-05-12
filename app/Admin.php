@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Admin extends Model
@@ -11,7 +12,7 @@ class Admin extends Model
     ];
 
     protected $guarded = [];
-
+    protected $appends = ['registered', 'updated'];
 
     public function user(){
         return $this->morphOne('App\User', 'userable');
@@ -19,6 +20,13 @@ class Admin extends Model
 
     public function getImageAttribute($val){
         return asset('assets/ProfilePictures/'.$val);
+    }
+    public function getRegisteredAttribute(){
+        return Carbon::parse($this->created_at)->isoFormat('Do MMMM, YYYY');
+    }
+
+    public function getUpdatedAttribute(){
+        return Carbon::parse($this->updated_at)->isoFormat('Do MMMM, YYYY');
     }
 
 

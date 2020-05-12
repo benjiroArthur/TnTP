@@ -6,11 +6,7 @@
                 <div class="card-header">
                     <h3 class="card-title text-center">Tourist</h3>
                     <div class="card-tools">
-                        <!--<div class="input-group input-group-sm">
-                            &lt;!&ndash;<button class="btn btn-danger btn-sm mr-2" title="Download template" @click="downloadExcel"><i class="fas fa-download"></i></button>
-                            <button class="btn btn-success btn-sm mr-2" title="Add Bulk Users" data-toggle="modal" data-target="#pharmacyUserModalBulk"><i class="fas fa-file-excel"></i></button>&ndash;&gt;
-                            <button class="btn btn-primary btn-sm mr-2" title="Add New User" data-toggle="modal" data-target="#pharmacyUserModal"><i class="fas fa-plus"></i></button>
-                        </div>-->
+
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -22,6 +18,92 @@
             <!-- /.card -->
         </div>
     </div>
+        <div class="modal" id="viewUserModal" tabindex="-1" role="dialog" aria-labelledby="viewUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title text-bold">Transport Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="login-logo">
+                            <img :src="this.userable.image" width="100" height="auto" alt="user" class="userImage img-circle">
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input v-model="this.userable.last_name" type="text" name="last_name"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input v-model="this.userable.first_name" type="text" name="first_name"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Other Name</label>
+                                    <input v-model="this.userable.other_name" type="text" name="other_name"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input v-model="this.userable.email" type="email" name="email"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ghana Post GPS Address</label>
+                                    <input v-model="this.addressable.gp_digital_address" type="text" name="gp_digital_address"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Date Of Registration</label>
+                                    <input v-model="this.userable.registered" type="text" name="city"
+                                           class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Vehicle Reg. Number</label>
+                                    <input v-model="this.userable.vehicle_number" type="text" name="dob"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Vehicle Brand</label>
+                                    <input v-model="this.userable.vehicle_brand" type="text" name="gender"
+                                           class="form-control"  readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input v-model="this.userable.phone_number" type="text" name="phone_number"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Region</label>
+                                    <input v-model="this.addressable.region" type="text" name="region"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <input v-model="this.addressable.city" type="text" name="city"
+                                           class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Profile Update</label>
+                                    <input v-model="this.userable.updated" type="text" name="city"
+                                           class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -47,6 +129,8 @@
 
                 users: {},
                 user: '',
+                userable: {},
+                addressable: {},
                 file: '',
                 myOptions: {
                     search: true,
@@ -70,8 +154,9 @@
                     { field: 'id', title: 'ID', sortable: true,  visible: false},
                     { field: 'userable.full_name', title: 'Name', sortable: true},
                     { field: 'userable.email', title: 'Email', sortable: true},
-                    { field: 'userable.dob', title: 'Date Of Birth', sortable: true},
-                    { field: 'userable.gender', title: 'Gender', sortable: true},
+                    { field: 'userable.vehicle_number', title: 'Vehicle Reg Number', sortable: true},
+                    { field: 'userable.vehicle_brand', title: 'Vehicle Brand', sortable: true},
+                    { field: 'userable.colour', title: 'Colour Of Vehicle', sortable: true},
                     { field: 'userable.phone_number', title: 'Phone Number', sortable: true},
                     {
                         field: 'action',
@@ -85,7 +170,8 @@
                         },
                         events: {
                             'click .show': function (e, value, row){
-                                return window.location.assign('/admin/show/'+row.id)
+                                //return window.location.assign('/admin/show/'+row.id)
+                                Fire.$emit('viewSingleTransport', row);
 
                             },
                             'click .edit': function (e, value, row){
@@ -180,6 +266,25 @@
                     this.error = error.response.data.message || error.message;
                 });
             },
+            viewTransport(row){
+                if(row.profile_updated === 1){
+                    this.user = null;
+                    this.userable = null;
+                    this.addressable = null;
+                    this.user = row;
+                    this.userable = this.user.userable;
+                    this.addressable = this.user.address;
+                    $('#viewUserModal').modal('show')
+                }
+                else{
+                    Swal.fire(
+                        'Warning',
+                        'User Profile Not Updated',
+                        'warning'
+                    );
+                }
+
+            },
 
 
         },
@@ -196,6 +301,9 @@
 
             Fire.$on('tableUpdate', () => {
                 this.index();
+            });
+            Fire.$on('viewSingleTransport', (row) => {
+                this.viewTransport(row);
             });
         }
     }
