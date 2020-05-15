@@ -67,6 +67,7 @@ let routes = [
     {path:'/hotel/rooms', component: require('./components/Hotel/Rooms.vue').default},
     {path:'/hotel/bookings', component: require('./components/Hotel/Bookings.vue').default},
     {path:'/hotel/dashboard', component: require('./components/Hotel/Dashboard.vue').default},
+    {path:'/room/details/:id', component: require('./components/Hotel/RoomDetails').default, name:'room-details'},
 
     //traveller
     {path:'/user/profile', component: require('./components/Traveller/Profile.vue').default},

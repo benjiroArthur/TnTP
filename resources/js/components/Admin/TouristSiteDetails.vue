@@ -380,7 +380,7 @@
                 this.formData.append('image', this.file);
 
                 //Make the request to the POST /single-file URL
-                axios.post( '/data/image-upload/'+this.id,
+                axios.post( '/data/site-image/'+this.id,
                     this.formData,
                     {
                         headers: {

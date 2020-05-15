@@ -9,6 +9,7 @@ class Trip extends Model
     //fillables
     protected $fillable = ['name', 'tourist_site_id', 'user_id', 'start_date', 'end_date'];
 
+    protected $with = ['touristSite', 'checklist', 'activities'];
     //relationship
     public function user()
     {
@@ -19,5 +20,12 @@ class Trip extends Model
         return $this->belongsTo('App\TouristSite');
     }
 
+    public function checklist(){
+        return $this->hasMany('App\CheckList');
+    }
+
+    public function activities(){
+        return $this->hasMany('App\Activity');
+    }
 
 }

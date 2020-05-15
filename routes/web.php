@@ -42,6 +42,8 @@ Route::group(['prefix' => 'data', 'as' => 'data.'], function() {
     Route::post('/hotel/map', 'ProfileController@hotelMap');
     Route::get('/get-sites', 'HomeController@getSites');
     Route::resource('/users', 'UsersController');
+    Route::resource('/rooms', 'RoomsController');
+    Route::post('/rooms/image/{id}', 'RoomsController@imageUpload');
     Route::post('/password/update/{id}', 'ProfileController@passwordUpdate');
 
     //managed by admin
@@ -50,7 +52,7 @@ Route::group(['prefix' => 'data', 'as' => 'data.'], function() {
     Route::resource('/admin', 'Admin\AdminController');
     Route::resource('/transport', 'Admin\TransportController');
     Route::resource('/tourist-site', 'TouristSiteController');
-    Route::post('/image-upload/{id}', 'TouristSiteController@imageUpload');
+    Route::post('/site-image/{id}', 'TouristSiteController@imageUpload');
     Route::resource('/image', 'ImageController');
 
 });
@@ -58,6 +60,14 @@ Route::group(['prefix' => 'data', 'as' => 'data.'], function() {
 Route::get('/tourist-site/details/{id}', function () {
     if(Auth::check() && Auth()->user()->role->name === 'admin'){
         return view('show-site');
+    }
+    else{return redirect('/home');}
+
+});
+
+Route::get('/room/details/{id}', function () {
+    if(Auth::check() && Auth()->user()->role->name === 'hotel'){
+        return view('show-room');
     }
     else{return redirect('/home');}
 

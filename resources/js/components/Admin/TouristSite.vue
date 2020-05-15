@@ -14,7 +14,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table table-responsive table-striped p-0">
-                        <bootstrap-table :data="sites" :options="myOptions" :columns="myColumns" sticky-header responsive v-slot:cell(action)="data" />
+                        <bootstrap-table :data="sites" :options="myOptions" :columns="myColumns" sticky-header responsive  />
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -95,14 +95,14 @@
 
                                         </div>
                                     </div>
-                                    <div class="row">
+
                                         <div class="form-group">
                                         <label>Cover Image</label>
                                         <div class="col-md-12">
                                             <input type="file" accept="image/*" class="form-control" style="border: none" @change="loadImage($event)">
                                         </div>
                                         </div>
-                                    </div>
+
                                     <div class="row">
 
                                         <div class="col-md-12">
@@ -130,10 +130,7 @@
 
 <script>
     import BootstrapTable from 'bootstrap-table/dist/bootstrap-table-vue.min.js';
-    import * as router from "vue-router";
-    let vm = new Vue({
 
-    });
     export default {
         name: "TouristSite",
         components: {
@@ -196,10 +193,7 @@
                         clickToSelect: false,
                         render: function(e, value, row){},
                         formatter: function (e, value, row){
-                            //return '<a class="btn btn-sm show" data-toggle="modal" data-target="#"><i class="fas fa-edit text-info"></i></a>'
-                            /*return `<router-link :to="'/tourist-site/details/'+row.id" class="btn btn-sm">
-                                          <i class="fas fa-edit text-info"></i>
-                                        </router-link>`*/
+
                             return ` <router-link :to="'/tourist-site/details/'+${row.id}" class="btn btn-sm show">
                                       <i class="fas fa-edit text-info"></i>
                                     </router-link>`
@@ -209,7 +203,8 @@
 
                                 //return vm.$router.push('/tourist-site/details/'+row.id)
                                 //return router.push({name:'tourist-site-details', params: {id:row.id}})
-                                return window.location.assign('/tourist-site/details/'+row.id)
+                                //return window.location.assign('/tourist-site/details/'+row.id)
+                                Fire.$emit('site-details', row);
 
                             },
                             'click .edit': function (e, value, row){
@@ -245,11 +240,11 @@
                                                     'warning'
                                                 )
                                             }
-                                        }).catch(() => {
+                                        }).catch((error) => {
                                             swal.fire(
                                                 'Failed!',
-                                                'User Could Not Be Deleted.',
-                                                'warning'
+                                                'Tourist Site Could Not Be Deleted.',
+                                                'error'
                                             )
                                         });
                                     }
@@ -268,12 +263,12 @@
                 this.coverImg.append('image', this.file);
                 $('#sitesModal').modal('hide');
                 this.$Progress.start();
-                axios.post('/data/tourist-site', this.form)
+                this.form.post('/data/tourist-site')
                     .then((response)=>{
 
                         let newSite = response.data;
 
-                        axios.post('/data/image-upload/'+newSite.id,
+                        axios.post('/data/site-image/'+newSite.id,
                             this.coverImg,
                             {
                                 headers: {
@@ -378,15 +373,22 @@
             this.getRegion();
 
 
-            Echo.channel('newUser').listen('NewUser', (e) => {
-                this.index();
-                console.log(e.data);
-            });
+
 
             Fire.$on('tableUpdate', () => {
                 this.index();
             });
-        }
+            Fire.$on('site-details', (row) => {
+                this.$router.push({path: `/tourist-site/details/${row.id}`});
+            });
+        },
+        mounted(){
+            Echo.privateChannel('newUser').listen('NewUser', (e) => {
+                this.index();
+                console.log(e.data);
+            });
+        },
+
     }
 </script>
 
