@@ -11,6 +11,8 @@ class TouristSite extends Model
 
     protected $with = ['map', 'reviews', 'address', 'images'];
     protected $withCount = ['reviews'];
+    protected $appends = ['thumbnail', 'source'];
+
 
     public function map()
     {
@@ -34,8 +36,11 @@ class TouristSite extends Model
         return $this->hasMany('App\Trips');
     }
 
-    public function getImageAttribute($val){
-        return public_path('storage/images/TouristSitePictures/'.$val);
+    public function getThumbnailAttribute(){
+        return asset('storage/images/TouristSitePictures/thumbnails/'.$this->image);
+    }
+    public function getSourceAttribute(){
+        return asset('storage/images/TouristSitePictures/original/'.$this->image);
     }
 
 }

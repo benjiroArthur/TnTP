@@ -63,6 +63,19 @@ class ImageController extends Controller
                     $constraint->aspectRatio();
                 })->save($imagePath);
 
+
+                  //resize image
+                  $thumbImg = \Image::make($image->getRealPath())->fit(450,300)->encode();
+                  $mainImg = \Image::make($image->getRealPath())->resize(1080,null,
+                      static function ($constraint){
+                          $constraint->aspectRatio();
+                          $constraint->upsize();
+                      })->encode();
+                  \Storage::disk('site-images')->put('thumbnails/'.$imageNameToStore, $thumbImg);
+                  \Storage::disk('site-images')->put('original/'.$imageNameToStore, $mainImg);
+
+
+
                 $site->images()->create(
                    [
                        'name' => $imageNameToStore
@@ -82,11 +95,15 @@ class ImageController extends Controller
                   //Filename to store
                   $imageNameToStore = time().$num.'.'.$extension;
 
-                  //$path = $image->storeAs('public/images/rooms', $imageNameToStore);
-                  $imagePath = public_path('/storage/images/hotel_rooms/'.$imageNameToStore);
-                  $img = Image::make($imagePath)->resize(450,300, static function($constraint){
-                      $constraint->aspectRatio();
-                  })->save($imagePath);
+                  //resize image
+                  $thumbImg = \Image::make($image->getRealPath())->fit(450,300)->encode();
+                  $mainImg = \Image::make($image->getRealPath())->resize(1080,null,
+                      static function ($constraint){
+                          $constraint->aspectRatio();
+                          $constraint->upsize();
+                      })->encode();
+                  \Storage::disk('room-images')->put('thumbnails/'.$imageNameToStore, $thumbImg);
+                  \Storage::disk('room-images')->put('original/'.$imageNameToStore, $mainImg);
 
                   $room->images()->create(
                       [
@@ -150,11 +167,14 @@ class ImageController extends Controller
 
         $image = \App\Image::findOrFail($id);
 
-        if(Storage::disk('public')->exists($image->name_path)){
-            Storage::disk('public')->delete($image->name_path);
-            $image->delete();
-            return response('success');
+        if(Storage::disk('public')->exists($image->name_path.'thumbnails/'.$image->name)){
+            Storage::disk('public')->delete($image->name_path.'thumbnails/'.$image->name);
         }
-        return response('File Not Found');
+        if(Storage::disk('public')->exists($image->name_path.'original/'.$image->name)){
+            Storage::disk('public')->delete($image->name_path.'original/'.$image->name);
+        }
+        $image->delete();
+        return response('success');
+
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class RoomsController extends Controller
@@ -58,8 +59,8 @@ class RoomsController extends Controller
     public function imageUpload(Request $request, $id){
         $room = Room::findOrFail($id);
        $oldImage = $room->image;
-        $oldSplit = explode('/', $oldImage);
-        $oldSplit = $oldSplit[count($oldSplit) -1];
+       /* $oldSplit = explode('/', $oldImage);
+        $oldSplit = $oldSplit[count($oldSplit) -1];*/
 
         if($request->hasFile('image')){
             //validate
@@ -79,16 +80,23 @@ class RoomsController extends Controller
 
             //upload file
 
-//      $path = $image_file->storeAs('public/assets/ProfilePictures/', $imageNameToStore);
-//
-            $image_path = storage_path().'/storage/images/rooms/'.$imageNameToStore;
             //resize image
-            Image::make($image_file->getRealPath())->resize(140,128)->save($image_path);
+            $thumbImg = \Image::make($image_file->getRealPath())->fit(400,300)->encode();
+            $mainImg = \Image::make($image_file->getRealPath())->resize(1080,null,
+            function ($constraint){
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->encode();
+            \Storage::disk('room-picture')->put('thumbnails/'.$imageNameToStore, $thumbImg);
+            \Storage::disk('room-picture')->put('original/'.$imageNameToStore, $mainImg);
 
-            if(File::exists(storage_path('/storage/images/rooms/'.$oldSplit)) && $oldSplit !== 'noroomimage.jpg'){
-
-                File::delete(storage_path('/storage/images/rooms/'.$oldSplit));
+            if(\Storage::disk('room-picture')->exists('thumbnails/'.$oldImage)){
+                \Storage::disk('room-picture')->delete('thumbnails/'.$oldImage);
             }
+             if(\Storage::disk('room-picture')->exists('original/'.$oldImage)){
+                \Storage::disk('room-picture')->delete('original/'.$oldImage);
+            }
+
 
             $room->image = $imageNameToStore;
             $room->save();
