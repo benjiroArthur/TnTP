@@ -279,6 +279,9 @@
             Fire.$on('room-details', (row) => {
                 this.$router.push({path: `/room/details/${row.id}`});
             });
+            Fire.$on('tableUpdate', () => {
+                this.index();
+            });
         },
         mounted(){},
     }

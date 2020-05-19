@@ -94,8 +94,6 @@ class TouristSiteController extends Controller
     {
         $touristSite = TouristSite::findOrFail($id);
         $oldImage = $touristSite->image;
-        $oldSplit = explode('/', $oldImage);
-        $oldSplit = $oldSplit[count($oldSplit) -1];
 
         if($request->hasfile('image')){
             //validate
@@ -118,15 +116,22 @@ class TouristSiteController extends Controller
 
             //upload file
 
-//      $path = $image_file->storeAs('public/assets/ProfilePictures/', $imageNameToStore);
-//
-            $image_path = public_path().'/storage/images/TouristSitePictures/'.$imageNameToStore;
             //resize image
-            Image::make($image_file->getRealPath())->resize(140,128)->save($image_path);
+            $thumbImg = \Image::make($image_file->getRealPath())->fit(400,300)->encode();
+            $mainImg = \Image::make($image_file->getRealPath())->resize(1080,null,
+                static function ($constraint){
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })->encode();
+            \Storage::disk('site-picture')->put('thumbnails/'.$imageNameToStore, $thumbImg);
+            \Storage::disk('site-picture')->put('original/'.$imageNameToStore, $mainImg);
 
-            if(File::exists(public_path('/assets/TouristSitePictures/'.$oldSplit)) && $oldSplit !== 'noimage.jpg'){
-
-                File::delete(public_path('/assets/TouristSitePictures/'.$oldSplit));
+            //delete old images
+            if(\Storage::disk('site-picture')->exists('thumbnails/'.$oldImage)){
+                \Storage::disk('site-picture')->delete('thumbnails/'.$oldImage);
+            }
+            if(\Storage::disk('site-picture')->exists('original/'.$oldImage)){
+                \Storage::disk('site-picture')->delete('original/'.$oldImage);
             }
 
             $touristSite->image = $imageNameToStore;
