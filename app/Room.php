@@ -11,6 +11,7 @@ class Room extends Model
 
     //with
     protected $with =['bookings', 'images'];
+    protected $appends = ['thumbnail', 'source'];
 
     //relationship
     public function hotel()
@@ -27,7 +28,10 @@ class Room extends Model
         return $this->morphMany('App\Image', 'imageable');
     }
 
-    public function getImageAttribute($val){
-        return public_path('storage/images/rooms/'.$val);
+    public function getThumbnailAttribute(){
+        return asset('storage/images/hotel_room/thumbnails/'.$this->image);
+    }
+    public function getSourceAttribute(){
+        return asset('storage/images/hotel_room/original/'.$this->image);
     }
 }

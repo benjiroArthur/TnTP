@@ -6,7 +6,7 @@
                         <div class="card-header">
                             <h3 class="card-title text-center">{{this.room.room_number}}</h3>
                             <div class="card-tools">
-                            <img :src="this.image_file" class="uploading-image img-thumbnail" style="max-height: 128px" alt="" />
+                            <img :src="this.image_file" class="uploading-image img-thumbnail" style="max-height: 128px" alt="hthth" />
                                 <span class="fas fa-camera" data-toggle="modal" data-target="#coverImageModal" title="Edit Picture"
                                       style="position: absolute; transform: translate(-70%, 0%); -ms-transform: translate(-70%, 0%); width:20px; border: 1px solid white">
                                 </span>
@@ -203,7 +203,7 @@
 <script>
     import _ from 'lodash';
     export default {
-        name: "TouristSiteDetails",
+        name: "RoomDetails",
         data(){
             return{
                 id:'',
@@ -235,7 +235,7 @@
                     this.image_file = '';
                     this.room = this.allroom.room;
                     this.room_data = this.allroom.room_data;
-                    this.image_file = this.room.image;
+                    this.image_file = this.room.thumbnail;
                     this.image_files = this.room.images;
                     this.form.reset();
                     this.form.fill(this.room_data);

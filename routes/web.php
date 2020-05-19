@@ -45,6 +45,7 @@ Route::group(['prefix' => 'data', 'as' => 'data.'], function() {
     Route::resource('/rooms', 'RoomsController');
     Route::post('/rooms/image/{id}', 'RoomsController@imageUpload');
     Route::post('/password/update/{id}', 'ProfileController@passwordUpdate');
+    Route::resource('/bookings', 'BookingController');
 
     //managed by admin
     Route::resource('/traveller', 'Admin\travellerController');
