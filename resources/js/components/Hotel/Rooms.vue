@@ -209,7 +209,7 @@
 
                         let newRoom = response.data;
 
-                        axios.post('/data/room/image/'+newRoom.id,
+                        axios.post('/data/rooms/image/'+newRoom.id,
                             this.image,
                             {
                                 headers: {

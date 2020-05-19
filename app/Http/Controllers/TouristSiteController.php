@@ -95,7 +95,7 @@ class TouristSiteController extends Controller
         $touristSite = TouristSite::findOrFail($id);
         $oldImage = $touristSite->image;
         $oldSplit = explode('/', $oldImage);
-        $oldSplit = $oldSplit[sizeof($oldSplit) -1];
+        $oldSplit = $oldSplit[count($oldSplit) -1];
 
         if($request->hasfile('image')){
             //validate
@@ -120,7 +120,7 @@ class TouristSiteController extends Controller
 
 //      $path = $image_file->storeAs('public/assets/ProfilePictures/', $imageNameToStore);
 //
-            $image_path = public_path().'/assets/TouristSitePictures/'.$imageNameToStore;
+            $image_path = public_path().'/storage/images/TouristSitePictures/'.$imageNameToStore;
             //resize image
             Image::make($image_file->getRealPath())->resize(140,128)->save($image_path);
 
@@ -141,7 +141,7 @@ class TouristSiteController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {

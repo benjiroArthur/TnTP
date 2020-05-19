@@ -35,7 +35,7 @@ class TouristSite extends Model
     }
 
     public function getImageAttribute($val){
-        return asset('assets/TouristSitePictures/'.$val);
+        return public_path('storage/images/TouristSitePictures/'.$val);
     }
 
 }

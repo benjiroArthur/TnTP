@@ -64,6 +64,9 @@ Route::get('/tourist-site/details/{id}', function () {
     else{return redirect('/home');}
 
 });
+Route::get('/tourist-site/more/{id}', function () {
+        return view('show-site');
+});
 
 Route::get('/room/details/{id}', function () {
     if(Auth::check() && Auth()->user()->role->name === 'hotel'){
@@ -71,6 +74,9 @@ Route::get('/room/details/{id}', function () {
     }
     else{return redirect('/home');}
 
+});
+Route::get('/room/more/{id}', function () {
+        return view('show-room');
 });
 
 

@@ -57,19 +57,16 @@ class RoomsController extends Controller
 
     public function imageUpload(Request $request, $id){
         $room = Room::findOrFail($id);
-        $oldImage = $room->image;
+       $oldImage = $room->image;
         $oldSplit = explode('/', $oldImage);
-        $oldSplit = $oldSplit[sizeof($oldSplit) -1];
+        $oldSplit = $oldSplit[count($oldSplit) -1];
 
-        if($request->hasfile('image')){
+        if($request->hasFile('image')){
             //validate
-            try {
                 $this->validate($request, [
                     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
                 ]);
-            } catch (ValidationException $e) {
-                return response($e);
-            }
+
 
             $image_file = $request->file('image');
 
@@ -84,13 +81,13 @@ class RoomsController extends Controller
 
 //      $path = $image_file->storeAs('public/assets/ProfilePictures/', $imageNameToStore);
 //
-            $image_path = public_path().'/assets/Rooms/'.$imageNameToStore;
+            $image_path = storage_path().'/storage/images/rooms/'.$imageNameToStore;
             //resize image
             Image::make($image_file->getRealPath())->resize(140,128)->save($image_path);
 
-            if(File::exists(public_path('/assets/Rooms/'.$oldSplit)) && $oldSplit !== 'noroomimage.jpg'){
+            if(File::exists(storage_path('/storage/images/rooms/'.$oldSplit)) && $oldSplit !== 'noroomimage.jpg'){
 
-                File::delete(public_path('/assets/Rooms/'.$oldSplit));
+                File::delete(storage_path('/storage/images/rooms/'.$oldSplit));
             }
 
             $room->image = $imageNameToStore;
@@ -98,17 +95,29 @@ class RoomsController extends Controller
 
             return response('Success');
         }
+
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        //
+        $room = Room::findOrFail($id);
+        $room_data = [
+            'room_number' => $room->room_number,
+            'price' => $room->price,
+            'description' => $room->description,
+            'status' => $room->status,
+        ];
+        $allData = [
+            'room' => $room,
+            'room_data' =>$room_data
+        ];
+        return response()->json($allData);
     }
 
     /**

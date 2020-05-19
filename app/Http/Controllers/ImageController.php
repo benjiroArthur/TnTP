@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Room;
 use App\TouristSite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -56,7 +57,7 @@ class ImageController extends Controller
                   //Filename to store
                   $imageNameToStore = time().$num.'.'.$extension;
 
-                  $path = $image->storeAs('public/images/tourist_site', $imageNameToStore);
+                  //$path = $image->storeAs('public/images/tourist_site', $imageNameToStore);
                  $imagePath = public_path('/storage/images/tourist_site/'.$imageNameToStore);
                 $img = Image::make($imagePath)->resize(450,300, function($constraint){
                     $constraint->aspectRatio();
@@ -73,7 +74,29 @@ class ImageController extends Controller
               return response('success');
           }
           elseif ($request->type === 'hotel_room'){
+              $room = Room::findOrFail($request->id);
+              $num = 1;
+              foreach ($images as $image){
+                  $extension = $image->getClientOriginalExtension();
 
+                  //Filename to store
+                  $imageNameToStore = time().$num.'.'.$extension;
+
+                  //$path = $image->storeAs('public/images/rooms', $imageNameToStore);
+                  $imagePath = public_path('/storage/images/hotel_rooms/'.$imageNameToStore);
+                  $img = Image::make($imagePath)->resize(450,300, static function($constraint){
+                      $constraint->aspectRatio();
+                  })->save($imagePath);
+
+                  $room->images()->create(
+                      [
+                          'name' => $imageNameToStore
+                      ]
+                  );
+                  $num++;
+
+              }
+              return response('success');
           }
           else{
               return response('Image Type Not Specified');

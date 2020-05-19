@@ -20,7 +20,7 @@ class Image extends Model
     public function getNamePathAttribute(){
         $val = $this->name;
         $val = explode('/', $val);
-        $val = $val[sizeof($val) -1];
+        $val = $val[count($val) -1];
         if($this->imageable_type === 'App\TouristSite'){
             return 'images/tourist_site/'.$val;
         }
@@ -28,9 +28,9 @@ class Image extends Model
     }
     public function getNameAttribute($val){
         if($this->imageable_type === 'App\TouristSite'){
-        return asset('storage/images/tourist_site/'.$val);
+        return public_path('storage/images/tourist_site/'.$val);
         }
-        return asset('storage/images/hotel_rooms/'.$val);
+        return public_path('storage/images/hotel_rooms/'.$val);
     }
 
 

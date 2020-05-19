@@ -9,6 +9,9 @@ class Room extends Model
     //fillables
     protected $fillable = ['hotel_id', 'room_number', 'price', 'description', 'status', 'image'];
 
+    //with
+    protected $with =['bookings', 'images'];
+
     //relationship
     public function hotel()
     {
@@ -25,6 +28,6 @@ class Room extends Model
     }
 
     public function getImageAttribute($val){
-        return asset('assets/ProfilePictures/'.$val);
+        return public_path('storage/images/rooms/'.$val);
     }
 }
