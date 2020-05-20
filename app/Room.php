@@ -11,9 +11,9 @@ class Room extends Model
 
     //with
 
-    
-    protected $with =['bookings', 'images', 'hotel'];
-    
+
+//    protected $with =['bookings', 'images', 'hotel'];
+
     protected $appends = ['thumbnail', 'source'];
 
 
