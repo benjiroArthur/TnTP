@@ -10,12 +10,14 @@ class Booking extends Model
     protected $fillable = ['room_id', 'start_date', 'end_date', 'user_id', 'booking_id'];
 
     //return with
-    protected $with =['hotel', 'room', 'user'];
+    protected $with =[ 'room', 'user'];
+
+
 
     //relationship
     public function hotel()
     {
-        return $this->hasOneThrough('App\Hotel', 'App\Room');
+        return $this->room->hotel();
     }
     public function room()
     {
