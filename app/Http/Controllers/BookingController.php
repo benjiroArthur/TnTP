@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Booking;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -15,9 +16,10 @@ class BookingController extends Controller
     {
        if(auth()->user()->role->name === 'hotel'){
            $hotel = auth()->user()->userable;
-           $bookings = $hotel->bookings();
+           $bookings = Booking::where('hotel', $hotel->id)->get();
            return response()->json($bookings);
        }
+
 
     }
 

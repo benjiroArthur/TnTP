@@ -10,7 +10,7 @@ class Booking extends Model
     protected $fillable = ['room_id', 'start_date', 'end_date', 'user_id', 'booking_id'];
 
     //return with
-    protected $with =['hotel', 'room', 'user'];
+    protected $with =['user'];
 
     //relationship
     public function hotel()

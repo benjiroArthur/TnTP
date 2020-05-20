@@ -11,7 +11,7 @@ class Hotel extends Model
     protected $fillable = ['code', 'name', 'email', 'image', 'phone_number'];
 
     //return with
-    protected $with = ['map'];
+    protected $with = ['map', 'rooms'];
     protected $appends = ['registered', 'updated', 'full_name', 'first_name'];
 
     //relationship
