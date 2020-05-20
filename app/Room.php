@@ -9,14 +9,17 @@ class Room extends Model
     //fillables
     protected $fillable = ['hotel_id', 'room_number', 'price', 'description', 'status', 'image'];
 
+    protected $with = ['hotel'];
+
     //relationship
     public function hotel()
     {
         return $this->belongsTo('App\Hotel');
     }
+
     public function bookings()
     {
-        return $this->hasMany('App\Booking');
+        return $this->hasMany(Booking::class);
     }
 
     public function images()
