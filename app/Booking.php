@@ -12,10 +12,12 @@ class Booking extends Model
     //return with
     protected $with =['user'];
 
+
+
     //relationship
     public function hotel()
     {
-        return $this->hasOneThrough('App\Hotel', 'App\Room');
+        return $this->room->hotel();
     }
     public function room()
     {

@@ -27,6 +27,7 @@ class Hotel extends Model
     {
         return $this->hasMany('App\Room');
     }
+
     public function bookings()
     {
         return $this->hasManyThrough('App\Booking', 'App\Room');
