@@ -10,7 +10,12 @@ class Room extends Model
     protected $fillable = ['hotel_id', 'room_number', 'price', 'description', 'status', 'image'];
 
     //with
+
+    
     protected $with =['bookings', 'images', 'hotel'];
+    
+    protected $appends = ['thumbnail', 'source'];
+
 
     //relationship
     public function hotel()
@@ -28,7 +33,10 @@ class Room extends Model
         return $this->morphMany('App\Image', 'imageable');
     }
 
-    public function getImageAttribute($val){
-        return public_path('storage/images/rooms/'.$val);
+    public function getThumbnailAttribute(){
+        return asset('storage/images/hotel_room/thumbnails/'.$this->image);
+    }
+    public function getSourceAttribute(){
+        return asset('storage/images/hotel_room/original/'.$this->image);
     }
 }

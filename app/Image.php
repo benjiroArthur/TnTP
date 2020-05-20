@@ -10,7 +10,7 @@ class Image extends Model
     protected $fillable = [
         'name', 'imageable_id', 'imageable_type', 'description'
     ];
-
+    protected $appends = ['thumbnail', 'source'];
     //relationship
     public function imageable()
     {
@@ -18,19 +18,23 @@ class Image extends Model
     }
 
     public function getNamePathAttribute(){
-        $val = $this->name;
-        $val = explode('/', $val);
-        $val = $val[count($val) -1];
         if($this->imageable_type === 'App\TouristSite'){
-            return 'images/tourist_site/'.$val;
+            return 'images/tourist_site/';
         }
-        return 'images/hotel_rooms/'.$val;
+        return 'images/hotel_rooms/';
     }
-    public function getNameAttribute($val){
+
+    public function getThumbnailAttribute(){
         if($this->imageable_type === 'App\TouristSite'){
-        return public_path('storage/images/tourist_site/'.$val);
+            return asset('storage/images/tourist_site/thumbnails/'.$this->name);
         }
-        return public_path('storage/images/hotel_rooms/'.$val);
+        return asset('storage/images/hotel_rooms/thumbnails/'.$this->name);
+    }
+    public function getSourceAttribute(){
+        if($this->imageable_type === 'App\TouristSite'){
+            return asset('storage/images/tourist_site/original/'.$this->name);
+        }
+        return asset('storage/images/hotel_rooms/original/'.$this->name);
     }
 
 

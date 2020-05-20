@@ -65,6 +65,30 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
+        'site-picture' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images/TouristSitePictures'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+        'site-images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images/tourist_site'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+        'room-picture' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images/hotel_room'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+        'room-images' => [
+                    'driver' => 'local',
+                    'root' => storage_path('app/public/images/hotel_rooms'),
+                    'url' => env('APP_URL').'/storage',
+                    'visibility' => 'public',
+                ],
 
     ],
 
