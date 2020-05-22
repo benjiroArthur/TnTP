@@ -9,6 +9,11 @@ import carousel from 'vue-owl-carousel';
 require('./bootstrap');
 window.Vue = require('vue');
 
+
+import Slick from 'vue-slick';
+import Viewer from 'v-viewer';
+
+
 import Vuetify from 'vuetify';
 Vue.use(Vuetify);
 
@@ -131,6 +136,7 @@ Vue.component(AlertSuccess.name, AlertSuccess);
 
 
 Vue.component('v-select', Multiselect);
+Vue.component('slick', Slick);
 
 /*Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);*/
@@ -142,6 +148,9 @@ Vue.use(VueProgressBar, {
     failedColor: 'red',
     height: '2px'
 });
+
+Vue.use(Viewer);
+
 
 
 // Import this component

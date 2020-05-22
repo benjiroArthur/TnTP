@@ -50,6 +50,6 @@ class TouristMasterController extends Controller
 
     private function loadRegions()
     {
-        return Region::all();
+        return Region::orderBy('name')->get();
     }
 }
