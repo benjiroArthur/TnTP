@@ -57,13 +57,6 @@ class ImageController extends Controller
                   //Filename to store
                   $imageNameToStore = time().$num.'.'.$extension;
 
-                  //$path = $image->storeAs('public/images/tourist_site', $imageNameToStore);
-                 $imagePath = public_path('/storage/images/tourist_site/'.$imageNameToStore);
-                $img = Image::make($imagePath)->resize(450,300, function($constraint){
-                    $constraint->aspectRatio();
-                })->save($imagePath);
-
-
                   //resize image
                   $thumbImg = \Image::make($image->getRealPath())->fit(450,300)->encode();
                   $mainImg = \Image::make($image->getRealPath())->resize(1080,null,
