@@ -20,6 +20,11 @@ $fa-font-path: "../webfonts";
 //mdi
 @import '~@mdi/font/scss/materialdesignicons';
 
+
+//vuetify
+@import '~vuetify/dist/vuetify.min.css';
+@import "~vue-multiselect/dist/vue-multiselect.min.css";
+
 //custom css
 @import 'mystyle';
 

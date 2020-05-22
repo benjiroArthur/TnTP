@@ -13,7 +13,7 @@ import Vuetify from 'vuetify';
 Vue.use(Vuetify);
 
 import {RotateSquare2} from 'vue-loading-spinner';
-
+import Multiselect from 'vue-multiselect'
 window.RotateSquare2 = RotateSquare2;
 
 
@@ -129,6 +129,8 @@ Vue.component(AlertError.name, AlertError);
 Vue.component(AlertErrors.name, AlertErrors);
 Vue.component(AlertSuccess.name, AlertSuccess);
 
+
+Vue.component('v-select', Multiselect);
 
 /*Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);*/

@@ -20,4 +20,12 @@ class Address extends Model
     }
 
 
+    public static function tourists($region, $offset=0, $limit=5){
+        return Address::where(['region' => $region, 'addressable_type' => TouristSite::class])
+            ->with(['addressable'])
+//            ->offset(1)
+//            ->limit(1)
+            ->get();
+    }
+
 }

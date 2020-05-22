@@ -10,6 +10,7 @@ class TouristSite extends Model
     protected $fillable = ['name', 'image', 'price'];
 
     protected $with = ['map', 'reviews', 'address', 'images'];
+
     protected $withCount = ['reviews'];
     protected $appends = ['thumbnail', 'source'];
 
