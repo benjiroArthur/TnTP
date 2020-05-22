@@ -15,4 +15,5 @@ class Map extends Model
         return $this->morphTo();
     }
 
+
 }
