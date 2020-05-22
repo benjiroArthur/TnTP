@@ -81,15 +81,15 @@
                                                     <div class="card mt-2 mr-1">
                                                         <div class="properties text-center m-1">
                                                             <div class="image-holder">
-                                                                <img :src="img.name" class="img-thumbnail" alt="">
+                                                                <img :src="img.thumbnail" class="img-thumbnail" alt="">
                                                                 <a class="bg-none" @click.prevent="takeAction(img.id)" style="position: absolute; transform: translate(0%, 0%); -ms-transform: translate(0%, 0%); width:30px;">
                                                         <span class="fas fa-times-circle text-danger" title="Remove Picture" style="width:30px">
                                                     </span>
                                                                 </a>
                                                             </div>
 
-                                                            <p class="h5">{{img.description}}</p><hr>
-                                                            <h5>{{img.id}}</h5>
+                                                           <!-- <p class="h5">{{img.description}}</p><hr>
+                                                            <h5>{{img.id}}</h5>-->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -373,7 +373,7 @@
                 ).then((response) => {
                     Fire.$emit('profileUpdate');
 
-                    if(response.data === 'Success'){
+                    if(response.data === 'success'){
                         Swal.fire(
                             'Upload',
                             'Images Uploaded Successfully',
