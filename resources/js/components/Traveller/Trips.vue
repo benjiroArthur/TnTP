@@ -61,15 +61,26 @@
             <div class="row">
 
                 <div v-if="regionalTouristSites.length === 0 && activeRegion">
-                    <h3>There is no Tourist Site for this {{activeRegion.name}} at the moment.</h3>
+                    <div class="alert  alert-dark alert-dismissible my-3">
+                        <h3 class="alert-heading">There is no Tourist Site for {{activeRegion.name}} at the moment.</h3>
+                    </div>
                 </div>
 
-                <div class="col-sm-12 col-md-4 col-lg-3" v-for="touristSites in regionalTouristSites" :key="touristSites.id">
-                    <div class="card" @click="changeActiveTouristSite(touristSites.addressable)">
+                <div class="col-sm-12 col-md-6 col-lg-6" v-for="touristSites in regionalTouristSites" :key="touristSites.id">
+
+                    <div class="card mb-3 btn"  @click="changeActiveTouristSite(touristSites.addressable)">
+                        <img :src="touristSites.addressable.thumbnail" class="card-img-top" :alt="touristSites.addressable.name + 'thumbnail'">
                         <div class="card-body">
-                            <h4>{{touristSites.addressable.name}} {{touristSites.id}}</h4>
+                            <h5 class="card-title">{{touristSites.addressable.name}}</h5>
                         </div>
                     </div>
+
+
+<!--                    <div class="card" @click="changeActiveTouristSite(touristSites.addressable)">-->
+<!--                        <div class="card-body">-->
+<!--                            <h4>{{touristSites.addressable.name}} {{touristSites.id}}</h4>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
             </div>
             <!--                <button class="btn btn-primary" @click="makeAction(490, activeRegion)">Load More Sites</button>-->
@@ -80,26 +91,13 @@
 
             <div class="row">
                 <template v-for="touristSites in masterTouristSites">
-
                     <div  v-for="site in touristSites" class="col-sm-12 col-md-4 col-lg-3" :key="site.id">
-
-
                         <div class="card mb-3 btn"  @click="changeActiveTouristSite(site)">
                             <img :src="site.thumbnail" class="card-img-top" :alt="site.name + 'thumbnail'">
                             <div class="card-body">
                                 <h5 class="card-title">{{site.name}}</h5>
                             </div>
                         </div>
-
-
-                        <!--<div class="card btn" @click="changeActiveTouristSite(site)">
-                            <div class="card-body">
-                                <h4 class="card-title">{{site.name}}</h4>
-                            </div>
-
-
-                        </div>
--->
                     </div>
                 </template>
             </div>
@@ -116,6 +114,12 @@
 
         <div id="viewTouristSite" v-if="showingTouristSite">
 
+            <div class="row">
+                <div v-for="image in activeTouristSite.images" class="col">
+<!--                    <img :src="" alt="">-->
+                </div>
+
+            </div>
             <div v-if="activeTouristSite">
                 <h4>{{activeTouristSite.name}}</h4>
                 <h4>{{activeTouristSite.address.region}}</h4>
@@ -289,7 +293,7 @@
                     .then(response => {
                         vm.regions = response.data;
                         vm.appStateCode(4);
-                        alert("App Code 4");
+                        // alert("App Code 4");
 
                     })
                     .catch(error => {
@@ -337,7 +341,7 @@
                         vm.loadTouristSites();
                         break;
                     case 489:
-                        alert('here ooo');
+                        // alert('here ooo');
                         vm.loadRegions();
 
                         break;
