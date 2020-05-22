@@ -46,8 +46,10 @@
         </div>
 
         <div class="row" v-if="showingRegions" id="Regions">
-            <div  class="col-sm-12 col-md-6 col-lg-4" v-for="region in regions">
-                <img  @click="makeAction(490,region), showingRegions = false" src="/region_back.jpg" alt="" class="img-thumbnail btn btn-sm">
+            <div  class="col-sm-12 col-md-6 col-lg-3 text-center" v-for="region in regions">
+                <img @hover="" @click="makeAction(490,region), showingRegions = false"
+                      src="/region_back.jpg" alt=""
+                     class="img-fluid animated">
                 <div class="caption text-center">
                     <h3 class="p-1 text-white">{{region.name}}</h3>
                 </div>
@@ -66,7 +68,9 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-6 col-lg-6" v-for="touristSites in regionalTouristSites" :key="touristSites.id">
+                <div class="col-sm-12 col-md-6 col-lg-6"
+                     v-for="touristSites in regionalTouristSites"
+                     :key="touristSites.id">
 
                     <div class="card mb-3 btn"  @click="changeActiveTouristSite(touristSites.addressable)">
                         <img :src="touristSites.addressable.thumbnail" class="card-img-top" :alt="touristSites.addressable.name + 'thumbnail'">
@@ -112,7 +116,7 @@
 
         </div>
 
-        <div id="viewTouristSite" v-if="showingTouristSite">
+        <div id="viewTouristSite" v-if="showingTouristSite && activeTouristSite">
 
             <div class="row">
                 <div v-for="image in activeTouristSite.images" class="col">
@@ -140,6 +144,10 @@
                 showingTouristSites:false,
                 showingTouristSite:false,
                 showingTouristSitesByRegion:false,
+
+
+                regionHover:null,
+                regionHoverAnimation:'',
 
                 loading:false,
 
@@ -391,8 +399,8 @@
     .caption {
         position: absolute;
         top: 45%;
-        left: 0;
-        width: 100%;
+
+        width: 90%;
     }
 </style>
 
