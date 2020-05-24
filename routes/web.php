@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
-
 });
 
 Route::get('/js/popper.js.map', function () {
@@ -92,4 +91,4 @@ Route::get('/room/more/{id}', function () {
 
 
 //should be the last route
-Route::get('{path}', 'HomeController@index')->where('path', '([A-z\-/_.]+)?' );
+Route::get('{path}', 'HomeController@index')->where('path', '([A-z0-9\-/_.]+)?' );

@@ -1,6 +1,7 @@
 <template>
 
-    <div class="container-fluid">
+    <div class="container-fluid ">
+
         <div v-if="appError">
             <p>{{errorMessage}}</p>
             <button @click="tryAgain">Try Again</button>
@@ -9,35 +10,35 @@
 
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <button class="nav-link" :class="showingMyTrips ? 'active':''" >My Trips</button>
+                <router-link :to="'/user/my-trips'" class="nav-link">
+                    My Trips
+                </router-link>
+<!--                <button class="nav-link" :class="showingMyTrips ? 'active':''">My Trips</button>-->
             </li>
 
             <li class="nav-item">
-                <button @click="appState(3)" class="nav-link" :class="showingTouristSites ? 'active':''" >ALL Tourist Sites</button>
+                <button @click="appState(3)" class="nav-link" :class="showingTouristSites ? 'active':''">ALL Tourist
+                    Sites
+                </button>
             </li>
 
             <li class="nav-item">
                 <button @click="appState(4)"
-                   class="nav-link"
-                   :class="showingTouristSitesByRegion || showingRegions ? 'active':''"
-                   >Tourist Sites By Region</button>
+                        class="nav-link"
+                        :class="showingTouristSitesByRegion || showingRegions ? 'active':''"
+                >Tourist Sites By Region
+                </button>
             </li>
 
             <li class="nav-item">
                 <button @click="appState(6)"
                         class="nav-link"
-                        :class="showingTouristSite ? 'active':''" >View Site</button>
+                        :class="showingTouristSite ? 'active':''">View Site
+                </button>
             </li>
 
         </ul>
 
-
-
-
-        <div class="">
-<!--            Tabs -->
-
-        </div>
 
         <div v-if="loading" class="text-center p-5">
             <div class="spinner-border " style="width: 3rem; height: 3rem;" role="status">
@@ -46,18 +47,25 @@
         </div>
 
         <div class="row" v-if="showingRegions" id="Regions">
-            <div  class="col-sm-12 col-md-6 col-lg-3 text-center" v-for="region in regions">
-                <img @hover="" @click="makeAction(490,region), showingRegions = false"
-                      src="/region_back.jpg" alt=""
-                     class="img-fluid animated">
-                <div class="caption text-center">
-                    <h3 class="p-1 text-white">{{region.name}}</h3>
+            <div class="col-sm-12 col-md-6 col-lg-3 text-center" v-for="region in regions">
+
+                <div class="btn  btn-primary animate__animated animate__zoomInDown"  @click="makeAction(490,region), showingRegions = false">
+                    <img
+                         src="/region_back.jpg" alt=""
+                         class="img-fluid  ">
+                    <div class="caption ">
+                        <h5 class="p-3 text-white animate__animated animate__zoomInDown">{{region.name}}</h5>
+                    </div>
                 </div>
+
+
+
+
             </div>
         </div>
 
 
-        <div  id="BrowseTouristSitesByRegion" v-if="showingTouristSitesByRegion">
+        <div id="BrowseTouristSitesByRegion" v-if="showingTouristSitesByRegion">
 
             <hr>
             <div class="row">
@@ -72,31 +80,32 @@
                      v-for="touristSites in regionalTouristSites"
                      :key="touristSites.id">
 
-                    <div class="card mb-3 btn"  @click="changeActiveTouristSite(touristSites.addressable)">
-                        <img :src="touristSites.addressable.thumbnail" class="card-img-top" :alt="touristSites.addressable.name + 'thumbnail'">
+                    <div class="card mb-3 btn" @click="changeActiveTouristSite(touristSites.addressable)">
+                        <img :src="touristSites.addressable.thumbnail" class="card-img-top"
+                             :alt="touristSites.addressable.name + 'thumbnail'">
                         <div class="card-body">
-                            <h5 class="card-title">{{touristSites.addressable.name}}</h5>
+                            <h6 class="card-title">{{touristSites.addressable.name}}</h6>
                         </div>
                     </div>
 
 
-<!--                    <div class="card" @click="changeActiveTouristSite(touristSites.addressable)">-->
-<!--                        <div class="card-body">-->
-<!--                            <h4>{{touristSites.addressable.name}} {{touristSites.id}}</h4>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <div class="card" @click="changeActiveTouristSite(touristSites.addressable)">-->
+                    <!--                        <div class="card-body">-->
+                    <!--                            <h4>{{touristSites.addressable.name}} {{touristSites.id}}</h4>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                 </div>
             </div>
             <!--                <button class="btn btn-primary" @click="makeAction(490, activeRegion)">Load More Sites</button>-->
         </div>
 
 
-        <div  id="BrowseTouristSites" v-if="showingTouristSites">
+        <div id="BrowseTouristSites" v-if="showingTouristSites">
 
             <div class="row">
                 <template v-for="touristSites in masterTouristSites">
-                    <div  v-for="site in touristSites" class="col-sm-12 col-md-4 col-lg-3" :key="site.id">
-                        <div class="card mb-3 btn"  @click="changeActiveTouristSite(site)">
+                    <div v-for="site in touristSites" class="col-sm-12 col-md-4 col-lg-3" :key="site.id">
+                        <div class="card mb-3 btn" @click="changeActiveTouristSite(site)">
                             <img :src="site.thumbnail" class="card-img-top" :alt="site.name + 'thumbnail'">
                             <div class="card-body">
                                 <h5 class="card-title">{{site.name}}</h5>
@@ -111,7 +120,6 @@
         </div>
 
 
-
         <div id="MyTrips">
 
         </div>
@@ -120,7 +128,7 @@
 
             <div class="row">
                 <div v-for="image in activeTouristSite.images" class="col">
-<!--                    <img :src="" alt="">-->
+                    <!--                    <img :src="" alt="">-->
                 </div>
 
             </div>
@@ -136,50 +144,50 @@
 <script>
     export default {
         name: "trip",
-        data(){
+        data() {
             return {
-                creatingTrip:false,
-                showingMyTrips:false,
-                showingRegions:true,
-                showingTouristSites:false,
-                showingTouristSite:false,
-                showingTouristSitesByRegion:false,
+                creatingTrip: false,
+                showingMyTrips: false,
+                showingRegions: true,
+                showingTouristSites: false,
+                showingTouristSite: false,
+                showingTouristSitesByRegion: false,
 
 
-                regionHover:null,
-                regionHoverAnimation:'',
+                regionHover: null,
+                regionHoverAnimation: '',
 
-                loading:false,
+                loading: false,
 
-                tourSiteOffset:0,
-                tourSiteByRegionOffset:0,
+                tourSiteOffset: 0,
+                tourSiteByRegionOffset: 0,
 
-                activeRegion:undefined,
+                activeRegion: undefined,
 
-                appError:false,
-                errorParam:undefined,
-                errorMessage:"",
-                appStateCode:0,
+                appError: false,
+                errorParam: undefined,
+                errorMessage: "",
+                appStateCode: 0,
 
-                myTrips:{},
-                regions:[],
+                myTrips: {},
+                regions: [],
 
-                activeTouristSite:undefined,
+                activeTouristSite: undefined,
 
-                masterTouristSites:[],
-                regionalTouristSites:[],
-                tripObj:{
-                   name:'Trip Name',
-                   site_id:1,
-                   user_id:9,
-                   start:null,
-                   end:null
+                masterTouristSites: [],
+                regionalTouristSites: [],
+                tripObj: {
+                    name: 'Trip Name',
+                    site_id: 1,
+                    user_id: 9,
+                    start: null,
+                    end: null
                 }
 
             }
         },
-        methods:{
-            appState(StateId){
+        methods: {
+            appState(StateId) {
                 let vm = this;
                 this.showingMyTrips = false;
                 this.showingRegions = false;
@@ -201,8 +209,8 @@
 
                     // Showing available tourist sites
                     case 3:
-                       vm.showingTouristSites = true;
-                       break;
+                        vm.showingTouristSites = true;
+                        break;
 
                     // Showing Regions
                     case 4:
@@ -216,7 +224,7 @@
                         vm.showingRegions = false;
                         break;
 
-                        // Showing Tourist site information
+                    // Showing Tourist site information
                     case 6:
                         vm.showingTouristSite = true;
 
@@ -227,27 +235,27 @@
 
                 }
             },
-            loadTouristSites(){
+            loadTouristSites() {
                 // AppCode 488
                 let vm = this;
                 this.startLoading();
                 axios.post('/data/trip',
                     {
-                        mode:"load-tourist-sites",
-                        offset:vm.tourSiteOffset,
+                        mode: "load-tourist-sites",
+                        offset: vm.tourSiteOffset,
                     })
                     .then(response => {
-                        vm.masterTouristSites.push(response.data) ;
+                        vm.masterTouristSites.push(response.data);
                         vm.tourSiteOffset += 5;
                         vm.appState(3);
 
                     })
                     .catch(error => {
-                        if(error.response.status === 419){
+                        if (error.response.status === 419) {
                             let message = "Please you have been logged out because you were inactive."
                             vm.registerError(419, null, message)
 
-                        }else{
+                        } else {
                             let message = "The was problem loading Your trips."
                             vm.registerError(488, null, message)
 
@@ -256,28 +264,28 @@
                     });
                 this.stopLoading();
             },
-            loadTouristSitesByRegion(region){
+            loadTouristSitesByRegion(region) {
                 // AppCode 490
-               this.activeRegion = region;
+                this.activeRegion = region;
                 let vm = this;
                 this.startLoading();
                 axios.post('/data/trip',
                     {
-                        mode:"load-by-region",
-                        offset:vm.tourSiteByRegionOffset,
-                        region_id:region.id,
+                        mode: "load-by-region",
+                        offset: vm.tourSiteByRegionOffset,
+                        region_id: region.id,
                     })
                     .then(response => {
                         // vm.regionalTouristSites  = Object.assign({},vm.regionalTouristSites, response.data);
-                        vm.regionalTouristSites  = response.data;
+                        vm.regionalTouristSites = response.data;
                         vm.appState(5);
                     })
                     .catch(error => {
-                        if(error.response.status === 419){
+                        if (error.response.status === 419) {
                             let message = "Please you have been logged out because you were inactive."
                             vm.registerError(419, null, message)
 
-                        }else{
+                        } else {
                             let message = "The was problem loading tourist Sites for " + region.name;
                             vm.registerError(490, region, message)
 
@@ -286,17 +294,17 @@
                     });
                 this.stopLoading();
             },
-            loadMyTrips(){
+            loadMyTrips() {
 
                 this.appState(2);
             },
-            loadRegions(){
+            loadRegions() {
                 //load Regions AppCode 489
                 let vm = this;
                 this.startLoading();
                 axios.post('/data/trip',
                     {
-                        mode:"load-regions",
+                        mode: "load-regions",
                     })
                     .then(response => {
                         vm.regions = response.data;
@@ -305,11 +313,11 @@
 
                     })
                     .catch(error => {
-                        if(error.response.status === 419){
+                        if (error.response.status === 419) {
                             let message = "Please you have been logged out because you were inactive."
                             vm.registerError(419, null, message)
 
-                        }else{
+                        } else {
                             let message = "The was problem loading regions."
                             vm.registerError(489, null, message)
                         }
@@ -317,18 +325,18 @@
                     });
                 this.stopLoading();
             },
-            startLoading(){
+            startLoading() {
                 this.loading = true;
             },
-            stopLoading(sec=1000){
-                setTimeout( ()=> {
+            stopLoading(sec = 1000) {
+                setTimeout(() => {
                     this.loading = false;
-                    if(this.loading){
+                    if (this.loading) {
                         this.loading = false;
                     }
-                },sec);
+                }, sec);
             },
-            makeAction(code, param = null){
+            makeAction(code, param = null) {
                 /*
                 * code 419 => Reload Page
                 * Code 488 => LoadTouristSites
@@ -340,7 +348,7 @@
                 switch (code) {
 
                     case 419:
-                //  the page should reload
+                        //  the page should reload
                         this.errorCode = 0;
                         this.reloadPage();
                         this.errorParam = undefined;
@@ -359,24 +367,24 @@
 
                 }
             },
-            registerError(code, param, message){
+            registerError(code, param, message) {
                 this.appStateCode = code;
                 this.errorParam = param;
                 this.errorMessage = message;
                 this.appError = true;
             },
-            tryAgain(){
+            tryAgain() {
                 this.makeAction(this.appStateCode, this.errorParam);
                 this.appError = false;
             },
 
             reloadPage() {
-                if(this.errorCode === 419){
+                if (this.errorCode === 419) {
                     location.assign(location.href);
                 }
             },
 
-            changeActiveTouristSite(site){
+            changeActiveTouristSite(site) {
                 this.activeTouristSite = site;
                 this.appState(6);
             }
@@ -384,7 +392,40 @@
         created() {
             this.makeAction(489);
 
-            // this.makeAction(488);
+
+            /*Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: true,
+                timer: 5000,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);},
+                icon: 'success',
+                title: 'Tourist Site Added Successfully'
+            });*/
+
+            /*Swal.fire({
+                title: 'Are you sure?',
+                text: '<h2>Hello World!</h2>',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value){
+                    alert("Nice you pressed Yes, delete it!");
+                }else {
+                    alert("You pressed Cancel");
+                }
+            });*/
+
+            toast.fire({
+                title: 'Are you sure?',
+                icon: 'warning',
+            });
         }
 
 
@@ -399,8 +440,8 @@
     .caption {
         position: absolute;
         top: 45%;
-
-        width: 90%;
+        left: 0;
+        width: 100%;
     }
 </style>
 

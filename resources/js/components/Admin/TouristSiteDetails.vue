@@ -195,7 +195,7 @@
                             </div>
                             <div class="row">
                                     <div class="col-12">
-                                        <div v-for="(file, index) in this.files" :key="index" :class="`level ${file.invalidMessage && 'text-danger'}`">
+                                        <div v-for="(file, index) in files" :key="index" :class="`level ${file.invalidMessage && 'text-danger'}`">
 
                                             <div class="row">
                                                 <div class="col-10">
@@ -203,7 +203,7 @@
                                                     <span v-if="file.invalidMessage">&nbsp;- {{file.invalidMessage}}</span>
                                                 </div>
                                                 <div class="col-2">
-                                                    <a @click.prevent="files.splice(index, 1); uploadFiles.splice(index, 1)" >
+                                                    <a @click.prevent="files.splice(index, 1), uploadFiles.splice(index, 1)" >
                                                         <span class="fas fa-times"></span>
                                                     </a>
                                                 </div>

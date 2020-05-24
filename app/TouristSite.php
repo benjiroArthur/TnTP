@@ -2,17 +2,20 @@
 
 namespace App;
 
+use App\Http\Traits\UrlName;
 use Illuminate\Database\Eloquent\Model;
 
 class TouristSite extends Model
 {
+    use UrlName;
     //fillables
     protected $fillable = ['name', 'image', 'price'];
 
     protected $with = ['map', 'reviews', 'address', 'images'];
 
     protected $withCount = ['reviews'];
-    protected $appends = ['thumbnail', 'source'];
+
+    protected $appends = ['thumbnail', 'source', 'url_name'];
 
 
     public function map()

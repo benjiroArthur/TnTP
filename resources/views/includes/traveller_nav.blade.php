@@ -10,7 +10,48 @@
                 </p>
             </router-link>
         </li>
-        <li class="nav-item">
+
+        <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+                <i class="nav-icon mdi mdi-account-multiple purple"></i>
+                <p>
+                    Trips
+                    <i class="right mdi mdi-chevron-right white"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <router-link to="/user/my-trips" class="nav-link">
+                        <i class="fas fa-user nav-icon white"></i>
+                        <p>My Trips</p>
+                    </router-link>
+                </li>
+
+
+                <li class="nav-item">
+                    <router-link :to="{name:'user.sites'}" class="nav-link">
+                        <i class="mdi mdi-car nav-icon purple"></i>
+                        <p>All Tourist Sites</p>
+                    </router-link>
+                </li>
+
+                <li class="nav-item">
+                    <router-link :to="{name:'user.regions'}" class="nav-link">
+                        <i class="mdi mdi-car nav-icon purple"></i>
+                        <p>Tourist Sites By Region</p>
+                    </router-link>
+                </li>
+
+                <li class="nav-item">
+                    <router-link to="/user/trips" class="nav-link">
+                        <i class="mdi mdi-car nav-icon purple"></i>
+                        <p>Trips</p>
+                    </router-link>
+                </li>
+
+            </ul>
+        </li>
+        {{--<li class="nav-item">
             <router-link to="/user/trips" class="nav-link">
                 <i class="nav-icon mdi mdi-car purple"></i>
                 <p>
@@ -18,7 +59,7 @@
                 </p>
             </router-link>
 
-        </li>
+        </li>--}}
         <li class="nav-item">
             <router-link to="/user/profile" class="nav-link">
                 <i class="nav-icon fas fa-user-circle orange"></i>

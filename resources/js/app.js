@@ -21,8 +21,10 @@ import {RotateSquare2} from 'vue-loading-spinner';
 import Multiselect from 'vue-multiselect'
 window.RotateSquare2 = RotateSquare2;
 
+import Helpers from "./Helpers";
 
 Vue.use(VueRouter);
+window.helpers = Helpers;
 
 require('@fortawesome/fontawesome-free/js/all.js');
 require('bootstrap-table/dist/bootstrap-table.min.css');
@@ -77,6 +79,20 @@ let routes = [
     //traveller
     {path:'/user/profile', component: require('./components/Traveller/Profile.vue').default},
     {path:'/user/trips', component: require('./components/Traveller/Trips.vue').default},
+    {path:'/user/my-trips', component: require('./components/Traveller/MyTrips.vue').default},
+    {path:'/user/sites-by-regions', component: require('./components/Traveller/Regions.vue').default, name: 'user.regions'},
+    {path:'/user/view/:siteName/:siteId',
+        component: require('./components/Traveller/SiteShowFull.vue').default,
+        name: 'site.show',
+        props: true},
+
+    {path:'/user/:regionName/tourist-sites/:regionId',
+        component: require('./components/Traveller/RegionTouristSites.vue').default,
+        name: 'user.region.sites',
+        props: true,
+    },
+
+    {path:'/user/all-tourist-sites', component: require('./components/Traveller/AllTouristSites.vue').default, name: 'user.sites'},
     {path:'/user/add-trip', component: require('./components/Traveller/AddTrip.vue').default},
     {path:'/user/bookings', component: require('./components/Traveller/Bookings.vue').default},
 
@@ -135,6 +151,7 @@ Vue.component(AlertErrors.name, AlertErrors);
 Vue.component(AlertSuccess.name, AlertSuccess);
 
 
+Vue.component('site-mini', require('./components/Traveller/SiteShowMini').default);
 Vue.component('v-select', Multiselect);
 Vue.component('slick', Slick);
 
@@ -255,3 +272,4 @@ const app = new Vue({
     },
 
 });
+
