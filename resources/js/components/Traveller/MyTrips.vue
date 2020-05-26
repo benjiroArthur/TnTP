@@ -93,9 +93,10 @@
                                        placeholder="Add new item to list"
                                        aria-label="Item name"
                                        aria-describedby="addBTN"
-                                       v-model="txtItemName">
+                                       @keyup.enter="addItem"
+                                       v-model="txtItemName"
+                                >
                                 <div class="input-group-append">
-                                    <input type="submit" >
                                     <button  :disabled="!txtItemName"
                                              @click="addItem" class="btn btn-outline-secondary"
                                              type="button" id="addBTN">ADD</button>
@@ -351,12 +352,14 @@
 
 
             addItem(){
-                let vm = this;
-                let item = {
-                    name:vm.txtItemName,
-                    tripId:vm.activeTrip.id,
+                if(this.txtItemName){
+                    let vm = this;
+                    let item = {
+                        name:vm.txtItemName,
+                        tripId:vm.activeTrip.id,
+                    }
+                    this.makeAction(710, item);
                 }
-                this.makeAction(710, item);
             },
 
 
