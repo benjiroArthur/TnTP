@@ -40,7 +40,9 @@
 
         <viewer  ref="viewer" :trigger="activeTouristSite.images"  :options="viewerOptions">
             <slick   :options="slickOptions"  ref="slick">
-                <img v-for="image in activeTouristSite.images"  :src="image.thumbnail" :data-src="image.source" :key="image.id" class="p-3">
+                <img v-for="image in activeTouristSite.images"
+                     :src="image.thumbnail" :data-src="image.source"
+                     :key="image.id" class="p-3">
             </slick>
         </viewer>
 

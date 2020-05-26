@@ -16,7 +16,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'email_verified_at', 'role_id', 'userable_id', 'userable_type', 'profile_updated'
+        'name',
+        'email',
+        'password',
+        'email_verified_at',
+        'role_id', 'userable_id', 'userable_type', 'profile_updated'
     ];
 
     /**
@@ -47,18 +51,22 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Role');
     }
+
     public function address()
     {
         return $this->morphOne('App\Address', 'addressable');
     }
+
     public function reviews()
     {
         return $this->hasMany('App\Review');
     }
+
     public function trips()
     {
         return $this->hasMany('App\Trip');
     }
+
     public function bookings()
     {
         return $this->hasMany('App\Booking');

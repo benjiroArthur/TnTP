@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Address;
+use App\CheckList;
 use App\Region;
 use App\TouristSite;
 use App\Trip;
+use App\User;
 use Illuminate\Http\Request;
 
 class TouristMasterController extends Controller
@@ -28,11 +30,17 @@ class TouristMasterController extends Controller
             case "load-regions":
                 return $this->loadRegions();
                 break;
+            case "load-trips":
+                return $this->loadTrips();
+                break;
             case "load-region":
                 return $this->loadRegion($request);
                 break;
             case "create-trip":
                 return $this->createTrip($request);
+                break;
+            case "add-item-to-list":
+                return $this->addItemToList($request);
                 break;
         }
 
@@ -68,12 +76,28 @@ class TouristMasterController extends Controller
         return Region::find($request->region_id);
     }
 
-    private function loadTouristSite( $request)
+    private function loadTrips()
+    {
+        return response(User::find(auth()->id())->trips);
+    }
+
+    private function addItemToList($request)
+    {
+        $tripId = $request->trip_id;
+        $name = $request->check_name;
+        $trip = Trip::findOrFail($tripId);
+        $checkList = new CheckList(['name'=>$name]);
+        $trip->checklist()->save($checkList);
+        return Trip::find($tripId)->checklist;
+
+    }
+
+    private function loadTouristSite($request)
     {
         return TouristSite::find($request->site_id);
     }
 
-    private function createTrip( $request)
+    private function createTrip($request)
     {
         $trip = new Trip();
         $trip->name = $request->trip_name;
@@ -82,7 +106,7 @@ class TouristMasterController extends Controller
         $trip->user_id = auth()->id();
         $trip->tourist_site_id = $request->site_id;
 
-        $trip -> save();
+        $trip->save();
         return "good";
 
     }

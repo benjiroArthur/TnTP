@@ -1,15 +1,467 @@
 <template>
-    <div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi at consectetur
-            debitis doloribus eos excepturi facilis ipsam magnam necessitatibus,
-            numquam. Consequatur fugit ipsa provident quisquam repudiandae?
-            Animi blanditiis illo officiis!</p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-lg-11">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <router-link :to="'/user/my-trips'" class="nav-link">
+                            My Trips
+                        </router-link>
+                    </li>
+
+                    <li class="nav-item">
+                        <router-link :to="{name:'user.sites'}" class="nav-link">
+                            ALL Tourist Sites
+                        </router-link>
+
+                    </li>
+
+                    <li class="nav-item">
+                        <router-link :to="{name:'user.regions'}" class="nav-link">
+                            Tourist Sites By Region
+                        </router-link>
+
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-12 col-md-2 col-lg-1">
+
+                <button class="btn btn-block btn-primary" @click="save">Save</button>
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-sm-12 col-md-4 col-lg-4 ">
+                <h4 class="list-group-item">ALL TRIPS</h4>
+            </div>
+
+            <div class="col-sm-12 col-md-8 col-lg-8 ">
+                <h4 class="text-center">{{activeTrip.name}}</h4>
+            </div>
+
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="list-group" >
+                    <button class="list-group-item list-group-item-action animate__animated"
+                        v-for="trip in trips"
+                        :key="trip.id"
+                        @click="changeActiveTrip(trip)"
+                        :class="activeTrip.id === trip.id ? 'active animate__pulse':''"
+                    >{{trip.name|tripNameFilter}}</button>
+                </div>
+
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-8 ">
+
+
+                <div class="list-group list-group-horizontal-sm ">
+                    <button class="list-group-item list-group-item-action animate__animated "
+                        :class="showingTripDetails ? 'active animate__pulse':''"
+                        @click="appState(1)">DETAILS</button>
+
+                    <button class="list-group-item list-group-item-action animate__animated"
+                        :class="showingTripActivitiesList ? 'active animate__pulse':''"
+                        @click="appState(2)">ACTIVITIES</button>
+
+                    <button class="list-group-item list-group-item-action animate__animated"
+                        :class="showingTripItemsList ? 'active animate__pulse':''"
+                        @click="appState(3)">ITEMS LIST</button>
+                </div>
+                <hr>
+                <div class="">
+                    <div id="tripInfo" v-if="showingTripDetails">
+                        <viewer  ref="viewer" rebuild :trigger="activeTrip.tourist_site.images"  :options="viewerOptions">
+                            <slick   :options="slickOptions"  ref="slick">
+                                <img v-for="image in activeTrip.tourist_site.images"
+                                     :src="image.thumbnail" :data-src="image.source" :key="image.id" class="p-3">
+                            </slick>
+                        </viewer>
+
+                    </div>
+
+
+                    <div id="tripActivities" v-if="showingTripActivitiesList">
+                        <p>This is the activities list</p>
+                    </div>
+
+                    <div id="tripTripItems" v-if="showingTripItemsList">
+                        <p>This is the Item lists</p>
+
+
+                        <form action="#" @submit.prevent="">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control"
+                                       placeholder="Add new item to list"
+                                       aria-label="Item name"
+                                       aria-describedby="addBTN"
+                                       v-model="txtItemName">
+                                <div class="input-group-append">
+                                    <input type="submit" >
+                                    <button  :disabled="!txtItemName"
+                                             @click="addItem" class="btn btn-outline-secondary"
+                                             type="button" id="addBTN">ADD</button>
+                                </div>
+                            </div>
+                        </form>
+
+
+                        <ul class="list-group">
+
+                            <li class="list-group-item iistliac"
+                                v-for="item in activeTrip.checklist"
+                                :key="item.id">
+                                {{item.name}}
+                                <button class="badge badge-btn badge-primary badge-pill float-right">X</button>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
     </div>
 </template>
 
 <script>
+    import Helpers from "../../Helpers";
+
     export default {
-        name: "MyTrips"
+        name: "MyTrips",
+        data() {
+            return {
+                showingTripDetails:false,
+                showingTripItemsList:false,
+                showingTripActivitiesList:false,
+
+                loading: false,
+
+                trips:[],
+                activeTrip:{},
+
+
+                appError: false,
+                errorParam: undefined,
+                errorMessage: "",
+                appStateCode: 0,
+
+                txtItemName:null,
+
+                viewerOptions:{
+                    url: 'data-src'
+                },
+                slickOptions: {
+                    fullscreen:true,
+                    keyboard:true,
+                    centerPadding: '40px',
+                    dots: true,
+                    title:false,
+                    autoplay:true,
+                    infinite: false,
+
+                    slidesToShow: 3,
+                    // slidesToScroll: 3,
+                    responsive: [
+                        {
+                            breakpoint: 1024,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 3,
+                                infinite: true,
+                                dots: true
+                            }
+                        },
+                        {
+                            breakpoint: 600,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 2
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1,
+                                centerMode: true,
+                            }
+                        }
+
+                    ]
+                    // dots: true,
+                    // infinite: true,
+                    // slidesToShow: 3,
+                    // slidesToScroll: 3
+                    // Any other options that can be got from plugin documentation
+                },
+
+            }
+        },
+        methods: {
+            appState(StateId) {
+                let vm = this;
+
+                this.showingTripDetails = false;
+                this.showingTripActivitiesList = false;
+                this.showingTripItemsList = false;
+
+
+                switch (StateId) {
+
+                    // Showing trip details
+                    case 1:
+                        vm.showingTripDetails = true;
+                        break;
+                    // Showing trip details
+                    case 2:
+                        vm.showingTripActivitiesList = true;
+                        break;
+                    // Showing trip details
+                    case 3:
+                        vm.showingTripItemsList = true;
+                        break;
+
+                    default:
+                        break;
+
+                }
+            },
+            makeAction(code, param = null) {
+                /*
+                *Load Trips Code 100
+                * */
+                let vm = this;
+                switch (code) {
+
+                    case 419:
+                        //  the page should reload
+                        this.errorCode = 0;
+                        Helpers.reloadPage();
+                        this.errorParam = undefined;
+                        break;
+
+                    case 800:
+                        vm.loadTrips();
+                        break;
+
+                    case 710:
+                        vm.addItemToList(param);
+                        break;
+
+
+                }
+            },
+
+            loadTrips() {
+                //load Trips AppCode 800
+                let vm = this;
+                this.startLoading();
+                axios.post('/data/trip',
+                    {
+                        mode: "load-trips",
+                    })
+                    .then(response => {
+                        vm.trips = response.data;
+                        if (vm.trips.length > 1){
+                            this.activeTrip = vm.trips[0];
+
+                            this.appState(1);
+
+                        }
+                    })
+                    .catch(error => {
+                        if (error.response.status === 419) {
+                            let message = "Please you have been logged out because you were inactive."
+                            vm.registerError(419, null, message)
+
+                        } else {
+                            let message = "The was problem loading your Trips."
+                            vm.registerError(800, null, message)
+                        }
+
+                    });
+                this.stopLoading();
+            },
+
+            save() {
+                //save trip data 150
+                let vm = this;
+                this.startLoading();
+                axios.post('/data/trip',
+                    {
+                        mode: "save-trip",
+                        check_lists:vm.trips,
+                    })
+                    .then(response => {
+                        vm.trips = response.data;
+                        if (vm.trips.length > 1){
+
+
+                        }
+                    })
+                    .catch(error => {
+                        if (error.response.status === 419) {
+                            let message = "Please you have been logged out because you were inactive."
+                            vm.registerError(419, null, message)
+
+                        } else {
+                            let message = "The was problem saving data."
+                            vm.registerError(150, null, message)
+                        }
+
+                    });
+                this.stopLoading();
+            },
+
+            saveChangedTripName(){
+
+            },
+
+            addItemToList(item ){
+                //Add Item To Item list Code 710
+                let vm = this;
+                this.startLoading();
+                axios.post('/data/trip',
+                    {
+                        mode: "add-item-to-list",
+                        trip_id:item.tripId,
+                        check_name:item.name,
+                    })
+                    .then(response => {
+                        vm.updateChecklist(item.tripId, response.data);
+                    })
+                    .catch(error => {
+                        if (error.response.status === 419) {
+                            let message = "Please you have been logged out because you were inactive."
+                            vm.registerError(419, null, message)
+
+                        } else {
+                            let message = "The was problem adding item to list."
+                            vm.registerError(710, item, message)
+                        }
+
+                    });
+                this.txtItemName = null;
+                this.stopLoading();
+            },
+
+
+
+
+            addItem(){
+                let vm = this;
+                let item = {
+                    name:vm.txtItemName,
+                    tripId:vm.activeTrip.id,
+                }
+                this.makeAction(710, item);
+            },
+
+
+
+            startLoading() {
+                this.loading = true;
+            },
+            stopLoading(sec = 1000) {
+                setTimeout(() => {
+                    this.loading = false;
+                    if (this.loading) {
+                        this.loading = false;
+                    }
+                }, sec);
+            },
+
+            registerError(code, param, message) {
+                this.appStateCode = code;
+                this.errorParam = param;
+                this.errorMessage = message;
+                this.appError = true;
+            },
+            tryAgain() {
+                this.makeAction(this.appStateCode, this.errorParam);
+                this.appError = false;
+            },
+            changeActiveTrip(trip){
+                this.startLoading();
+                this.destroyImageDisplay();
+                this.activeTrip = trip;
+                this.initImageDisplay();
+                this.stopLoading();
+            },
+
+
+            reloadPage() {
+                location.assign(location.href);
+            },
+
+            initImageDisplay(){
+                this.$nextTick(()=>{
+
+                    this.appState(1);
+
+                });
+
+            },
+
+            destroyImageDisplay(){
+                this.appState(3);
+            },
+
+
+            updateChecklist(tripId, newChecklist){
+                let vm = this;
+                for (let i = 0; i < this.trips.length; i++) {
+
+                    if (vm.trips[i].id === tripId ){
+                        vm.trips[i].checklist = newChecklist;
+                    }
+                }
+            }
+
+
+        },
+        created() {
+            this.makeAction(800);
+
+        },
+        watch:{
+            appError:function (val) {
+                let vm = this;
+                if (val){
+                    Swal.fire({
+                        title: 'Error Occurred',
+                        text: vm.errorMessage,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                            vm.tryAgain();
+                        }
+                    });
+                }
+
+            },
+            loading:function (val) {
+                if (val){
+                    this.$Progress.start();
+                }else {
+                    this.$Progress.finish();
+                }
+            }
+        },
+        filters:{
+            tripNameFilter(value){
+                let textLength = 50;
+                let val = value.slice(0,textLength);
+                return  value.length < textLength ? value : val + '...';
+            }
+        }
+
     }
 </script>
 

@@ -17,15 +17,15 @@ class Trip extends Model
     }
     public function touristSite()
     {
-        return $this->belongsTo('App\TouristSite');
+        return $this->belongsTo('App\TouristSite', 'tourist_site_id');
     }
 
     public function checklist(){
-        return $this->hasMany('App\CheckList');
+        return $this->hasMany(CheckList::class,'trip_id');
     }
 
     public function activities(){
-        return $this->hasMany('App\Activity');
+        return $this->hasMany(Activitiy::class,'id', 'trip_id');
     }
 
 }
