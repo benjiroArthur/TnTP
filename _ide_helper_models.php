@@ -107,6 +107,28 @@ namespace App{
 
 namespace App{
 /**
+ * App\CheckList
+ *
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $trip_id
+ * @property-read \App\Trip $trip
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\CheckList newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\CheckList newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\CheckList query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\CheckList whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\CheckList whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\CheckList whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\CheckList whereTripId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\CheckList whereUpdatedAt($value)
+ */
+	class CheckList extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\Hotel
  *
  * @property int $id
@@ -229,6 +251,9 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\City[] $city
  * @property-read int|null $city_count
+ * @property-read mixed $url_name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\TouristSite[] $tourists
+ * @property-read int|null $tourists_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Region newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Region newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Region query()
@@ -400,6 +425,39 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Traveller whereUpdatedAt($value)
  */
 	class Traveller extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\Trip
+ *
+ * @property int $id
+ * @property string $name
+ * @property int $tourist_site_id
+ * @property int $user_id
+ * @property string $start_date
+ * @property string $end_date
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activitiy[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\CheckList[] $checklist
+ * @property-read int|null $checklist_count
+ * @property-read \App\TouristSite $touristSite
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereTouristSiteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Trip whereUserId($value)
+ */
+	class Trip extends \Eloquent {}
 }
 
 namespace App{

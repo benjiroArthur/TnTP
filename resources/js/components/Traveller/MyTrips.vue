@@ -110,8 +110,11 @@
                             <li class="list-group-item iistliac"
                                 v-for="item in activeTrip.checklist"
                                 :key="item.id">
+<!--                                <input type="text" class="form-control" v-model="item.name">-->
                                 {{item.name}}
-                                <button class="badge badge-btn badge-primary badge-pill float-right">X</button>
+                                <button
+                                    class="badge badge-btn badge-primary badge-pill float-right animate__animated"
+                                    @click="removeFromChecklist(item)">X</button>
                             </li>
 
                         </ul>
@@ -421,7 +424,35 @@
                         vm.trips[i].checklist = newChecklist;
                     }
                 }
-            }
+            },
+            removeFromChecklist(item){
+                //Add Item To Item list Code 710
+                let vm = this;
+                this.startLoading();
+                axios.post('/data/trip',
+                    {
+                        mode: "remove-item-from-list",
+                        item_id:item.id,
+                    })
+                    .then(response => {
+                        vm.updateChecklist(item.trip_id, response.data);
+                    })
+                    .catch(error => {
+                        if (error.response.status === 419) {
+                            let message = "Please you have been logged out because you were inactive."
+                            vm.registerError(419, null, message)
+
+                        } else {
+                            let message = "The was problem adding item to list."
+                            vm.registerError(710, item, message)
+                        }
+
+                    });
+                this.txtItemName = null;
+                this.stopLoading();
+            },
+
+
 
 
         },

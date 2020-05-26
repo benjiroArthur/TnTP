@@ -42,6 +42,9 @@ class TouristMasterController extends Controller
             case "add-item-to-list":
                 return $this->addItemToList($request);
                 break;
+            case "remove-item-from-list":
+                return $this->removeItemFromList($request);
+                break;
         }
 
     }
@@ -86,7 +89,7 @@ class TouristMasterController extends Controller
         $tripId = $request->trip_id;
         $name = $request->check_name;
         $trip = Trip::findOrFail($tripId);
-        $checkList = new CheckList(['name'=>$name]);
+        $checkList = new CheckList(['name' => $name]);
         $trip->checklist()->save($checkList);
         return Trip::find($tripId)->checklist;
 
@@ -109,5 +112,17 @@ class TouristMasterController extends Controller
         $trip->save();
         return "good";
 
+    }
+
+    private function removeItemFromList($request)
+    {
+        $checklist = CheckList::find($request->item_id);
+        $tripId = $checklist->trip->id;
+        try {
+             $checklist->delete();
+        } catch (\Exception $e) {
+            abort(404);
+        }
+        return Trip::find($tripId)->checklist;
     }
 }
