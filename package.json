@@ -62,6 +62,8 @@
         "vue-upload-multiple-image": "^1.1.4",
         "vue2-google-maps": "^0.10.7",
         "vuejs-datatable": "^2.0.0-alpha.7",
-        "vuetify": "^2.2.27"
+        "vuetify": "^2.2.27",
+        "icheck-material": "^1.0.1",
+        "vue-currency-filter": "^4.0.3"
     }
 }

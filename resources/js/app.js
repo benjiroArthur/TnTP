@@ -22,6 +22,17 @@ import Multiselect from 'vue-multiselect'
 window.RotateSquare2 = RotateSquare2;
 
 import Helpers from "./Helpers";
+import VueCurrencyFilter from 'vue-currency-filter';
+
+Vue.use(VueCurrencyFilter,
+    {
+        symbol : 'GH₵',
+        thousandsSeparator: ',',
+        fractionCount: 2,
+        fractionSeparator: '.',
+        symbolPosition: 'front',
+        symbolSpacing: true
+    });
 
 Vue.use(VueRouter);
 window.helpers = Helpers;

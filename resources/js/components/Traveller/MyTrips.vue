@@ -76,33 +76,70 @@
                             </slick>
                         </viewer>
 
+                        <hr>
+                        <h4>{{activeTrip.tourist_site.name}}</h4>
+
+                        <h5>Price Per Person {{activeTrip.tourist_site.price | currency }}</h5>
                     </div>
 
 
                     <div id="tripActivities" v-if="showingTripActivitiesList">
-                        <p>This is the activities list</p>
+                        <p>This is the list of activities you will love to do during your trip.</p>
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <input class="form-control" type="date" v-model="txtActivityDate">
+                            </div>
+                            <input type="text" class="form-control"
+                                   placeholder="Add new item to list"
+                                   aria-label="Item name"
+                                   aria-describedby="addBTN"
+                                   @keyup.enter="addActivity"
+                                   v-model="txtActivityName"
+                            >
+                            <div class="input-group-append">
+                                <button  :disabled="!txtActivityName && !txtActivityDate"
+                                         @click="addActivity" class="btn btn-outline-secondary"
+                                         type="button" >ADD</button>
+                            </div>
+                        </div>
+
+                        <ul class="list-group">
+
+
+                            <li class="list-group-item iistliac"
+                                v-for="item in activeTrip.activities"
+                                :key="item.id">
+                                <div class="icheck-material-blue icheck-inline">
+                                    <input :value="item.done" @change="toggleDoneState(item)" type="checkbox" :id="'CheckboxId'+item.id"  />
+                                    <label :for="'CheckboxId'+item.id"></label>
+                                </div>
+                                {{item.name}} <span class="badge badge-primary">{{item.nice_date}}</span>
+                                <button
+                                    class="badge badge-btn badge-primary badge-pill float-right animate__animated"
+                                    @click="removeFromActivityList(item)">X</button>
+                            </li>
+
+                        </ul>
                     </div>
 
                     <div id="tripTripItems" v-if="showingTripItemsList">
                         <p>This is the Item lists</p>
 
 
-                        <form action="#" @submit.prevent="">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control"
-                                       placeholder="Add new item to list"
-                                       aria-label="Item name"
-                                       aria-describedby="addBTN"
-                                       @keyup.enter="addItem"
-                                       v-model="txtItemName"
-                                >
-                                <div class="input-group-append">
-                                    <button  :disabled="!txtItemName"
-                                             @click="addItem" class="btn btn-outline-secondary"
-                                             type="button" id="addBTN">ADD</button>
-                                </div>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control"
+                                   placeholder="Add new item to list"
+                                   aria-label="Item name"
+                                   aria-describedby="addBTN"
+                                   @keyup.enter="addItem"
+                                   v-model="txtItemName"
+                            >
+                            <div class="input-group-append">
+                                <button  :disabled="!txtItemName"
+                                         @click="addItem" class="btn btn-outline-secondary"
+                                         type="button" id="addBTN">ADD</button>
                             </div>
-                        </form>
+                        </div>
 
 
                         <ul class="list-group">
@@ -152,6 +189,8 @@
                 appStateCode: 0,
 
                 txtItemName:null,
+                txtActivityName:null,
+                txtActivityDate:null,
 
                 viewerOptions:{
                     url: 'data-src'
@@ -254,6 +293,14 @@
                         vm.addItemToList(param);
                         break;
 
+                    case 720:
+                        vm.addActivityToList(param);
+                        break;
+
+                        case 730:
+                        vm.toggleActivityDoneState(param);
+                        break;
+
 
                 }
             },
@@ -351,6 +398,64 @@
                 this.stopLoading();
             },
 
+            addActivityToList(item ){
+                //Add Item To Item list Code 710
+                let vm = this;
+                this.startLoading();
+                axios.post('/data/trip',
+                    {
+                        mode: "add-activity-to-list",
+                        trip_id:item.tripId,
+                        name:item.name,
+                        date:item.date,
+                    })
+                    .then(response => {
+                        vm.updateActivityList(item.tripId, response.data);
+                    })
+                    .catch(error => {
+                        if (error.response.status === 419) {
+                            let message = "Please you have been logged out because you were inactive."
+                            vm.registerError(419, null, message)
+
+                        } else {
+                            let message = "The was problem adding Activity to list."
+                            vm.registerError(720, item, message)
+                        }
+
+                    });
+                this.txtItemName =this.txtActivityDate = null;
+
+                this.stopLoading();
+            },
+
+
+            toggleActivityDoneState(item ){
+                //Add Item To Item list Code 710
+                let vm = this;
+                this.startLoading();
+                axios.post('/data/trip',
+                    {
+                        mode: "toggle-activity-done-state",
+                        id:item.id
+                    })
+                    .then(response => {
+                        vm.updateActivityList(item.tripId, response.data);
+                    })
+                    .catch(error => {
+                        if (error.response.status === 419) {
+                            let message = "Please you have been logged out because you were inactive."
+                            vm.registerError(419, null, message)
+
+                        } else {
+                            let message = "The was problem saving your change."
+                            vm.registerError(730, item, message)
+                        }
+
+                    });
+                this.txtItemName = null;
+                this.stopLoading();
+            },
+
 
 
 
@@ -363,6 +468,25 @@
                     }
                     this.makeAction(710, item);
                 }
+            },
+
+            addActivity(){
+                if(this.txtActivityName && this.txtActivityDate){
+                    let vm = this;
+                    let item = {
+                        name:vm.txtActivityName,
+                        tripId:vm.activeTrip.id,
+                        date:vm.txtActivityDate
+                    }
+                    this.makeAction(720, item);
+                }
+            },
+
+            toggleDoneState(item){
+                let activity = {
+                    id:item.id
+                }
+                this.makeAction(730, activity);
             },
 
 
@@ -425,6 +549,16 @@
                     }
                 }
             },
+
+            updateActivityList(tripId, newActivityList){
+                let vm = this;
+                for (let i = 0; i < this.trips.length; i++) {
+
+                    if (vm.trips[i].id === tripId ){
+                        vm.trips[i].activities = newActivityList;
+                    }
+                }
+            },
             removeFromChecklist(item){
                 //Add Item To Item list Code 710
                 let vm = this;
@@ -452,6 +586,32 @@
                 this.stopLoading();
             },
 
+            removeFromActivityList(item){
+                //Add Item To Item list Code 710
+                let vm = this;
+                this.startLoading();
+                axios.post('/data/trip',
+                    {
+                        mode: "remove-activity-from-list",
+                        id:item.id,
+                    })
+                    .then(response => {
+                        vm.updateActivityList(item.trip_id, response.data);
+                    })
+                    .catch(error => {
+                        if (error.response.status === 419) {
+                            let message = "Please you have been logged out because you were inactive."
+                            vm.registerError(419, null, message)
+
+                        } else {
+                            let message = "The was problem adding item to list."
+                            vm.registerError(710, item, message)
+                        }
+
+                    });
+                this.txtItemName = null;
+                this.stopLoading();
+            },
 
 
 

@@ -25,7 +25,7 @@ class Trip extends Model
     }
 
     public function activities(){
-        return $this->hasMany(Activitiy::class,'id', 'trip_id');
+        return $this->hasMany(Activitiy::class,'trip_id');
     }
 
 }
