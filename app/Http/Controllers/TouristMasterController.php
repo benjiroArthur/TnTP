@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activitiy;
 use App\Address;
 use App\CheckList;
 use App\Region;
@@ -41,6 +42,18 @@ class TouristMasterController extends Controller
                 break;
             case "add-item-to-list":
                 return $this->addItemToList($request);
+                break;
+            case "add-activity-to-list":
+                return $this->addActivityToList($request);
+                break;
+            case "toggle-activity-done-state":
+                return $this->toggleActivityDoneState($request);
+                break;
+            case "remove-item-from-list":
+                return $this->removeItemFromList($request);
+                break;
+            case "remove-activity-from-list":
+                return $this->removeActivityFromList($request);
                 break;
         }
 
@@ -86,9 +99,20 @@ class TouristMasterController extends Controller
         $tripId = $request->trip_id;
         $name = $request->check_name;
         $trip = Trip::findOrFail($tripId);
-        $checkList = new CheckList(['name'=>$name]);
+        $checkList = new CheckList(['name' => $name]);
         $trip->checklist()->save($checkList);
         return Trip::find($tripId)->checklist;
+
+    }
+
+    private function addActivityToList($request)
+    {
+        $tripId = $request->trip_id;
+        $name = $request->name;
+        $trip = Trip::findOrFail($tripId);
+        $activity = new Activitiy(['name' => $name, 'done' => false, 'date' => $request->date]);
+        $trip->activities()->save($activity);
+        return Trip::find($tripId)->activities;
 
     }
 
@@ -109,5 +133,38 @@ class TouristMasterController extends Controller
         $trip->save();
         return "good";
 
+    }
+
+    private function removeItemFromList($request)
+    {
+        $checklist = CheckList::find($request->item_id);
+        $tripId = $checklist->trip->id;
+        try {
+            $checklist->delete();
+        } catch (\Exception $e) {
+            abort(404);
+        }
+        return Trip::find($tripId)->checklist;
+    }
+
+    private function removeActivityFromList($request)
+    {
+        $activity = Activitiy::find($request->id);
+        $tripId = $activity->trip->id;
+        try {
+            $activity->delete();
+        } catch (\Exception $e) {
+            abort(404);
+        }
+        return Trip::find($tripId)->activities;
+    }
+
+    private function toggleActivityDoneState( $request)
+    {
+        $activity = Activitiy::find($request->id);
+        $tripId = $activity->trip->id;
+        $activity->done ? $activity->done = false : $activity->done = true;
+        $activity->save();
+        return Trip::find($tripId)->activities;
     }
 }

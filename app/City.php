@@ -15,6 +15,4 @@ class City extends Model
         return $this->belongsTo('App/Region');
     }
 
-
-
 }
