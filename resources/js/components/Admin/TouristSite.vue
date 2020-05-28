@@ -48,19 +48,13 @@
                                                class="form-control" :class="{ 'is-invalid': form.errors.has('price') }">
                                         <has-error :form="form" field="price"></has-error>
                                     </div>
-                                    <h4>Map Details</h4>
                                     <div class="form-group">
-                                        <label>Latitude</label>
-                                        <input v-model="form.lat" type="text" name="lat"
-                                               class="form-control" :class="{ 'is-invalid': form.errors.has('lat') }">
-                                        <has-error :form="form" field="lat"></has-error>
+                                        <label>Description</label>
+                                        <textarea v-model="form.description" type="text" name="description"
+                                                  class="form-control" :class="{ 'is-invalid': form.errors.has('description') }"></textarea>
+                                        <has-error :form="form" field="description"></has-error>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Longitude</label>
-                                        <input v-model="form.long" type="text" name="long"
-                                               class="form-control" :class="{ 'is-invalid': form.errors.has('long') }">
-                                        <has-error :form="form" field="long"></has-error>
-                                    </div>
+
                                 </div>
 
                                 <div class="col-md-6">
@@ -91,6 +85,19 @@
                                                 <input v-model="form.gp_digital_address" type="text" name="gp_digital_address"
                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('gp_digital_address') }">
                                                 <has-error :form="form" field="gp_digital_address"></has-error>
+                                            </div>
+                                            <h4>Map Details</h4>
+                                            <div class="form-group">
+                                                <label>Latitude</label>
+                                                <input v-model="form.lat" type="text" name="lat"
+                                                       class="form-control" :class="{ 'is-invalid': form.errors.has('lat') }">
+                                                <has-error :form="form" field="lat"></has-error>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Longitude</label>
+                                                <input v-model="form.long" type="text" name="long"
+                                                       class="form-control" :class="{ 'is-invalid': form.errors.has('long') }">
+                                                <has-error :form="form" field="long"></has-error>
                                             </div>
 
                                         </div>
@@ -141,6 +148,7 @@
                 form: new Form({
                     name: '',
                     price: '',
+                    description: '',
                     lat: '',
                     long: '',
                     region: '',

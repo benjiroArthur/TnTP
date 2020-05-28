@@ -1,20 +1,20 @@
 <template>
     <div class="container-fluid">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
+        <ul class="nav nav-tabs row">
+            <li class="nav-item col-sm-4 col-md-4 col-lg-4">
                 <router-link :to="'/user/my-trips'" class="nav-link">
                     My Trips
                 </router-link>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item col-sm-4 col-md-4 col-lg-4">
                 <router-link :to="{name:'user.sites'}" class="nav-link">
                     ALL Tourist Sites
                 </router-link>
 
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item col-sm-4 col-md-4 col-lg-4">
                 <router-link :to="{name:'user.regions'}" class="nav-link">
                     Tourist Sites By Region
                 </router-link>
