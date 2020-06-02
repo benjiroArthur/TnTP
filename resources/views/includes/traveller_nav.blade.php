@@ -42,12 +42,12 @@
                     </router-link>
                 </li>
 
-                <li class="nav-item">
-                    <router-link to="/user/trips" class="nav-link">
-                        <i class="mdi mdi-car nav-icon purple"></i>
-                        <p>Trips</p>
-                    </router-link>
-                </li>
+{{--                <li class="nav-item">--}}
+{{--                    <router-link to="/user/trips" class="nav-link">--}}
+{{--                        <i class="mdi mdi-car nav-icon purple"></i>--}}
+{{--                        <p>Trips</p>--}}
+{{--                    </router-link>--}}
+{{--                </li>--}}
 
             </ul>
         </li>

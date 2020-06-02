@@ -4,6 +4,15 @@
     <slick v-if="show">
 
     </slick>
+
+
+
+    <div class="alert " :class="makeSomething">
+
+    </div>
+
+
+
 </template>
 
 <script>
@@ -14,7 +23,19 @@
                 show:false,
             }
         },
-        methods(){
+        methods:{
+
+            makeSomething(param = null){
+                if (6===6){
+                    return "card-primary";
+                }else if(this.show ){
+                //    ...
+                }else if(param === 5){
+                //    ...
+                }
+            }
+
+
             // Helpers.reloadPage();
 
             /*Swal.fire({
