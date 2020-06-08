@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <ul class="nav nav-tabs row">
+        <!--<ul class="nav nav-tabs row">
             <li class="nav-item col-sm-4 col-md-4 col-lg-4">
                 <router-link :to="'/user/my-trips'" class="nav-link">
                     My Trips
@@ -20,7 +20,10 @@
                 </router-link>
 
             </li>
-        </ul>
+        </ul>-->
+
+        <traveller-nav></traveller-nav>
+
 
         <div id="BrowseTouristSites" v-if="showingTouristSites">
 

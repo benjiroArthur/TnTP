@@ -1,5 +1,51 @@
 <template>
 
+    //Travellers Nav
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <router-link :to="{name:'user.my.trips'}" class="nav-link">
+                My Trips
+            </router-link>
+        </li>
+
+        <li class="nav-item">
+            <router-link :to="{name:'user.sites'}" class="nav-link">
+                ALL Sites
+            </router-link>
+
+        </li>
+
+        <li class="nav-item">
+            <router-link :to="{name:'user.regions'}" class="nav-link">
+                Sites By Region
+            </router-link>
+
+        </li>
+    </ul>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-justified">
+                        <li class="nav-item"><router-link :to="'/user/my-trips'" class="nav-link text-lancer text-bold">
+                            My Trips
+                        </router-link></li>
+
+                        <li class="nav-item"><router-link :to="{name:'user.sites'}" class="nav-link text-lancer text-bold">
+                            ALL Tourist Sites
+                        </router-link>
+
+                        </li><li class="nav-item"><router-link :to="{name:'user.regions'}" class="nav-link text-lancer text-bold">
+                        Tourist Sites By Region
+                    </router-link></li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
     <button @click="!show">Toggel</button>
     <slick v-if="show">
 

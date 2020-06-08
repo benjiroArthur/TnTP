@@ -90,7 +90,7 @@ let routes = [
     //traveller
     {path:'/user/profile', component: require('./components/Traveller/Profile.vue').default},
     {path:'/user/trips', component: require('./components/Traveller/Trips.vue').default},
-    {path:'/user/my-trips', component: require('./components/Traveller/MyTrips.vue').default},
+    {path:'/user/my-trips', component: require('./components/Traveller/MyTrips.vue').default, name:'user.my.trips'},
     {path:'/user/sites-by-regions', component: require('./components/Traveller/Regions.vue').default, name: 'user.regions'},
     {path:'/user/view/:siteName/:siteId',
         component: require('./components/Traveller/SiteShowFull.vue').default,
@@ -163,6 +163,7 @@ Vue.component(AlertSuccess.name, AlertSuccess);
 
 
 Vue.component('site-mini', require('./components/Traveller/SiteShowMini').default);
+Vue.component('traveller-nav', require('./components/Traveller/TravellerNav').default);
 Vue.component('v-select', Multiselect);
 Vue.component('slick', Slick);
 

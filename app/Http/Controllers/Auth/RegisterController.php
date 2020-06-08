@@ -158,6 +158,8 @@ class RegisterController extends Controller
             elseif($val > 900){
                 $code = "TIG-H-".$val;
             }
+
+
             $hotel = new Hotel();
 
 
@@ -178,6 +180,8 @@ class RegisterController extends Controller
         }
 
         broadcast(new NewUser($user));
+
+
         return $user;
     }
 

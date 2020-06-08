@@ -3,7 +3,10 @@
 
         <div id="MD">
             <!-- Modal -->
-            <div class="modal animate__animated animate__zoomIn" id="tripScheduleForm" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal animate__animated animate__zoomIn"
+                 id="tripScheduleForm" data-backdrop="static"
+                 data-keyboard="false" tabindex="-1"
+                 role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">

@@ -1,7 +1,7 @@
 <template>
 
     <div class="container-fluid">
-        <ul class="nav nav-tabs">
+        <!--<ul class="nav nav-tabs">
             <li class="nav-item">
                 <router-link :to="'/user/my-trips'" class="nav-link">
                     My Trips
@@ -21,7 +21,10 @@
                 </router-link>
 
             </li>
-        </ul>
+        </ul>-->
+
+        <traveller-nav></traveller-nav>
+
 
         <div id="BrowseTouristSitesByRegion" v-if="showingTouristSitesByRegion">
 
