@@ -1,7 +1,38 @@
 <template>
     <div class="container-fluid">
+        <div id="MD">
+            <!-- Modal -->
+            <div class="modal animate__animated animate__zoomIn"
+                 id="creatTripInstruction" data-backdrop="static" data-keyboard="false"
+                 tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">How To create a trip.</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Step 1</h4>
+                            <p>Look for the location (Tourist Site)</p>
+                            <h4>Step 2</h4>
+                            <p>Schedule a trip to that site.</p>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="hideInstruction">Hide</button>
+                            <button type="button" class="btn btn-primary" @click="findTouristSite">Find Tourist Site</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <div class="row">
-            <div class="col-sm-12 col-md-10 col-lg-11">
+            <div class="col-sm-12 col-md-10 col-lg-10">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <router-link :to="'/user/my-trips'" class="nav-link">
@@ -24,9 +55,9 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-sm-12 col-md-2 col-lg-1">
+            <div class="col-sm-12 col-md-2 col-lg-2">
 
-                <button class="btn btn-block btn-primary" @click="save">Save</button>
+                <button class="btn btn-block btn-primary btn-block" @click="showInstruction">Create</button>
             </div>
         </div>
 
@@ -110,8 +141,8 @@
                                 v-for="item in activeTrip.activities"
                                 :key="item.id">
                                 <div class="icheck-material-blue icheck-inline">
-                                    <input :value="item.done" @change="toggleDoneState(item)" type="checkbox" :id="'CheckboxId'+item.id"  />
-                                    <label :for="'CheckboxId'+item.id"></label>
+                                    <input :value="item.done" @change="toggleDoneState(item)" id="check" type="checkbox" :id="'CheckboxId'+item.id"  />
+                                    <label for="check" :for="'CheckboxId'+item.id"></label>
                                 </div>
                                 {{item.name}} <span class="badge badge-primary">{{item.nice_date}}</span>
                                 <button
@@ -180,7 +211,12 @@
                 loading: false,
 
                 trips:[],
-                activeTrip:{},
+                activeTrip:{
+                    tourist_site:{},
+                    activities:[
+                        {nice_date:""}
+                    ]
+                },
 
 
                 appError: false,
@@ -336,37 +372,14 @@
                 this.stopLoading();
             },
 
-            save() {
-                //save trip data 150
-                let vm = this;
-                this.startLoading();
-                axios.post('/data/trip',
-                    {
-                        mode: "save-trip",
-                        check_lists:vm.trips,
-                    })
-                    .then(response => {
-                        vm.trips = response.data;
-                        if (vm.trips.length > 1){
-
-
-                        }
-                    })
-                    .catch(error => {
-                        if (error.response.status === 419) {
-                            let message = "Please you have been logged out because you were inactive."
-                            vm.registerError(419, null, message)
-
-                        } else {
-                            let message = "The was problem saving data."
-                            vm.registerError(150, null, message)
-                        }
-
-                    });
-                this.stopLoading();
+            hideInstruction(){
+                $('#creatTripInstruction').modal('hide');
+            },
+            showInstruction(){
+                $('#creatTripInstruction').modal('show');
             },
 
-            saveChangedTripName(){
+            findTouristSite(){
 
             },
 
@@ -423,8 +436,7 @@
                         }
 
                     });
-
-
+                    
                 this.txtActivityName = this.txtActivityDate = null;
 
                 this.stopLoading();
@@ -457,7 +469,6 @@
                 this.txtItemName = null;
                 this.stopLoading();
             },
-
 
 
 
@@ -508,7 +519,7 @@
             registerError(code, param, message) {
                 this.appStateCode = code;
                 this.errorParam = param;
-                this.errorMessage = message;
+                this.errorMessage = message + "(Error Code "+ code +" )" ;
                 this.appError = true;
             },
             tryAgain() {
@@ -579,7 +590,7 @@
                             vm.registerError(419, null, message)
 
                         } else {
-                            let message = "The was problem adding item to list."
+                            let message = "The was problem removing item from the list."
                             vm.registerError(710, item, message)
                         }
 
@@ -606,7 +617,7 @@
                             vm.registerError(419, null, message)
 
                         } else {
-                            let message = "The was problem adding item to list."
+                            let message = "The was problem removing item from the list."
                             vm.registerError(710, item, message)
                         }
 
