@@ -423,7 +423,9 @@
                         }
 
                     });
-                this.txtItemName =this.txtActivityDate = null;
+
+
+                this.txtActivityName = this.txtActivityDate = null;
 
                 this.stopLoading();
             },

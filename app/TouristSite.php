@@ -2,12 +2,14 @@
 
 namespace App;
 
+use App\Http\Traits\FromNow;
 use App\Http\Traits\UrlName;
+use Arr;
 use Illuminate\Database\Eloquent\Model;
 
 class TouristSite extends Model
 {
-    use UrlName;
+    use UrlName, FromNow;
     //fillables
     protected $fillable = ['name', 'image', 'price'];
 
@@ -15,7 +17,14 @@ class TouristSite extends Model
 
     protected $withCount = ['reviews'];
 
-    protected $appends = ['thumbnail', 'source', 'url_name'];
+    protected $appends = [
+        'thumbnail',
+        'source',
+        'url_name',
+        'awesome_date'
+
+//        'is_it_near'
+    ];
 
 
     public function map()
@@ -39,6 +48,17 @@ class TouristSite extends Model
     {
         return $this->hasMany('App\Trips');
     }
+
+    public function nearbyHotels()
+    {
+        return $this->hasMany(NearSite::class,'tourist_site_id');
+    }
+
+
+
+//    public function getIsItNearAttribute(){
+//        return $this->reg;
+//    }
 
     public function getThumbnailAttribute(){
         return asset('storage/images/TouristSitePictures/thumbnails/'.$this->image);

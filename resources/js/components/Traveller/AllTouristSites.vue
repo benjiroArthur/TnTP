@@ -25,9 +25,18 @@
         <div id="BrowseTouristSites" v-if="showingTouristSites">
 
             <div class="row">
+                <div class="col offset-md-3 col-md-6">
+                    <div class="input-group mb-3">
+                        <input type="text" v-model="searchQuery" class="form-control" placeholder="Search for tourist site" aria-label="Search for tourist site" aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                            <button @click="searchForSite" class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <template v-for="touristSites in masterTouristSites">
-
-
                     <div v-for="site in touristSites" class="col-sm-12 col-md-4 col-lg-3" :key="site.id">
                         <site-mini :site="site" @site-clicked="viewSiteFull(site)"></site-mini>
 
@@ -64,6 +73,8 @@
                 loading: false,
 
                 tourSiteOffset: 0,
+                searchOffset: 0,
+                searchQuery: "",
 
 
 
@@ -115,6 +126,37 @@
                     .then(response => {
                         vm.masterTouristSites.push(response.data);
                         vm.tourSiteOffset += 5;
+                        vm.appState(3);
+
+                    })
+                    .catch(error => {
+                        if (error.response.status === 419) {
+                            let message = "Please you have been logged out because you were inactive."
+                            vm.registerError(419, null, message)
+
+                        } else {
+                            let message = "The was problem loading Your trips."
+                            vm.registerError(488, null, message)
+
+                        }
+
+                    });
+                this.stopLoading();
+            },
+            searchForSite() {
+
+                // AppCode 488
+                let vm = this;
+                this.startLoading();
+                axios.post('/data/trip',
+                    {
+                        mode: "search-tourist-sites-by-name",
+                        site_name: vm.searchQuery,
+                        q_offset:vm.searchOffset,
+                    })
+                    .then(response => {
+                        vm.masterTouristSites.unshift(response.data);
+                        vm.searchOffset += 5;
                         vm.appState(3);
 
                     })
@@ -198,42 +240,6 @@
         },
         created() {
             this.makeAction(488);
-
-
-
-            /*Swal.fire({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: true,
-                timer: 5000,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                    toast.addEventListener('mouseleave', Swal.resumeTimer);},
-                icon: 'success',
-                title: 'Tourist Site Added Successfully'
-            });*/
-
-            /*Swal.fire({
-                title: 'Are you sure?',
-                text: '<h2>Hello World!</h2>',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.value){
-                    alert("Nice you pressed Yes, delete it!");
-                }else {
-                    alert("You pressed Cancel");
-                }
-            });*/
-
-            /*toast.fire({
-                title: 'Are you sure?',
-                icon: 'warning',
-            });*/
         },
         watch:{
             appError:function (val) {

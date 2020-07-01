@@ -33,6 +33,12 @@
             </router-link>
         </li>
         <li class="nav-item">
+            <router-link to="/hotel/nearby-sites" class="nav-link">
+                <i class="fas fa-circle nav-icon green"></i>
+                <p>Nearby Sites</p>
+            </router-link>
+        </li>
+        <li class="nav-item">
             <router-link to="/hotel/profile" class="nav-link">
                 <i class="nav-icon fas fa-user-circle orange"></i>
                 <p>
