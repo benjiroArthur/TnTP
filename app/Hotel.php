@@ -66,4 +66,10 @@ class Hotel extends Model
         $phName = $phName[0];
         return $phName;
     }
+
+    public function nearSites()
+    {
+        return $this->hasMany(NearSite::class);
+    }
+
 }

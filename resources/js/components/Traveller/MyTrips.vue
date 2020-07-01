@@ -438,6 +438,7 @@
                         }
 
                     });
+                    
                 this.txtActivityName = this.txtActivityDate = null;
 
                 this.stopLoading();

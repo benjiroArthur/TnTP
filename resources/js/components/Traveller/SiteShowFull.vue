@@ -54,9 +54,20 @@
 
             <button class="btn btn-primary" @click="show">Schedule a Trip</button>
 
+            <hr>
 
+            <div class="card">
+                <div class="card-header">
+                    <h5>Hotels Around this Site</h5>
+                </div>
 
+                <div class="card-body">
+                    <div class="" v-for="hotel in nearbyHotels">
+                        <hotel-mini :hotel="hotel.hotel" @hotelClicked="alert('How is life')"></hotel-mini>
+                    </div>
+                </div>
 
+            </div>
         </div>
 
     </div>
@@ -88,6 +99,7 @@
                 appStateCode: 0,
 
                 activeTouristSite: undefined,
+                nearbyHotels:[],
 
 
                 viewerOptions:{
@@ -160,13 +172,63 @@
 
                 }
             },
+            loadSomething(param) {
+                let vm = this;
+                return new Promise(function (resolve, reject) {
+
+                    // alert("am loading something.");
+                    // let data = {
+                    //     mode: "add-to-near-site",
+                    //     errorMessage:"",
+                    //     errorCode:"",
+                    //      url:"",
+                    //
+                    // }
+                    let problem = true;
+                    vm.startLoading();
+                    axios.post(param.url,param)
+
+                        .then(response => {
+                            problem = false;
+                            vm.stopLoading();
+                            resolve(response.data);
+                            // this.alertSuccess();
+
+                        })
+                        .catch(error => {
+                            if (error.response.status === 419) {
+                                let message = "Please you have been logged out because you were inactive."
+                                vm.registerError(419, null, message)
+
+                            } else {
+                                vm.registerError(776, param, param.errorMessage)
+                            }
+                        });
+
+                });
+            },
             loadTouristSite(siteId) {
+
+                let data = {
+                    errorMessage:"",
+                    errorCode:"",
+                    url:"/data/trip",
+                    mode: "load-tourist-site",
+                    site_id: siteId
+
+                }
+
+                this.loadSomething(data).then((data)=>{
+                    this.activeTouristSite = data;
+                    this.appState(6);
+                });
+
                 // AppCode 677
 
-
+/*
                 let vm = this;
                 this.startLoading();
-                axios.post('/data/trip',
+                /!*axios.post('/data/trip',
                     {
                         mode: "load-tourist-site",
                         site_id: siteId,
@@ -191,8 +253,21 @@
 
                         }
 
-                    });
-                this.stopLoading();
+                    });*!/
+                this.stopLoading();*/
+            },
+            loadNearbyHotel(sideId) {
+                let vm = this;
+                let data = {
+                    mode: "load-nearby-hotels",
+                    site_id: sideId,
+                    errorMessage: "There was problem loading Nearby Hotels.",
+                    url:"/data/hotel/master",
+                }
+                this.loadSomething(data).then((data)=>{
+                    vm.nearbyHotels = data;
+                });
+
             },
             startLoading() {
                 this.loading = true;
@@ -225,6 +300,13 @@
                     case 677:
                         // alert('here ooo');
                         vm.loadTouristSite(param);
+                        // vm.loadNearbyHotel();
+                        break;
+
+                    case 776:
+                        // alert('here ooo');
+                        vm.loadNearbyHotel(param);
+                        // vm.loadNearbyHotel();
                         break;
 
                     case 123:
@@ -243,7 +325,6 @@
                 this.makeAction(this.appStateCode, this.errorParam);
                 this.appError = false;
             },
-
             reloadPage() {
                 if (this.errorCode === 419) {
                     location.assign(location.href);
@@ -255,6 +336,7 @@
             hide () {
                 $('#tripScheduleForm').modal('hide');
             },
+
             createTrip(){
                 let vm = this;
                 if (this.tripStartDate && this.tripEndDate && this.tripStartDate && this.activeTouristSite){
@@ -320,6 +402,7 @@
             }else{
                 let touristSiteId = this.$route.params.siteId;
                 this.makeAction(677, touristSiteId);
+                this.makeAction(776, touristSiteId);
 
             }
 
@@ -351,8 +434,10 @@
                 }else {
                     this.$Progress.finish();
                 }
-            }
-        }
+            },
+
+        },
+
     }
 </script>
 

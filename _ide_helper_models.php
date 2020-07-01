@@ -216,6 +216,14 @@ namespace App{
 }
 
 namespace App{
+    class TouristSite extends \Eloquent{}
+}
+namespace App{
+    class Activitiy extends \Eloquent{}
+}
+
+
+namespace App{
 /**
  * App\Map
  *

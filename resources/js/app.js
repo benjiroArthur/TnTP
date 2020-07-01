@@ -85,6 +85,7 @@ let routes = [
     {path:'/hotel/rooms', component: require('./components/Hotel/Rooms.vue').default},
     {path:'/hotel/bookings', component: require('./components/Hotel/Bookings.vue').default},
     {path:'/hotel/dashboard', component: require('./components/Hotel/Dashboard.vue').default},
+    {path:'/hotel/nearby-sites', component: require('./components/Hotel/NearBySites.vue').default},
     {path:'/room/details/:id', component: require('./components/Hotel/RoomDetails').default, name:'room-details'},
 
     //traveller
@@ -164,6 +165,7 @@ Vue.component(AlertSuccess.name, AlertSuccess);
 
 Vue.component('site-mini', require('./components/Traveller/SiteShowMini').default);
 Vue.component('traveller-nav', require('./components/Traveller/TravellerNav').default);
+Vue.component('hotel-mini', require('./components/Traveller/HotelShowMini').default);
 Vue.component('v-select', Multiselect);
 Vue.component('slick', Slick);
 
@@ -285,3 +287,26 @@ const app = new Vue({
 
 });
 
+
+/*
+
+
+if ("geolocation" in navigator) {
+    // check if geolocation is supported/enabled on current browser
+    navigator.geolocation.getCurrentPosition(
+        function success(position) {
+            // for when getting location is a success
+            console.log('latitude', position.coords.latitude,
+                'longitude', position.coords.longitude);
+        },
+        function error(error_message) {
+            // for when getting location results in an error
+            console.error('An error has occured while retrieving location', error_message);
+        })
+} else {
+    // geolocation is not supported
+    // get your location some other way
+    console.log('geolocation is not enabled on this browser')
+}
+
+*/

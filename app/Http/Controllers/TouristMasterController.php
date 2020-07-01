@@ -10,9 +10,16 @@ use App\TouristSite;
 use App\Trip;
 use App\User;
 use Illuminate\Http\Request;
+use Torann\GeoIP\GeoIP;
 
 class TouristMasterController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function master(Request $request)
     {
         $mode = $request->mode;
@@ -20,6 +27,9 @@ class TouristMasterController extends Controller
         switch ($mode) {
             case "load-tourist-sites":
                 return $this->loadTouristSites($request);
+                break;
+            case "search-tourist-sites-by-name":
+                return $this->searchTouristSiteByName($request);
                 break;
             case "load-tourist-site":
                 return $this->loadTouristSite($request);
@@ -57,6 +67,7 @@ class TouristMasterController extends Controller
                 break;
         }
 
+        return abort(404);
     }
 
     private function loadTouristSites($request)
@@ -79,13 +90,24 @@ class TouristMasterController extends Controller
         return Address::tourists($region->name, $offset, $limit);
     }
 
+    private function searchTouristSiteByName($request)
+    {
+        $name = $request->site_name;
+        $offset = $request->q_offset;
+
+
+        return json_encode(TouristSite::where('name', 'like', "%$name%")->get());
+    }
+
     private function loadRegions()
     {
+
         return Region::orderBy('name')->get();
     }
 
     private function loadRegion($request)
     {
+
         return Region::find($request->region_id);
     }
 
@@ -159,7 +181,7 @@ class TouristMasterController extends Controller
         return Trip::find($tripId)->activities;
     }
 
-    private function toggleActivityDoneState( $request)
+    private function toggleActivityDoneState($request)
     {
         $activity = Activitiy::find($request->id);
         $tripId = $activity->trip->id;
