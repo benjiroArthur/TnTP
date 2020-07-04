@@ -48,7 +48,8 @@
         </viewer>
 
         <div class="container-fluid">
-            <h4>{{activeTouristSite.name}} | {{activeTouristSite.address.region}}</h4>
+            <h4>{{activeTouristSite.name}} | <strong>{{activeTouristSite.address.region}}</strong></h4>
+            <h5>{{activeTouristSite.price|currency}}</h5>
 
             <p>{{activeTouristSite.description}}</p>
 
@@ -62,8 +63,10 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="" v-for="hotel in nearbyHotels">
-                        <hotel-mini :hotel="hotel.hotel" @hotelClicked="alert('How is life')"></hotel-mini>
+                    <div class="row" v-for="hotel in nearbyHotels">
+                        <div class="col-sm-12 col-md-4 col-lg-3">
+                            <hotel-mini :hotel="hotel.hotel" @hotel-clicked="showHotel(hotel.hotel)"></hotel-mini>
+                        </div>
                     </div>
                 </div>
 
@@ -159,12 +162,9 @@
                 this.showingTouristSite = false;
 
                 switch (StateId) {
-
-
                     // Showing Tourist site information
                     case 6:
                         vm.showingTouristSite = true;
-
                         break;
 
                     default:
@@ -337,6 +337,17 @@
                 $('#tripScheduleForm').modal('hide');
             },
 
+            showHotel(hotel){
+                this.$router.push({
+                    name:'hotel.show',
+                    params:{
+                        hotelName:hotel.url_name,
+                        hotelId:hotel.id,
+                        pHotel:hotel
+                    },
+                });
+            },
+
             createTrip(){
                 let vm = this;
                 if (this.tripStartDate && this.tripEndDate && this.tripStartDate && this.activeTouristSite){
@@ -397,6 +408,7 @@
         created() {
             if (this.pTouristSite){
                 this.activeTouristSite = this.pTouristSite;
+                this.makeAction(776, this.pTouristSite.id);
                 this.appState(6);
 
             }else{

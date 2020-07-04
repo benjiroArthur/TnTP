@@ -71,15 +71,50 @@
         },
         methods:{
 
-            makeSomething(param = null){
-                if (6===6){
-                    return "card-primary";
-                }else if(this.show ){
-                //    ...
-                }else if(param === 5){
-                //    ...
-                }
-            }
+            loadSomething(param) {
+                let vm = this;
+                return new Promise(function (resolve, reject) {
+
+                    // alert("am loading something.");
+                    // let data = {
+                    //     mode: "add-to-near-site",
+                    //     errorMessage:"",
+                    //     errorCode:"",
+                    //      url:"",
+                    //
+                    // }
+                    let problem = true;
+                    vm.startLoading();
+                    axios.post(param.url,param)
+
+                        .then(response => {
+                            problem = false;
+                            vm.stopLoading();
+                            resolve(response.data);
+                            // this.alertSuccess();
+
+                        })
+                        .catch(error => {
+                            if (error.response.status === 419) {
+                                let message = "Please you have been logged out because you were inactive."
+                                vm.registerError(419, null, message)
+
+                            } else {
+                                vm.registerError(776, param, param.errorMessage)
+                            }
+                        });
+
+                });
+            },
+            // makeSomething(param = null){
+            //     if (6===6){
+            //         return "card-primary";
+            //     }else if(this.show ){
+            //     //    ...
+            //     }else if(param === 5){
+            //     //    ...
+            //     }
+            // }
 
 
             // Helpers.reloadPage();

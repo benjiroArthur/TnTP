@@ -55,7 +55,7 @@ return [
             'visibility' => 'public',
         ],
 
-        
+
 
         's3' => [
             'driver' => 's3',
@@ -86,6 +86,12 @@ return [
         'room-images' => [
                     'driver' => 'local',
                     'root' => storage_path('app/public/images/hotel_rooms'),
+                    'url' => env('APP_URL').'/storage',
+                    'visibility' => 'public',
+                ],
+        'hotel-images' => [
+                    'driver' => 'local',
+                    'root' => storage_path('app/public/images/hotel'),
                     'url' => env('APP_URL').'/storage',
                     'visibility' => 'public',
                 ],

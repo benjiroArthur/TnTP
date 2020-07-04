@@ -28,11 +28,17 @@ class Image extends Model
         if($this->imageable_type === 'App\TouristSite'){
             return asset('storage/images/tourist_site/thumbnails/'.$this->name);
         }
+        elseif($this->imageable_type === 'App\Hotel'){
+            return asset('storage/images/hotel/thumbnails/'.$this->name);
+        }
         return asset('storage/images/hotel_rooms/thumbnails/'.$this->name);
     }
     public function getSourceAttribute(){
         if($this->imageable_type === 'App\TouristSite'){
             return asset('storage/images/tourist_site/original/'.$this->name);
+        }
+        elseif ($this->imageable_type === 'App\Hotel'){
+            return asset('storage/images/hotel/original/'.$this->name);
         }
         return asset('storage/images/hotel_rooms/original/'.$this->name);
     }

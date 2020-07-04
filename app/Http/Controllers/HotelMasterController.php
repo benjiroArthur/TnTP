@@ -27,6 +27,12 @@ class HotelMasterController extends Controller
             case "add-to-near-site":
                 return $this->addToNearSite($request);
                 break;
+            case "load-hotel":
+                return $this->loadHotel($request);
+                break;
+            case "load-hotel-rooms":
+                return $this->loadHotelRooms($request);
+                break;
             case "load-nearby-hotels":
                 return $this->loadNearbyHotel($request);
                 break;
@@ -88,5 +94,17 @@ class HotelMasterController extends Controller
         $touristSite = TouristSite::find($request->site_id);
         return $touristSite->nearbyhotels->load('hotel');
 //        return $touristSite->nearbyHotels()->without('tsite')->get();
+    }
+
+    private function loadHotel(Request $request)
+    {
+        return Hotel::find($request->hotel_id);
+    }
+
+    private function loadHotelRooms(Request $request)
+    {
+        $hotel = Hotel::find($request->hotel_id);
+        return $hotel->rooms;
+
     }
 }

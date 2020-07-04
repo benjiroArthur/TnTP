@@ -459,7 +459,7 @@
                     });
                 this.uploadFiles = [];
                 this.files = [];
-                this.formData = [];
+                this.formData = new FormData();
                 $('#otherImageModal').modal('hide');
                 }
                 else{

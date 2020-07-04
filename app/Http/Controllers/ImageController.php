@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Hotel;
 use App\Room;
 use App\TouristSite;
 use Illuminate\Http\Request;
@@ -99,6 +100,37 @@ class ImageController extends Controller
                   \Storage::disk('room-images')->put('original/'.$imageNameToStore, $mainImg);
 
                   $room->images()->create(
+                      [
+                          'name' => $imageNameToStore
+                      ]
+                  );
+                  $num++;
+
+              }
+              return response('success');
+          }
+          elseif ($request->type === 'hotel'){
+              $hotel = Hotel::findOrFail($request->id);
+              $num = 1;
+              foreach ($images as $image){
+
+                  $extension = $image -> getClientOriginalExtension();
+
+                  //Filename to store
+                  $imageNameToStore = time().$num.'.'.$extension;
+
+                  //resize image
+                  $thumbImg = \Image::make($image->getRealPath())->fit(450,300)->encode();
+                  $mainImg = \Image::make($image->getRealPath())->resize(1080,null,
+                      static function ($constraint){
+                          $constraint->aspectRatio();
+                          $constraint->upsize();
+                      })->encode();
+                  $imgLoc = Hotel::imageLocation();
+                  \Storage::disk($imgLoc)->put('thumbnails/'.$imageNameToStore, $thumbImg);
+                  \Storage::disk($imgLoc)->put('original/'.$imageNameToStore, $mainImg);
+
+                  $hotel->images()->create(
                       [
                           'name' => $imageNameToStore
                       ]

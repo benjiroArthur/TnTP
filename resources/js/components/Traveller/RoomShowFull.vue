@@ -1,17 +1,10 @@
 <template>
-    <div >
-        <div>
 
-        </div>
-    </div>
 </template>
 
 <script>
     export default {
-        name: "HotelShowFull",
-        props:{
-            pHotel:Object,
-        },
+        name: "RoomShowFull",
         data() {
             return {
                 appError: false,
@@ -151,53 +144,6 @@
                         });
                 });
             },
-
-            loadHotel(hotelId){
-
-                let vm = this;
-
-                let data = {
-                    mode: "load-hotel",
-                    errorMessage: "The was problem loading Hotel.",
-                    errorCode: "233",
-                    url: "/data/hotel/master",
-                    hotel_id: hotelId,
-                }
-                this.loadSomething(data).then((response) => {
-                    vm.activeHotel = response;
-
-                })
-            },
-            loadHotelRooms(hotelId){
-                let vm = this;
-
-                let data = {
-                    mode: "load-hotel-rooms",
-                    errorMessage: "The was problem loading Hotel Rooms.",
-                    errorCode: "344",
-                    url: "/data/hotel/master",
-                    hotel_id: hotelId,
-                }
-                this.loadSomething(data).then((response) => {
-                    vm.hotelRooms = response;
-
-                })
-            }
-
-        },
-        created() {
-            if (this.pHotel){
-                this.activeTouristSite = this.pHotel;
-                this.makeAction(344, this.pHotel.id);
-                this.appState(6);
-
-            }else{
-                let hotelId = this.$route.params.hotelId;
-                this.makeAction(233, hotelId);
-                this.makeAction(344, hotelId);
-
-            }
-
         },
         watch:{
             appError:function (val) {
@@ -225,6 +171,18 @@
                 }else {
                     this.$Progress.finish();
                 }
+            }
+        },
+        created() {
+            if (this.pHotel){
+                this.activeTouristSite = this.pHotel;
+                this.appState(6);
+
+            }else{
+                let hotelId = this.$route.params.hotelId;
+                this.makeAction(233, hotelId);
+                this.makeAction(344, hotelId);
+
             }
         },
 

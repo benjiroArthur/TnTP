@@ -83,6 +83,12 @@ let routes = [
     //hotel
     {path:'/hotel/profile', component: require('./components/Hotel/Profile.vue').default},
     {path:'/hotel/rooms', component: require('./components/Hotel/Rooms.vue').default},
+    {path:'/hotel/:hotelName/:hotelId',
+        component: require('./components/Traveller/HotelShowFull').default,
+        name:'hotel.show',
+        props: true
+    },
+
     {path:'/hotel/bookings', component: require('./components/Hotel/Bookings.vue').default},
     {path:'/hotel/dashboard', component: require('./components/Hotel/Dashboard.vue').default},
     {path:'/hotel/nearby-sites', component: require('./components/Hotel/NearBySites.vue').default},
@@ -93,7 +99,7 @@ let routes = [
     {path:'/user/trips', component: require('./components/Traveller/Trips.vue').default},
     {path:'/user/my-trips', component: require('./components/Traveller/MyTrips.vue').default, name:'user.my.trips'},
     {path:'/user/sites-by-regions', component: require('./components/Traveller/Regions.vue').default, name: 'user.regions'},
-    {path:'/user/view/:siteName/:siteId',
+    {path:'/tourist-site/:siteName/:siteId',
         component: require('./components/Traveller/SiteShowFull.vue').default,
         name: 'site.show',
         props: true},
@@ -101,6 +107,12 @@ let routes = [
     {path:'/user/:regionName/tourist-sites/:regionId',
         component: require('./components/Traveller/RegionTouristSites.vue').default,
         name: 'user.region.sites',
+        props: true,
+    },
+
+    {path:'/room/:roomName/:roomId',
+        component: require('./components/Traveller/RoomShowFull.vue').default,
+        name: 'user.room.show',
         props: true,
     },
 
@@ -163,6 +175,7 @@ Vue.component(AlertErrors.name, AlertErrors);
 Vue.component(AlertSuccess.name, AlertSuccess);
 
 
+Vue.component('room-mini', require('./components/Traveller/RoomShowMini').default);
 Vue.component('site-mini', require('./components/Traveller/SiteShowMini').default);
 Vue.component('traveller-nav', require('./components/Traveller/TravellerNav').default);
 Vue.component('hotel-mini', require('./components/Traveller/HotelShowMini').default);

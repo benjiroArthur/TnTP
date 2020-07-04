@@ -2,21 +2,25 @@
 
 namespace App;
 
+use App\Http\Traits\UrlName;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Hotel extends Model
 {
+    use UrlName;
+
     //fillables
     protected $fillable = ['code', 'name', 'email', 'image', 'phone_number'];
 
     //return with
 
-    protected $with = ['map', 'rooms'];
+    protected $with = ['map', 'rooms','images'];
 
 
 
-    protected $appends = ['registered', 'updated', 'full_name', 'first_name'];
+    protected $appends = ['registered', 'updated', 'full_name', 'first_name', 'url_name'];
 
     //relationship
     public function address()
@@ -30,6 +34,11 @@ class Hotel extends Model
     public function rooms()
     {
         return $this->hasMany('App\Room');
+    }
+
+    public function images()
+    {
+        return $this->morphMany('App\Image', 'imageable');
     }
 
     public function bookings()
@@ -60,6 +69,13 @@ class Hotel extends Model
         return $this->name;
     }
 
+    public function getThumbnailAttribute(){
+        return asset('storage/images/hotel/thumbnails/'.$this->image);
+    }
+    public function getSourceAttribute(){
+        return asset('storage/images/hotel/original/'.$this->image);
+    }
+
     public function getFirstNameAttribute(){
         $phName = $this->name;
         $phName = explode(" ", $phName);
@@ -70,6 +86,10 @@ class Hotel extends Model
     public function nearSites()
     {
         return $this->hasMany(NearSite::class);
+    }
+
+    public static function imageLocation(){
+        return "hotel-images";
     }
 
 }
