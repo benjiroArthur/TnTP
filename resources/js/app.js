@@ -65,6 +65,12 @@ require('bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-c
 
 //Vue.Component('Home', require('./components/Home.vue').default);
 let routes = [
+
+    // This was used to test the moment Js
+    // {path:'/ernest/ernest', component: require('./MomentTest').default},
+
+
+
     //general home
     {path:'/home', component: require('./components/Home.vue').default},
     {path:'/password/update', component: require('./components/Password.vue').default},

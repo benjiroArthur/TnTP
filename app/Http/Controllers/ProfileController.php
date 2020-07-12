@@ -127,10 +127,9 @@ class ProfileController extends Controller
 //
             $image_path = public_path().'/assets/ProfilePictures/'.$imageNameToStore;
             //resize image
-            Image::make($image_file->getRealPath())->resize(140,128)->save($image_path);
+            Image::make($image_file->getRealPath())->fit(350,350)->save($image_path);
 
             if(File::exists(public_path('/assets/ProfilePictures/'.$oldSplit)) && $oldSplit !== 'noimage.jpg'){
-
                 File::delete(public_path('/assets/ProfilePictures/'.$oldSplit));
             }
 

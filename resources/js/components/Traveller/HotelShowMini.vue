@@ -1,9 +1,10 @@
 <template>
     <div class="">
-        <div class="card mb-3 btn" @click="$emit('hotel-clicked',hotel)">
-            <img :src="hotel.image" class="card-img-top" :alt="hotel.name + ' thumbnail'">
+        <img :src="hotel.image" class="card-img-top" :alt="hotel.name + ' thumbnail'">
+        <div class="card mb-3 " >
             <div class="card-body">
-                <h5 class="card-title">{{hotel.name}}</h5>
+                <h5 class="card-title">{{hotel.name}} Hotel</h5>
+                <button class="btn btn-primary btn-block" @click="$emit('hotel-clicked',hotel)">Book a room</button>
             </div>
         </div>
     </div>

@@ -19,8 +19,6 @@ class BookingController extends Controller
            $bookings = Booking::where('hotel', $hotel->id)->get();
            return response()->json($bookings);
        }
-
-
     }
 
     /**

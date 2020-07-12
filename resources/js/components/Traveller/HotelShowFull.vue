@@ -1,11 +1,32 @@
 <template>
     <div >
-        <div>
+        <div v-if="showingHotelImages">
 
+            <viewer  ref="viewer" :trigger="activeHotel.images"  :options="viewerOptions">
+                <slick   :options="slickOptions"  ref="slick">
+                    <img v-for="image in activeHotel.images"
+                         :src="image.thumbnail" :data-src="image.source"
+                         :key="image.id" class="p-3">
+                </slick>
+            </viewer>
+            <div class="card">
+                <div class="card-header">
+                    <h5>Rooms In this Hotel</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="row" v-for="room in hotelRooms">
+                        <div class="col-sm-12 col-md-4 col-lg-3">
+                            <room-mini :room="room" @hotel-clicked="showRoom(room)"></room-mini>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </template>
-
+\
 <script>
     export default {
         name: "HotelShowFull",
@@ -20,7 +41,54 @@
                 appStateCode: 0,
                 loading: false,
 
+                viewerOptions:{
+                    url: 'data-src'
+                },
+                slickOptions: {
+                    fullscreen:true,
+                    keyboard:true,
+                    centerPadding: '40px',
+                    dots: true,
+                    title:false,
+                    autoplay:true,
+                    infinite: false,
 
+                    slidesToShow: 3,
+                    // slidesToScroll: 3,
+                    responsive: [
+                        {
+                            breakpoint: 1024,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 3,
+                                infinite: true,
+                                dots: true
+                            }
+                        },
+                        {
+                            breakpoint: 600,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 2
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1,
+                                centerMode: true,
+                            }
+                        }
+                    ]
+                    // dots: true,
+                    // infinite: true,
+                    // slidesToShow: 3,
+                    // slidesToScroll: 3
+                    // Any other options that can be got from plugin documentation
+                },
+
+                showingHotelImages:false,
                 activeHotel:{},
                 hotelRooms:{},
             }
@@ -29,16 +97,16 @@
             appState(StateId) {
                 let vm = this;
 
-                this.showingRegionTouristSites = false;
-                this.showingNearSites = false;
+                this.show = false;
+                this.showingHotelImages = false;
 
 
                 switch (StateId) {
 
 
-                    // Showing the site selected
+                    // Showing the Hotel Rooms
                     case 1:
-                        vm.showingNearSites = true;
+                        vm.showingHotelImages = true;
                         break;
                     // Showing Tourist Sites in that Region
                     case 2:
@@ -182,12 +250,24 @@
                     vm.hotelRooms = response;
 
                 })
-            }
+            },
+
+            showRoom(room){
+                this.$router.push({
+                    name:'room.show',
+                    params:{
+                        roomName:room.url_name,
+                        roomId:room.id,
+                        pRoom:room
+                    },
+                });
+            },
 
         },
         created() {
             if (this.pHotel){
                 this.activeTouristSite = this.pHotel;
+                this.hotelRooms = this.pHotel.rooms;
                 this.makeAction(344, this.pHotel.id);
                 this.appState(6);
 

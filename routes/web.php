@@ -17,6 +17,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/*
+Route::post('/load-time', function () {
+    return [
+        'has_started'=>true,
+        'start_time'=>\Carbon\Carbon::now()->addMinutes(10),
+        'end_time'=>\Carbon\Carbon::now()->addMinutes(30),
+        'started_at'=>\Carbon\Carbon::now()->subMinutes(29),
+
+    ];
+});*/
+
 Route::get('/js/popper.js.map', function () {
     return redirect('/home');
 });
@@ -80,14 +91,6 @@ Route::get('/room/details/{id}', function () {
 Route::get('/room/more/{id}', function () {
         return view('show-room');
 });
-
-
-
-
-
-
-
-
 
 
 
