@@ -1,7 +1,6 @@
 <template>
     <div >
         <div v-if="showingHotelImages">
-
             <viewer  ref="viewer" :trigger="activeHotel.images"  :options="viewerOptions">
                 <slick   :options="slickOptions"  ref="slick">
                     <img v-for="image in activeHotel.images"
@@ -9,12 +8,14 @@
                          :key="image.id" class="p-3">
                 </slick>
             </viewer>
-            <div class="card">
-                <div class="card-header">
+        </div>
+        <div v-if="showingHotelIRooms">
+            <div class="card" >
+                <div class="card-header" >
                     <h5>Rooms In this Hotel</h5>
                 </div>
 
-                <div class="card-body">
+                <div  class="card-body">
                     <div class="row" v-for="room in hotelRooms">
                         <div class="col-sm-12 col-md-4 col-lg-3">
                             <room-mini :room="room" @hotel-clicked="showRoom(room)"></room-mini>
@@ -89,6 +90,9 @@
                 },
 
                 showingHotelImages:false,
+                showingHotelIRooms:false,
+
+
                 activeHotel:{},
                 hotelRooms:{},
             }
@@ -99,18 +103,18 @@
 
                 this.show = false;
                 this.showingHotelImages = false;
+                this.showingHotelIRooms = false;
 
 
                 switch (StateId) {
 
-
-                    // Showing the Hotel Rooms
+                    // Showing the Hotel Images
                     case 1:
                         vm.showingHotelImages = true;
                         break;
-                    // Showing Tourist Sites in that Region
+                    // Showing Hotel Rooms
                     case 2:
-                        vm.showingRegionTouristSites = true;
+                        vm.showingHotelIRooms = true;
                         break;
                     default:
                         break;
@@ -269,12 +273,18 @@
                 this.activeTouristSite = this.pHotel;
                 this.hotelRooms = this.pHotel.rooms;
                 this.makeAction(344, this.pHotel.id);
-                this.appState(6);
+                this.appState(1);
+                this.appState(2);
+
+
 
             }else{
                 let hotelId = this.$route.params.hotelId;
                 this.makeAction(233, hotelId);
                 this.makeAction(344, hotelId);
+                this.appState(1);
+                this.appState(2);
+                
 
             }
 
