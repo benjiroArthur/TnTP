@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-3 btn" @click="$emit('site-clicked',room)">
+    <div class="card mb-3 btn" @click="$emit('room-clicked',room)">
         <div class="ribbon-wrapper ribbon-lg">
             <div class="ribbon btn-primary">
                 {{room.price|currency}}

@@ -1,5 +1,9 @@
 <template>
     <div >
+        <div class="container-fluid">
+            <h3>{{activeHotel.name}} | <strong>{{activeHotel.email}}</strong></h3>
+<!--            <h5>{{activeTouristSite.price|currency}}</h5>-->
+        </div>
         <div v-if="showingHotelImages">
             <viewer  ref="viewer" :trigger="activeHotel.images"  :options="viewerOptions">
                 <slick   :options="slickOptions"  ref="slick">
@@ -18,7 +22,7 @@
                 <div  class="card-body">
                     <div class="row" v-for="room in hotelRooms">
                         <div class="col-sm-12 col-md-4 col-lg-3">
-                            <room-mini :room="room" @hotel-clicked="showRoom(room)"></room-mini>
+                            <room-mini :room="room" @room-clicked="showRoom(room)"></room-mini>
                         </div>
                     </div>
                 </div>
@@ -102,19 +106,24 @@
                 let vm = this;
 
                 this.show = false;
-                this.showingHotelImages = false;
-                this.showingHotelIRooms = false;
+                vm.showingHotelImages = false;
+                vm.showingHotelIRooms = false;
 
 
                 switch (StateId) {
 
                     // Showing the Hotel Images
                     case 1:
-                        vm.showingHotelImages = true;
+                        setTimeout(()=>{
+                            vm.showingHotelImages = true;
+                            vm.showingHotelIRooms = true;
+                        },500);
+
                         break;
                     // Showing Hotel Rooms
                     case 2:
-                        vm.showingHotelIRooms = true;
+                        // vm.showingHotelIRooms = true;
+                        // vm.showingHotelImages = true;
                         break;
                     default:
                         break;
@@ -155,9 +164,6 @@
                     case 344:
                         vm.loadHotelRooms(param);
                         break;
-
-
-
                 }
             },
             registerError(code, param, message) {
@@ -200,7 +206,6 @@
                         errorMessage:"",
                         errorCode:"",
                          url:"",
-
                     }*/
                     let problem = true;
                     vm.startLoading();
@@ -237,7 +242,6 @@
                 }
                 this.loadSomething(data).then((response) => {
                     vm.activeHotel = response;
-
                 })
             },
             loadHotelRooms(hotelId){
@@ -252,13 +256,22 @@
                 }
                 this.loadSomething(data).then((response) => {
                     vm.hotelRooms = response;
-
                 })
             },
 
             showRoom(room){
+                // this.$router.push({
+                //     name:'hotel.show',
+                //     params:{
+                //         hotelName:hotel.url_name,
+                //         hotelId:hotel.id,
+                //         pHotel:hotel
+                //     },
+                // });
+
+
                 this.$router.push({
-                    name:'room.show',
+                    name:'user.room.show',
                     params:{
                         roomName:room.url_name,
                         roomId:room.id,
@@ -269,23 +282,18 @@
 
         },
         created() {
-            if (this.pHotel){
-                this.activeTouristSite = this.pHotel;
-                this.hotelRooms = this.pHotel.rooms;
-                this.makeAction(344, this.pHotel.id);
-                this.appState(1);
-                this.appState(2);
-
-
-
+            let vm = this;
+            if (vm.pHotel){
+                vm.activeHotel = vm.pHotel;
+                vm.hotelRooms = vm.pHotel.rooms;
+                vm.makeAction(344, vm.pHotel.id);
+                vm.appState(1);
             }else{
-                let hotelId = this.$route.params.hotelId;
-                this.makeAction(233, hotelId);
-                this.makeAction(344, hotelId);
-                this.appState(1);
-                this.appState(2);
-                
-
+                let hotelId = vm.$route.params.hotelId;
+                vm.makeAction(233, hotelId);
+                vm.makeAction(344, hotelId);
+                vm.appState(1);
+                // vm.appState(2);
             }
 
         },

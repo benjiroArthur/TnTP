@@ -1,5 +1,14 @@
 <template>
     <div>
+        <div v-if="showingRoomImages">
+            <viewer  ref="viewer" :trigger="activeRoom.images"  :options="viewerOptions">
+                <slick   :options="slickOptions"  ref="slick">
+                    <img v-for="image in activeRoom.images"
+                         :src="image.thumbnail" :data-src="image.source"
+                         :key="image.id" class="p-3">
+                </slick>
+            </viewer>
+        </div>
 
     </div>
 
@@ -8,6 +17,9 @@
 <script>
     export default {
         name: "RoomShowFull",
+        props:{
+            pRoom:Object,
+        },
         data() {
             return {
                 appError: false,
@@ -16,30 +28,82 @@
                 appStateCode: 0,
                 loading: false,
 
+                showingRoomImages:false,
 
-                activeHotel:{},
-                hotelRooms:{},
+                viewerOptions:{
+                    url: 'data-src'
+                },
+                slickOptions: {
+                    fullscreen:true,
+                    keyboard:true,
+                    centerPadding: '40px',
+                    dots: true,
+                    title:false,
+                    autoplay:true,
+                    infinite: false,
+
+                    slidesToShow: 3,
+                    // slidesToScroll: 3,
+                    responsive: [
+                        {
+                            breakpoint: 1024,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 3,
+                                infinite: true,
+                                dots: true
+                            }
+                        },
+                        {
+                            breakpoint: 600,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 2
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1,
+                                centerMode: true,
+                            }
+                        }
+                    ]
+                    // dots: true,
+                    // infinite: true,
+                    // slidesToShow: 3,
+                    // slidesToScroll: 3
+                    // Any other options that can be got from plugin documentation
+                },
+
+
+                activeRoom:{},
+                roomImages:{},
             }
         },
         methods:{
             appState(StateId) {
                 let vm = this;
 
-                this.showingRegionTouristSites = false;
-                this.showingNearSites = false;
+                this.showingRoomImages = false;
+                // this.showingNearSites = false;
 
 
                 switch (StateId) {
 
 
-                    // Showing the site selected
+                    // Showing the room Images
                     case 1:
-                        vm.showingNearSites = true;
+                        setInterval(()=>{
+                            vm.showingRoomImages = true;
+                        },500);
+
                         break;
                     // Showing Tourist Sites in that Region
-                    case 2:
-                        vm.showingRegionTouristSites = true;
-                        break;
+                    // case 2:
+                    //     vm.showingRegionTouristSites = true;
+                    //     break;
                     default:
                         break;
 
@@ -72,13 +136,10 @@
                         this.errorParam = undefined;
                         break;
 
-                    case 233:
-                        vm.loadHotel(param);
+                    case 455:
+                        vm.loadRoom(param);
                         break;
 
-                    case 344:
-                        vm.loadHotelRooms(param);
-                        break;
 
 
 
@@ -148,6 +209,22 @@
                 });
             },
 
+            loadRoom(roomId){
+
+                let vm = this;
+
+                let data = {
+                    mode: "load-room",
+                    errorMessage: "The was problem loading Room Info.",
+                    errorCode: "455",
+                    url: "/data/hotel/master",
+                    room_id: roomId,
+                }
+                this.loadSomething(data).then((response) => {
+                    vm.activeRoom = response;
+                });
+            },
+
         },
         watch:{
             appError:function (val) {
@@ -178,14 +255,12 @@
             }
         },
         created() {
-            if (this.pHotel){
-                this.activeTouristSite = this.pHotel;
-                this.appState(6);
-
+            if (this.pRoom){
+                this.activeRoom = this.pRoom;
+                this.appState(1);
             }else{
-                let hotelId = this.$route.params.hotelId;
-                this.makeAction(233, hotelId);
-                this.makeAction(344, hotelId);
+                let roomId = this.$route.params.roomId;
+                this.makeAction(455, roomId);
 
             }
         },

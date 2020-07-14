@@ -296,7 +296,7 @@ const app = new Vue({
 
         Echo.channel('newUser').listen('NewUser', function(e){
             //this.index();
-            console.log(e);
+            // console.log(e);
         });
     },
     created(){

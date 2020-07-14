@@ -8,8 +8,6 @@ use Str;
 
 trait UrlName
 {
-
-
     public function getUrlNameAttribute(){
         return Str::slug($this->name);
     }
