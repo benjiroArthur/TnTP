@@ -10,6 +10,10 @@
             </viewer>
         </div>
 
+        <div class="container-fluid">
+            <h5>price: {{activeRoom.price|currency}}</h5>
+            <button class="btn btn-lg btn-primary">Book this room</button>
+        </div>
     </div>
 
 </template>
