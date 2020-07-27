@@ -51,7 +51,9 @@ Route::group(['prefix' => 'data', 'as' => 'data.'], function() {
     Route::get('/city/{region}', 'ProfileController@city');
     Route::post('/hotel/map', 'ProfileController@hotelMap');
     Route::post('/trip', 'TouristMasterController@master')->name('trip');
+    Route::get('/trip', function (){abort(404);});
     Route::post('/hotel/master', 'HotelMasterController@master')->name('hotel.master');
+    Route::get('/hotel/master', function (){abort(404);});
     Route::get('/get-sites', 'HomeController@getSites');
     Route::resource('/users', 'UsersController');
     Route::resource('/rooms', 'RoomsController');

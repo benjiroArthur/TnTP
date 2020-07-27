@@ -1,6 +1,74 @@
 <template>
     <div>
-        <div v-if="showingRoomImages">
+        <div>
+            <div class="modal animate__animated animate__backInDown" tabindex="-1" role="dialog" id="BookRoomModal">
+                <div class="modal-dialog">
+                    <div class="modal-content ">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Book This Room</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+<!--                            <label for="name">Trip Name</label>-->
+<!--                            <input type="text" id="name" class="form-control" placeholder="Nice Trip Name" v-model="tripName">-->
+
+                            <div class="row">
+                                <div class="col">
+<!--                                    <label for="startDate">Start Date</label>-->
+                                    <date-picker
+                                        id="startDate"
+                                        :config="options"
+                                        v-model="StartDate"
+                                        name="dob"
+                                        placeholder="Select Start Date"
+                                        class="form-control"
+                                    ></date-picker>
+
+<!--                                    <input type="date" id="startDate" class="form-control" v-model="StartDate">-->
+                                </div>
+                                <div class="col">
+<!--                                    <label for="endDate">End Date</label>-->
+
+                                    <date-picker
+                                        id="endDate"
+                                        :config="options"
+                                        v-model="EndDate"
+                                        name="dob"
+                                        class="form-control"
+                                        placeholder="Select End Date"
+
+                                    ></date-picker>
+
+<!--                                    <input type="date" id="endDate" class="form-control" v-model="EndDate">-->
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" @click="prepareBooking" class="btn btn-primary">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">{{activeRoom.room_number}}</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Rooms</a></li>
+                        <li class="breadcrumb-item active">{{activeRoom.room_number}}</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div>
+
+        <div class="container-fluid" v-if="showingRoomImages">
             <viewer  ref="viewer" :trigger="activeRoom.images"  :options="viewerOptions">
                 <slick   :options="slickOptions"  ref="slick">
                     <img v-for="image in activeRoom.images"
@@ -10,16 +78,23 @@
             </viewer>
         </div>
 
+        <div class="container-fluid">
+            <h5 class="mb-3">Price: {{activeRoom.price|currency}}</h5>
+            <button class="btn btn-lg btn-primary" data-toggle="modal" data-target="#BookRoomModal">Book this room</button>
+        </div>
     </div>
 
 </template>
 
 <script>
+    import DatePicker from "vue-bootstrap-datetimepicker/src/component";
     export default {
         name: "RoomShowFull",
+        components: {DatePicker},
         props:{
             pRoom:Object,
         },
+
         data() {
             return {
                 appError: false,
@@ -28,8 +103,17 @@
                 appStateCode: 0,
                 loading: false,
 
+                controllerUrl: "/data/hotel/master",
+
+                StartDate:null,
+                EndDate:null,
+
                 showingRoomImages:false,
 
+                options: {
+                    format: 'YYYY-MM-DD',
+                    useCurrent:false
+                },
                 viewerOptions:{
                     url: 'data-src'
                 },
@@ -121,6 +205,7 @@
                 }, sec);
             },
             makeAction(code, param = null) {
+                // alert("Making Action "+ code);
                 /*
                 * code 419 => Reload Page
                 * Code 100 => Load Nearby Tourist Sites
@@ -139,9 +224,9 @@
                     case 455:
                         vm.loadRoom(param);
                         break;
-
-
-
+                    case 456:
+                        vm.submitBooking(param);
+                        break;
 
                 }
             },
@@ -152,15 +237,18 @@
                 this.appError = true;
             },
             tryAgain() {
-                this.makeAction(this.appStateCode, this.errorParam);
                 this.appError = false;
+                let vm = this;
+                vm.makeAction(vm.appStateCode, vm.errorParam);
+                // setTimeout(()=>{
+                //     vm.makeAction(vm.appStateCode, vm.errorParam);
+                // },500);
+
             },
             reloadPage() {
-                if (this.errorCode === 419) {
-                    location.assign(location.href);
-                }
+                location.assign(location.href);
             },
-            alertSuccess(message="Successfully"){
+            alertSuccess(message = "Successfully"){
                 Swal.fire({
                     toast: true,
                     position: 'top-end',
@@ -173,6 +261,36 @@
                     icon: 'success',
                     title: message
                 });
+            },
+
+            prepareBooking(){
+            //    make action submit booking
+                let vm = this;
+                if (vm.EndDate && vm.StartDate){
+
+                    // alert("am loading something.");
+                    let data = {
+                        mode: "book-room",
+                        errorMessage:"There was problem booking room.",
+                        errorCode:456,
+                        url:vm.controllerUrl,
+                        start_date:vm.StartDate,
+                        end_date:vm.EndDate,
+                        room_id:vm.activeRoom.id
+
+                    }
+
+                    vm.makeAction(456,data);
+                }
+            },
+            submitBooking(param){
+                // Action code = 456
+                let vm = this;
+
+                vm.loadSomething(param).then((response)=>{
+                    console.log(response);
+                })
+
             },
 
             loadSomething(param) {
@@ -202,13 +320,12 @@
                                 vm.registerError(419, null, message)
 
                             } else {
-                                vm.registerError(776, param, param.errorMessage)
+                                vm.registerError(param.errorCode, param, param.errorMessage)
                             }
                             reject(error);
                         });
                 });
             },
-
             loadRoom(roomId){
 
                 let vm = this;
@@ -216,7 +333,7 @@
                 let data = {
                     mode: "load-room",
                     errorMessage: "The was problem loading Room Info.",
-                    errorCode: "455",
+                    errorCode: 455,
                     url: "/data/hotel/master",
                     room_id: roomId,
                 }
@@ -241,6 +358,8 @@
                     }).then((result) => {
                         if (result.value) {
                             vm.tryAgain();
+                        }else {
+                            vm.appError = false;
                         }
                     });
                 }
@@ -261,6 +380,7 @@
             }else{
                 let roomId = this.$route.params.roomId;
                 this.makeAction(455, roomId);
+                this.appState(1);
 
             }
         },

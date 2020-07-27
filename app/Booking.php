@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use phpseclib\Crypt\Random;
 
 class Booking extends Model
 {
+
+
+
     //fillables
     protected $fillable = ['room_id', 'start_date', 'end_date', 'user_id', 'booking_id'];
 
@@ -13,6 +17,10 @@ class Booking extends Model
 
     protected $with =['user'];
 
+    protected $casts = [
+      'start_date'=>'date',
+      'end_date'=>'date'
+    ];
 
     //relationship
     public function hotel()
@@ -27,4 +35,5 @@ class Booking extends Model
     {
         return $this->belongsTo('App\User');
     }
+
 }
