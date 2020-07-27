@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 6.18.3 on 2020-06-27 12:32:04.
+ * Generated for Laravel 6.18.3 on 2020-07-26 20:20:01.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -14970,6 +14970,100 @@ namespace Illuminate\Support {
  
 }
 
+namespace Webcraft\Random { 
+
+    /**
+     * 
+     *
+     */ 
+    class RandomFacade {
+        
+        /**
+         * Add a random number source to the generator
+         *
+         * @param \RandomLib\Source $source The random number source to add
+         * @return \Generator $this The current generator instance
+         * @static 
+         */ 
+        public static function addSource($source)
+        {
+                        /** @var \RandomLib\Generator $instance */
+                        return $instance->addSource($source);
+        }
+        
+        /**
+         * Generate a random number (string) of the requested size
+         *
+         * @param int $size The size of the requested random number
+         * @return string The generated random number (string)
+         * @static 
+         */ 
+        public static function generate($size)
+        {
+                        /** @var \RandomLib\Generator $instance */
+                        return $instance->generate($size);
+        }
+        
+        /**
+         * Generate a random integer with the given range
+         *
+         * @param int $min The lower bound of the range to generate
+         * @param int $max The upper bound of the range to generate
+         * @return int The generated random number within the range
+         * @static 
+         */ 
+        public static function generateInt($min = 0, $max = 9223372036854775807)
+        {
+                        /** @var \RandomLib\Generator $instance */
+                        return $instance->generateInt($min, $max);
+        }
+        
+        /**
+         * Generate a random string of specified length.
+         * 
+         * This uses the supplied character list for generating the new result
+         * string.
+         *
+         * @param int $length The length of the generated string
+         * @param mixed $characters String: An optional list of characters to use
+         *                          Integer: Character flags
+         * @return string The generated random string
+         * @static 
+         */ 
+        public static function generateString($length, $characters = '')
+        {
+                        /** @var \RandomLib\Generator $instance */
+                        return $instance->generateString($length, $characters);
+        }
+        
+        /**
+         * Get the Mixer used for this instance
+         *
+         * @return \RandomLib\Mixer the current mixer
+         * @static 
+         */ 
+        public static function getMixer()
+        {
+                        /** @var \RandomLib\Generator $instance */
+                        return $instance->getMixer();
+        }
+        
+        /**
+         * Get the Sources used for this instance
+         *
+         * @return \RandomLib\Source[] the current mixer
+         * @static 
+         */ 
+        public static function getSources()
+        {
+                        /** @var \RandomLib\Generator $instance */
+                        return $instance->getSources();
+        }
+         
+    }
+ 
+}
+
 namespace Collective\Html { 
 
     /**
@@ -19969,6 +20063,8 @@ namespace  {
     class Queue extends \Illuminate\Support\Facades\Queue {}
 
     class Redirect extends \Illuminate\Support\Facades\Redirect {}
+
+    class Random extends \Webcraft\Random\RandomFacade {}
 
     class Request extends \Illuminate\Support\Facades\Request {}
 

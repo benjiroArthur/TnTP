@@ -50,11 +50,11 @@
             @include('includes.messages')
             @yield('content')
 
+            <vue-progress-bar></vue-progress-bar>
             <router-view>
 
                 {{--Vue elements goes here--}}
             </router-view>
-            <vue-progress-bar></vue-progress-bar>
         </div>
 
     </div>

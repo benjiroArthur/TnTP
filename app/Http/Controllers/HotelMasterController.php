@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Address;
+use App\Booking;
+use App\Events\RoomBooked;
 use App\Hotel;
 use App\NearSite;
 use App\Room;
 use App\TouristSite;
 use Illuminate\Http\Request;
+use Random;
+
 
 class HotelMasterController extends Controller
 {
@@ -39,6 +43,12 @@ class HotelMasterController extends Controller
                 break;
             case "load-nearby-hotels":
                 return $this->loadNearbyHotel($request);
+                break;
+            case "book-room":
+                return $this->bookRoom($request);
+                break;
+                case "cancel-booked-room":
+                return $this->cancelBookedRoom($request);
                 break;
             default :
 //                abort("504","haha got you.");
@@ -117,6 +127,51 @@ class HotelMasterController extends Controller
     {
         $hotel = Hotel::find($request->hotel_id);
         return $hotel->rooms;
+
+    }
+
+    private function bookRoom(Request $request)
+    {
+//        return $request;
+//        fasxx
+//        return [
+//            $request->end_date,
+//            $request->start_date
+//        ];
+
+
+        $booking = new Booking();
+        $booking->booking_code = 454445;
+        $booking->start_date = $request->start_date;
+        $booking->end_date = $request->end_date;
+        $booking->room_id = $request->room_id;
+        $booking->user_id = auth()->id();
+
+        $room = Room::findOrFail($request->room_id);
+        $hotel_code = $room->hotel->code;
+
+        while (true){
+//            $prefix = Random::generateString(2, '56789');
+            $prefix = $hotel_code;
+            $append = Random::generateString(4, '1234567890');
+
+            $code = $prefix."-".$append;
+            if (Booking::where('booking_code',$code)->count()==0){
+                break;
+            }
+        }
+        $booking->booking_code = $code;
+
+        $booking->save();
+
+//        Send Broadcast to Hotel
+        broadcast(new RoomBooked($booking));
+
+        return $booking;
+    }
+
+    private function cancelBookedRoom(Request $request)
+    {
 
     }
 }

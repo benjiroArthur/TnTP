@@ -10,7 +10,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Trip Schedule Details</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -84,7 +84,6 @@
         },
         data() {
             return {
-
                 tripName:null,
                 tripStartDate:null,
                 tripEndDate:null,
@@ -152,7 +151,6 @@
                     // slidesToScroll: 3
                     // Any other options that can be got from plugin documentation
                 },
-
             }
         },
         methods: {

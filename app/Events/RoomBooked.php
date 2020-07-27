@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\User;
+use App\Booking;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,21 +11,19 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewUser implements ShouldBroadcast
+class RoomBooked implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-
-    public $user;
+    public $booking;
     /**
      * Create a new event instance.
-     * @param User $user
+     * @param Booking $booking
      * @return void
      */
-
-    public function __construct(User $user)
+    public function __construct(Booking $booking)
     {
-        $this->user = $user;
+        $this->booking = $booking;
     }
 
     /**
@@ -35,10 +33,10 @@ class NewUser implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('newUser' );
+        return new PrivateChannel('room-booked');
     }
-//
-//    public function broadcastWith(){
-//        return ["user" => $this->user];
-//    }
+
+    public function broadcastWith(){
+        return ["booking" => $this->booking];
+    }
 }
