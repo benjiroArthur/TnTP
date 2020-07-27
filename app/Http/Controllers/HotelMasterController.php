@@ -47,8 +47,11 @@ class HotelMasterController extends Controller
             case "book-room":
                 return $this->bookRoom($request);
                 break;
-                case "cancel-booked-room":
+            case "cancel-booked-room":
                 return $this->cancelBookedRoom($request);
+                break;
+            case "check-booked-room":
+                return $this->checkBookedRoom($request);
                 break;
             default :
 //                abort("504","haha got you.");
@@ -72,6 +75,18 @@ class HotelMasterController extends Controller
         return Address::tourists(\auth()->user()->address->region);
     }
 
+    private function removeFromNearSites(Request $request)
+    {
+        $touristSite = TouristSite::find($request->site_id);
+
+        $hotelId = auth()->user()->userable->id;
+        $nearSite = NearSite::where([
+            ['hotel_id', $hotelId],
+            ['tourist_site_id', $touristSite->id]
+        ])->delete();
+//        Hotel::find($hotelId)->nearSites()->detach($touristSite);
+        return Hotel::find($hotelId)->nearSites->load('tsite');
+    }
 
     private function addToNearSite(Request $request)
     {
@@ -93,26 +108,6 @@ class HotelMasterController extends Controller
         return Hotel::find($hotelId)->nearSites->load('tsite');
     }
 
-    private function removeFromNearSites(Request $request)
-    {
-        $touristSite = TouristSite::find($request->site_id);
-
-        $hotelId = auth()->user()->userable->id;
-        $nearSite = NearSite::where([
-            ['hotel_id', $hotelId],
-            ['tourist_site_id', $touristSite->id]
-        ])->delete();
-//        Hotel::find($hotelId)->nearSites()->detach($touristSite);
-        return Hotel::find($hotelId)->nearSites->load('tsite');
-    }
-
-    private function loadNearbyHotel(Request $request)
-    {
-        $touristSite = TouristSite::find($request->site_id);
-        return $touristSite->nearbyhotels->load('hotel');
-//        return $touristSite->nearbyHotels()->without('tsite')->get();
-    }
-
     private function loadHotel(Request $request)
     {
         return Hotel::find($request->hotel_id);
@@ -128,6 +123,13 @@ class HotelMasterController extends Controller
         $hotel = Hotel::find($request->hotel_id);
         return $hotel->rooms;
 
+    }
+
+    private function loadNearbyHotel(Request $request)
+    {
+        $touristSite = TouristSite::find($request->site_id);
+        return $touristSite->nearbyhotels->load('hotel');
+//        return $touristSite->nearbyHotels()->without('tsite')->get();
     }
 
     private function bookRoom(Request $request)
@@ -150,13 +152,13 @@ class HotelMasterController extends Controller
         $room = Room::findOrFail($request->room_id);
         $hotel_code = $room->hotel->code;
 
-        while (true){
+        while (true) {
 //            $prefix = Random::generateString(2, '56789');
             $prefix = $hotel_code;
             $append = Random::generateString(4, '1234567890');
 
-            $code = $prefix."-".$append;
-            if (Booking::where('booking_code',$code)->count()==0){
+            $code = $prefix . "-" . $append;
+            if (Booking::where('booking_code', $code)->count() == 0) {
                 break;
             }
         }
@@ -171,6 +173,11 @@ class HotelMasterController extends Controller
     }
 
     private function cancelBookedRoom(Request $request)
+    {
+
+    }
+
+    private function checkBookedRoom(Request $request)
     {
 
     }
