@@ -6,7 +6,13 @@
             </div>
 
             <div class="card-body">
-                <div class="row">
+                <div v-if="NearBySitesList.length === 0" class="alert alert-info">
+                    So far you have not selected the tourist sites near your hotel.
+                    If you select the tourist sites, it will appear here.
+                    People will also know that your hotel is near those tourist sites.
+                    Make sure to update your Region to use this feature.
+                </div>
+                <div v-else class="row">
                     <template v-for="touristSites in NearBySitesList">
                         <div class="col-sm-12 col-md-4 col-lg-3" >
 
@@ -25,12 +31,18 @@
 
         <div class="card animate__animated animate__slideInRight" v-if="showingRegionTouristSites">
             <div class="card-header bg-indigo animate__animated animate__slideInRight animate__slow">
-                <h5>Select tourist sites near your hotel. <button @click="appState(1)" class="float-right"><i class="fa fa-angle-left"></i>Back</button></h5>
+                <h5>Select tourist sites near your hotel.
+                    <button @click="appState(1)" class="float-right">
+                        <i class="fa fa-angle-left"></i>Back
+                    </button>
+                </h5>
             </div>
             <div class="card-body">
+                <div v-if="RegionTouristSites.length === 0" class="alert alert-info">
+                    There is no tourist site around you.
+                </div>
                 <div class="row">
                     <div class="col-sm-12 col-md-4 col-lg-3" :key="site.addressable.id" v-for="site in RegionTouristSites">
-
                         <site-mini :site="site.addressable" @site-clicked="viewSiteFull(site.addressable)"></site-mini>
                         <button :disabled="isSelected" class="btn btn-primary mt-0" @click="addToNearSite(site.addressable.id)">Select</button>
                     </div>
@@ -218,7 +230,6 @@
                 axios.post('/data/hotel/master',
                     {
                         mode: "load-nearby-sites",
-
                     })
                     .then(response => {
                         vm.NearBySitesList = response.data;
@@ -304,6 +315,7 @@
             }
         },
         created() {
+            // alert(this.);
             this.loadNearbySites();
             this.loadRegionSites();
             this.appState(1);

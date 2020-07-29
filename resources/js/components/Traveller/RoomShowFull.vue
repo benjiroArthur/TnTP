@@ -18,6 +18,7 @@
                                 <div class="col">
 <!--                                    <label for="startDate">Start Date</label>-->
                                     <date-picker
+                                        @dp-change="makeIsAvailableFalse"
                                         id="startDate"
                                         :config="options"
                                         v-model="StartDate"
@@ -32,6 +33,7 @@
 <!--                                    <label for="endDate">End Date</label>-->
 
                                     <date-picker
+                                        @dp-change="makeIsAvailableFalse"
                                         id="endDate"
                                         :config="options"
                                         v-model="EndDate"
@@ -41,14 +43,28 @@
 
                                     ></date-picker>
 
+
 <!--                                    <input type="date" id="endDate" class="form-control" v-model="EndDate">-->
                                 </div>
+
+                            </div>
+
+                            <div v-if="!checkingAvailability" class="m-4 alert" :class="checkingAvailabilityClass">
+                                {{checkingAvailabilityMessage}}
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" @click="prepareBooking" class="btn btn-primary">Confirm</button>
+<!--                            v-if="canCheckAvailability"-->
+                            <button @click="makeAction(665)" class="btn btn-success animate__animated  "  :class="canCheckAvailability ?'animate__slideInLeft':'animate__slideOutLeft' " >
+                                <span v-if="checkingAvailability" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span v-if="checkingAvailability" class="sr-only">Loading...</span>
+                                Check Availability
+                            </button>
+
+                            <button type="button" @click="prepareBooking" v-if="isAvailable" class="btn btn-primary animate__animated animate__heartBeat" data-dismiss="modal"> Confirm</button>
+                            <button type="button"  class="btn btn-outline-info" v-if="StartDate||EndDate" @click="clearForm">Clear</button>
+                            <button type="button"  class="btn btn-secondary"  data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -88,6 +104,7 @@
 
 <script>
     import DatePicker from "vue-bootstrap-datetimepicker/src/component";
+    import moment from 'moment';
     export default {
         name: "RoomShowFull",
         components: {DatePicker},
@@ -95,6 +112,21 @@
             pRoom:Object,
         },
 
+        computed:{
+            canCheckAvailability(){
+                if(!this.isAvailable && this.StartDate && this.EndDate ){
+                   let startDate = moment(this.StartDate,'YYYY-MM-DD');
+                   let endDate = moment(this.EndDate,'YYYY-MM-DD');
+                   let today = moment();
+
+                   // Start date is less than today or End date is less than today
+                   // and end date should not be less than start date
+                   return !(startDate.isBefore(today) || endDate.isBefore(today) || endDate.isBefore(startDate));
+                }else {
+                    return false;
+                }
+            },
+        },
         data() {
             return {
                 appError: false,
@@ -107,6 +139,11 @@
 
                 StartDate:null,
                 EndDate:null,
+
+                isAvailable:false,
+                checkingAvailability:false,
+                checkingAvailabilityMessage:"",
+                checkingAvailabilityClass:'alert-white',
 
                 showingRoomImages:false,
 
@@ -227,6 +264,9 @@
                     case 456:
                         vm.submitBooking(param);
                         break;
+                    case 665:
+                        vm.checkBookingAvailability(param);
+                        break;
 
                 }
             },
@@ -253,7 +293,7 @@
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: true,
-                    timer: 5000,
+                    timer: 10000,
                     timerProgressBar: true,
                     onOpen: (toast) => {
                         toast.addEventListener('mouseenter', Swal.stopTimer);
@@ -261,6 +301,58 @@
                     icon: 'success',
                     title: message
                 });
+            },
+
+            clearForm(){
+              this.StartDate = this.EndDate = null;
+              this.checkingAvailabilityMessage = "";
+              this.checkingAvailabilityClass = "alert-white";
+              this.makeIsAvailableFalse();
+
+            },
+
+            makeIsAvailableFalse(){
+              this.isAvailable = false;
+            },
+
+            checkBookingAvailability: function (param = null) {
+
+                if (this.checkingAvailability){
+                    return;
+                }
+
+                let vm = this;
+                let data = {
+                    mode: "check-booked-room",
+                    errorMessage: "There was problem checking.",
+                    errorCode: 665,
+                    url: vm.controllerUrl,
+                    start_date: vm.StartDate,
+                    end_date: vm.EndDate,
+                    room_id: vm.activeRoom.id
+
+                }
+                // alert("am loading something.");
+                if (param) {
+                    data = param;
+                }
+
+                this.checkingAvailability = true;
+
+                vm.loadSomething(data).then((response) => {
+                    vm.checkingAvailability = false;
+                    if (response.available) {
+                        vm.checkingAvailabilityMessage ="The room is available.";
+                        vm.checkingAvailabilityClass = "alert-success";
+                        vm.isAvailable = true;
+                    } else {
+                        vm.checkingAvailabilityMessage ="Please select different date or select different room.";
+                        vm.checkingAvailabilityClass = "alert-danger";
+
+                    }
+                });
+
+                // vm.makeAction(665,data);
             },
 
             prepareBooking(){
@@ -288,7 +380,9 @@
                 let vm = this;
 
                 vm.loadSomething(param).then((response)=>{
-                    console.log(response);
+                    vm.alertSuccess("Room Booked Successfully. Booking Code: "+response.booking_code)
+                    vm.clearForm();
+                    // console.log(response.booking_code);
                 })
 
             },

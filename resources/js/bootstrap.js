@@ -44,3 +44,4 @@ window.Echo = new Echo({
     // wsPort: process.env.MIX_PUSHER_APP_CLUSTER
     wsPort: 6001
 });
+

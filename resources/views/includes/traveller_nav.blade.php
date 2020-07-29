@@ -27,6 +27,13 @@
                     </router-link>
                 </li>
 
+                <li class="nav-item">
+                    <router-link :to="{name:'user.bookings'}" class="nav-link">
+                        <i class="fas fa-user nav-icon white"></i>
+                        <p>My Bookings</p>
+                    </router-link>
+                </li>
+
 
                 <li class="nav-item">
                     <router-link :to="{name:'user.sites'}" class="nav-link">

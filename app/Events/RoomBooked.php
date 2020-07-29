@@ -33,7 +33,7 @@ class RoomBooked implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('room-booked');
+        return new PrivateChannel('roomBooked');
     }
 
     public function broadcastWith(){

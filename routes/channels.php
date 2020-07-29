@@ -11,6 +11,8 @@
 |
 */
 
+use App\Events\RoomBooked;
+
 Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
@@ -18,3 +20,9 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 Broadcast::channel('newUser', function () {
     return true;
 });
+
+Broadcast::channel('roomBooked', function () {
+    return true;
+});
+
+//Broadcast::channel('room-booked',RoomBooked::class);

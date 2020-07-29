@@ -124,7 +124,7 @@ let routes = [
 
     {path:'/user/all-tourist-sites', component: require('./components/Traveller/AllTouristSites.vue').default, name: 'user.sites'},
     {path:'/user/add-trip', component: require('./components/Traveller/AddTrip.vue').default},
-    {path:'/user/bookings', component: require('./components/Traveller/Bookings.vue').default},
+    {path:'/user/bookings', component: require('./components/Traveller/Bookings.vue').default, name: 'user.bookings'},
 
     //driver
     {path:'/transport/profile', component: require('./components/Transport/Profile.vue').default},

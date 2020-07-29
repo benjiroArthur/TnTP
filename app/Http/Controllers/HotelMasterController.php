@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use App\Booking;
+use App\Events\NewUser;
 use App\Events\RoomBooked;
 use App\Hotel;
 use App\NearSite;
 use App\Room;
 use App\TouristSite;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Random;
 
@@ -53,8 +55,14 @@ class HotelMasterController extends Controller
             case "check-booked-room":
                 return $this->checkBookedRoom($request);
                 break;
+            case "load-booking":
+                return $this->myBookings($request);
+                break;
+            case "find-booking-by-code":
+                return $this->findBookByCode($request);
+                break;
             default :
-//                abort("504","haha got you.");
+                abort("404");
         }
     }
 
@@ -134,22 +142,21 @@ class HotelMasterController extends Controller
 
     private function bookRoom(Request $request)
     {
-//        return $request;
-//        fasxx
-//        return [
-//            $request->end_date,
-//            $request->start_date
-//        ];
+        $start_date = Carbon::parse($request->start_date);
+        $end_date = Carbon::parse($request->end_date);
+        $room_id = $request->room_id;
+        $user_id = auth()->id();
+
 
 
         $booking = new Booking();
         $booking->booking_code = 454445;
-        $booking->start_date = $request->start_date;
-        $booking->end_date = $request->end_date;
-        $booking->room_id = $request->room_id;
-        $booking->user_id = auth()->id();
+        $booking->start_date = $start_date;
+        $booking->end_date = $end_date;
+        $booking->room_id = $room_id;
+        $booking->user_id = $user_id;
 
-        $room = Room::findOrFail($request->room_id);
+        $room = Room::findOrFail($room_id);
         $hotel_code = $room->hotel->code;
 
         while (true) {
@@ -167,9 +174,13 @@ class HotelMasterController extends Controller
         $booking->save();
 
 //        Send Broadcast to Hotel
-        broadcast(new RoomBooked($booking));
+//        broadcast(new RoomBooked($booking));
 
-        return $booking;
+//        broadcast(new NewUser(auth()->user()));
+        return [
+            'booking_code'=>$booking->booking_code,
+
+        ];
     }
 
     private function cancelBookedRoom(Request $request)
@@ -177,8 +188,58 @@ class HotelMasterController extends Controller
 
     }
 
+    private function findBookByCode(Request $request){
+        $code = $request->code;
+//        return $code;
+
+//        $book = Booking::where('booking_code',$code)->first()->withoutRelations();
+        $book = Booking::where('booking_code','TIG-H-001100-0697')->first()->withoutRelations();
+
+        $room = Room::find($book->room_id)->withoutRelations();
+
+        return [
+            'code'=>$code,
+            'book'=>$book,
+            'room'=>$room,
+            'hotel'=>$room->hotel
+        ];
+
+            // activeBook:{
+            //     code:'',
+            //     startDate:'',
+            //     endDate:'',
+            //     room:{
+            //         roomId:2,
+            //         roomNumber:"",
+            //     }
+            // },
+    }
+
+    private function myBookings(Request $request){
+        return auth()->user()->bookings;
+    }
+
     private function checkBookedRoom(Request $request)
     {
+        $start_date = Carbon::parse($request->start_date);
+        $end_date = Carbon::parse($request->end_date);
+        $room_id = $request->room_id;
 
+        $room = Room::findOrFail($room_id);
+        $roomBookings = $room->bookings;
+
+        foreach ($start_date->toPeriod($end_date,1,'day') as $time) {
+            foreach ($roomBookings as $roomBook) {
+                if($time->betweenIncluded($roomBook->start_date,$roomBook->end_date)){
+                    return [
+                        'available'=>false,
+                    ];
+                }
+            }
+        }
+
+        return [
+          'available'=>true,
+        ];
     }
 }
