@@ -21,12 +21,26 @@
                                             <select class="form-control" name="user_type" id="user_type" onchange="setVals()">
                                                 <option value="traveller" selected>Tourist</option>
                                                 <option value="hotel">Hotel</option>
-                                                <option value="transport">Driver</option>
+                                                {{--<option value="transport">Driver</option>--}}
                                             </select>
                                         </div>
 
-
-
+                                {{--<div class="col-12 d-flex">
+                                    <div class="row justify-content-center">
+                                        <div class="col-6"><div class="form-check">
+                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                                <label class="form-check-label" for="exampleRadios1">
+                                                    Tourist
+                                                </label>
+                                            </div></div>
+                                        <div class="col-6"><div class="form-check">
+                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                                                <label class="form-check-label" for="exampleRadios2">
+                                                    Second default radio
+                                                </label>
+                                            </div></div>
+                                    </div>
+                                </div>--}}
                                         <div class="col-12 form-group" id="hotelName" hidden="hidden">
                                             <input placeholder="Hotel Name" id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" autocomplete="name" disabled>
 

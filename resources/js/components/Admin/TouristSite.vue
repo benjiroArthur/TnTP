@@ -391,10 +391,10 @@
             });
         },
         mounted(){
-            Echo.privateChannel('newUser').listen('NewUser', (e) => {
+            /*Echo.privateChannel('newUser').listen('NewUser', (e) => {
                 this.index();
                 console.log(e.data);
-            });
+            });*/
         },
 
     }

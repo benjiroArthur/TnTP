@@ -38,7 +38,7 @@ Route::get('/js/vuetify.js.map', function () {
     return redirect('/home');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 Route::post('/new-register', 'Auth\MyRegisterController@userRegister')->name('userRegister');
 Route::get('/checkUpdate', 'HomeController@checkUpdate');
 
