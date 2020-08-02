@@ -1,6 +1,6 @@
 <template>
-    <div class="">
-        <img :src="hotel.image" class="card-img-top" :alt="hotel.name + ' thumbnail'">
+    <div class="" :class="classes">
+        <img :src="hotel.image"  class="card-img-top" :alt="hotel.name + ' thumbnail'">
         <div class="card mb-3 " >
             <div class="card-body">
                 <h5 class="card-title">{{hotel.name}} Hotel</h5>
@@ -15,6 +15,7 @@
         name: "HotelShowMini",
         props:{
             hotel:Object,
+            classes:String
         },
 
     }

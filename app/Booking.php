@@ -11,7 +11,7 @@ class Booking extends Model
 
 
     //fillables
-    protected $fillable = ['room_id', 'start_date', 'end_date', 'user_id', 'booking_id'];
+    protected $fillable = ['room_id', 'start_date', 'end_date', 'user_id', 'booking_code'];
 
     //return with
 

@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 /*
 Route::post('/load-time', function () {
     return [
@@ -43,6 +45,7 @@ Route::post('/new-register', 'Auth\MyRegisterController@userRegister')->name('us
 Route::get('/checkUpdate', 'HomeController@checkUpdate');
 
 Route::group(['prefix' => 'data', 'as' => 'data.'], function() {
+    Route::post('/home/info','HomeMasterController@index');
     Route::get('/profile', 'ProfileController@getProfile');
     Route::post('/user/profile/image', 'ProfileController@uploadImage');
     Route::put('/profile', 'ProfileController@updateProfile');

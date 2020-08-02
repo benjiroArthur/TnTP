@@ -12,6 +12,7 @@ class Room extends Model
 
     //with
 
+    protected $withCount = ['bookings'];
 
     protected $with =['bookings', 'images'];
 

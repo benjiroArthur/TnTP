@@ -53,7 +53,11 @@
 
             <p>{{activeTouristSite.description}}</p>
 
-            <button class="btn btn-primary" @click="show">Schedule a Trip</button>
+            <button class="btn btn-primary btn-lg" @click="show">Schedule a Trip</button>
+
+            <hr>
+
+            <my-map :map="activeTouristSite.map"></my-map>
 
             <hr>
 

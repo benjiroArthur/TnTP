@@ -1,8 +1,8 @@
 <template>
-    <div class="card mb-3 btn" @click="$emit('site-clicked',site)">
+    <div :class="classes" @click="$emit('site-clicked',site)">
         <img :src="site.thumbnail" class="card-img-top" :alt="'Image of ' + site.name">
-        <div class="card-body">
-            <h5 class="card-title">{{site.name}}</h5>
+        <div class="card-body text-center">
+            <h5 class=" text-center">{{site.name}}</h5>
         </div>
     </div>
 </template>
@@ -11,6 +11,7 @@
     export default {
         name: "SiteShowMini",
         props:{
+            classes:String,
             site:Object
         }
     }

@@ -35,7 +35,7 @@ class HomeController extends Controller
 
     public function getSites(){
         $region = Auth()->user()->address->region;
-        $sites = TouristSite::all();
+        $sites = TouristSite::inRandomOrder()->limit(15)->get();
 
         $nearby = TouristSite::whereHas('address', function ($query) use($region){
             $query->where('region', $region);

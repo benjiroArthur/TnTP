@@ -25,8 +25,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
         <table class="table">
@@ -44,9 +42,9 @@
             <tr v-for="(book,index) in bookings" :key="book.id">
                 <th scope="row">{{index+1}}</th>
                 <td><a href="#" @click="searchTxt=book.booking_code">{{book.booking_code}}</a></td>
-                <td>{{book.start_date|niceDate}}</td>
-                <td>{{book.end_date|niceDate}}</td>
-                <td>{{book.created_at|timeFromNow}}</td>
+                <td>{{book.start_date| niceDate}}</td>
+                <td>{{book.end_date| niceDate}}</td>
+                <td>{{book.created_at | timeFromNow}}</td>
             </tr>
 
             </tbody>
