@@ -109,9 +109,9 @@
                 showingSitesSlick: false,
 
                 stats: {
-                    hotels: 100,
-                    tsites: 69,
-                    rooms: 456,
+                    hotels: null,
+                    tsites: null,
+                    rooms: null,
 
                 },
 

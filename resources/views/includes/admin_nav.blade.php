@@ -2,14 +2,14 @@
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-        {{--<li class="nav-item">
-            <router-link to="/admin/dashboard" class="nav-link">
+        <li class="nav-item">
+            <router-link to="/home" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt yellow"></i>
                 <p>
                     Dashboard
                 </p>
             </router-link>
-        </li>--}}
+        </li>
         <li class="nav-item">
             <router-link to="/manage/tourist-sites" class="nav-link">
                 <i class="nav-icon fas fa-water blue"></i>

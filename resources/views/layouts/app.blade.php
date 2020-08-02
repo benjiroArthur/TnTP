@@ -86,6 +86,7 @@
                 <router-view>
                     {{--Vue elements goes here--}}
                 </router-view>
+                @yield('content')
             @else
                 @yield('content')
             @endauth

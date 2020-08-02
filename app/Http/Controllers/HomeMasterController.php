@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Hotel;
+use App\Room;
+use App\TouristSite;
 use Illuminate\Http\Request;
 
 class HomeMasterController extends Controller
@@ -29,10 +31,13 @@ class HomeMasterController extends Controller
     //
     private function loadStats(Request $request)
     {
+        $hotels = Hotel::all()->count();
+        $tsites = TouristSite::all()->count();
+        $rooms = Room::all()->count();
         return [
-            'hotels' => 500,
-            'tsites' => 609,
-            'rooms' => 436,
+            'hotels' => $hotels,
+            'tsites' => $tsites,
+            'rooms' => $rooms,
         ];
     }
 
