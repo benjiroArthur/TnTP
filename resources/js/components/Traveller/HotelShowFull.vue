@@ -2,6 +2,90 @@
     <div >
         <div class="container-fluid">
             <h3>{{activeHotel.name}} | <strong>{{activeHotel.email}}</strong></h3>
+
+            <div class="row">
+               <div class="col-sm-12 col-md-6">
+                   <!-- About Hotel -->
+                   <div class="card card-primary">
+                       <div class="card-header">
+                           <h3 class="card-title">About {{activeHotel.full_name}}</h3>
+                       </div>
+                       <!-- /.card-header -->
+                       <div class="card-body">
+                           <!--                    <strong><i class="fas fa-book mr-1"></i> Education</strong>-->
+
+                           <!--                    <p class="text-muted">-->
+                           <!--                        B.S. in Computer Science from the University of Tennessee at Knoxville-->
+                           <!--                    </p>-->
+
+                           <!--                    <hr>-->
+
+                           <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+
+                           <p class="text-muted">{{activeHotel.map ? activeHotel.map.region : "Unknown"}}</p>
+
+                           <hr>
+
+                           <!--                    <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>-->
+
+                           <!--                    <p class="text-muted">-->
+                           <!--                        <span class="tag tag-danger">UI Design</span>-->
+                           <!--                        <span class="tag tag-success">Coding</span>-->
+                           <!--                        <span class="tag tag-info">Javascript</span>-->
+                           <!--                        <span class="tag tag-warning">PHP</span>-->
+                           <!--                        <span class="tag tag-primary">Node.js</span>-->
+                           <!--                    </p>-->
+
+                           <!--                    <hr>-->
+
+                           <strong><i class="far fa-file-alt mr-1"></i>Telephone</strong>
+
+                           <p class="text-muted">{{activeHotel.phone_number ? activeHotel.phone_number : "Unknown" }}</p>
+
+                           <hr>
+
+                           <strong><i class="far fa-file-alt mr-1"></i>Registration Date</strong>
+
+                           <p class="text-muted">{{activeHotel.registered ? activeHotel.registered : "Unknown" }}</p>
+
+                           <hr>
+
+                           <strong><i class="fas fa-mail-bulk mr-1"></i>Email</strong>
+
+                           <p class="text-muted">{{activeHotel.email ? activeHotel.email : "Unknown" }}</p>
+                       </div>
+                       <!-- /.card-body -->
+                   </div>
+                   <!-- /.card -->
+               </div>
+
+                <div class="col-sm-12 col-md-6">
+                    <!-- Profile Image -->
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                           <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>Total Rooms</b> <a class="float-right">{{activeHotel.rooms_count}}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Total Bookings</b> <a class="float-right">{{activeHotel.bookings_count}}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Hotel Code</b> <a class="float-right">{{activeHotel.code}}</a>
+                                </li>
+                            </ul>
+
+<!--                            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>-->
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+
+
+
 <!--            <h5>{{activeTouristSite.price|currency}}</h5>-->
         </div>
         <div v-if="showingHotelImages">
@@ -13,6 +97,15 @@
                 </slick>
             </viewer>
         </div>
+
+        <hr>
+
+
+        <my-map v-if="activeHotel.map" :map="activeHotel.map"></my-map>
+        <h3 v-else>No map information for this Hotel. </h3>
+
+        <hr>
+
         <div v-if="showingHotelIRooms">
             <div class="card" >
                 <div class="card-header" >
@@ -20,6 +113,7 @@
                 </div>
 
                 <div  class="card-body">
+                    <h3 v-if="hotelRooms.length<1">This Hotel have no room to book.</h3>
                     <div class="row" v-for="room in hotelRooms">
                         <div class="col-sm-12 col-md-4 col-lg-3">
                             <room-mini :room="room" @room-clicked="showRoom(room)"></room-mini>

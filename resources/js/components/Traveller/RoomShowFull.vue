@@ -71,6 +71,8 @@
             </div>
         </div>
         <div class="container-fluid">
+
+
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">{{activeRoom.room_number}}</h1>
@@ -83,6 +85,36 @@
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div>
+
+        <div class="container-fluid">
+            <div class="info-box mb-3 bg-primary">
+                <span class="info-box-icon"><i class="fas fa-tag"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Bookings</span>
+                    <span class="info-box-number">{{activeRoom.bookings_count ? activeRoom.bookings_count : "Unknown"}}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+
+            <!-- About Me Box -->
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">About</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <strong><i class="fas fa-book mr-1"></i> Description</strong>
+
+                    <p class="text-muted">
+                        {{activeRoom.description}}
+                    </p>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
 
         <div class="container-fluid" v-if="showingRoomImages">
             <viewer  ref="viewer" :trigger="activeRoom.images"  :options="viewerOptions">

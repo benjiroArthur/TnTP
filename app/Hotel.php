@@ -18,6 +18,7 @@ class Hotel extends Model
 
     protected $with = ['map', 'rooms','images'];
 
+    protected $withCount = ['rooms','bookings'];
 
 
     protected $appends = ['registered', 'updated', 'full_name', 'first_name', 'url_name'];
@@ -75,6 +76,7 @@ class Hotel extends Model
     public function getSourceAttribute(){
         return asset('storage/images/hotel/original/'.$this->image);
     }
+
 
     public function getFirstNameAttribute(){
         $phName = $this->name;

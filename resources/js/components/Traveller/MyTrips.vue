@@ -155,7 +155,7 @@
                         </ul>
                     </div>
 
-                    <div id="tripTripItems" v-if="showingTripItemsList">
+                    <div id="tripTripItems" v-if="showingTripItemsList ">
                         <p>This is the Item lists</p>
 
 
@@ -175,7 +175,7 @@
                         </div>
 
 
-                        <ul class="list-group">
+                        <ul  class="list-group">
 
                             <li class="list-group-item iistliac"
                                 v-for="item in activeTrip.checklist"
@@ -213,12 +213,7 @@
                 loading: false,
 
                 trips:[],
-                activeTrip:{
-                    tourist_site:{},
-                    activities:[
-                        {nice_date:""}
-                    ]
-                },
+                activeTrip: {},
 
 
                 appError: false,
@@ -293,15 +288,22 @@
 
                     // Showing trip details
                     case 1:
-                        vm.showingTripDetails = true;
+                        if (Object.keys(vm.activeTrip).length > 0){
+                            vm.showingTripDetails = true;
+                        }
+
                         break;
                     // Showing trip details
                     case 2:
-                        vm.showingTripActivitiesList = true;
+                        if (Object.keys(vm.activeTrip).length > 0) {
+                            vm.showingTripActivitiesList = true;
+                        }
                         break;
                     // Showing trip details
                     case 3:
-                        vm.showingTripItemsList = true;
+                        if (Object.keys(vm.activeTrip).length > 0) {
+                            vm.showingTripItemsList = true;
+                        }
                         break;
 
                     default:
@@ -353,7 +355,7 @@
                     })
                     .then(response => {
                         vm.trips = response.data;
-                        if (vm.trips.length > 1){
+                        if (vm.trips.length > 0){
                             this.activeTrip = vm.trips[0];
 
                             this.appState(1);
@@ -438,7 +440,7 @@
                         }
 
                     });
-                    
+
                 this.txtActivityName = this.txtActivityDate = null;
 
                 this.stopLoading();

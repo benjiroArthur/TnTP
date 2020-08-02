@@ -154,7 +154,8 @@ import * as VueGoogleMaps from 'vue2-google-maps';
 
 Vue.use(VueGoogleMaps, {
     load: {
-        key: 'YOUR_API_TOKEN',
+        key: 'AIzaSyB-pi4UMAgGCCIm8V6zsvNmNrlK_rGjFOg',
+        // key: 'YOUR_API_TOKEN',
         libraries: 'places', // This is required if you use the Autocomplete plugin
         // OR: libraries: 'places,drawing'
         // OR: libraries: 'places,drawing,visualization'
@@ -162,6 +163,14 @@ Vue.use(VueGoogleMaps, {
 
         //// If you want to set the version, you can do so:
         // v: '3.26',
+
+        //// If you want to manually install components, e.g.
+        //// import {GmapMarker} from 'vue2-google-maps/src/components/marker'
+        //// Vue.component('GmapMarker', GmapMarker)
+        //// then set installComponents to 'false'.
+        //// If you want to automatically install all the components this property must be set to 'true':
+        installComponents: true
+
     },});
 
 
@@ -181,6 +190,7 @@ Vue.component(AlertErrors.name, AlertErrors);
 Vue.component(AlertSuccess.name, AlertSuccess);
 
 
+Vue.component('my-map', require('./components/Slots/Map').default);
 Vue.component('room-mini', require('./components/Traveller/RoomShowMini').default);
 Vue.component('site-mini', require('./components/Traveller/SiteShowMini').default);
 Vue.component('traveller-nav', require('./components/Traveller/TravellerNav').default);
