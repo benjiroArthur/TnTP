@@ -44,6 +44,7 @@ class UsersTableSeeder extends Seeder
         $user = $admin->user()->create([
             'email' => $email,
             'password' => Hash::make($password),
+            'email_verified_at' => now(),
             'role_id' => $role->id
         ]);
 

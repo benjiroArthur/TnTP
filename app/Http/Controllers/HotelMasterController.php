@@ -17,6 +17,10 @@ use Random;
 
 class HotelMasterController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
     public function master(Request $request)
     {
         $mode = $request->mode;

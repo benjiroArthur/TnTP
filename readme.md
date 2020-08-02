@@ -1,7 +1,9 @@
 ## TNTP App
 
 #Instruction
-First run
+- duplicate .env.example and rename to .env
+
+Now run the following commands
 - composer install
 - npm install
 - php artisan key generate
