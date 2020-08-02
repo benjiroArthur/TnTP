@@ -169,7 +169,7 @@
                             vm.registerError(419, null, message)
 
                         } else {
-                            let message = "The was problem loading Your trips."
+                            let message = "There was a problem loading Your trips."
                             vm.registerError(488, null, message)
 
                         }

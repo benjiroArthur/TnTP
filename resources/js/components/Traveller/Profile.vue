@@ -247,14 +247,14 @@
                 ).then((response) => {
                     Fire.$emit('profileUpdate');
                     if(response.data === 'Success'){
-                        swal.fire(
+                        Swal.fire(
                             'Update',
                             'Profile Picture Updated Successfully',
                             'success'
                         );
                     }
                     else{
-                        swal.fire(
+                        Swal.fire(
                             'Update',
                             response.data,
                             'warning'
@@ -275,7 +275,7 @@
                         Fire.$emit('profileUpdate');
                         console.log(response.data);
 
-                        swal.fire(
+                        Swal.fire(
                             'Update',
                             'User Profile Updated Successfully',
                             'success'
@@ -294,7 +294,7 @@
                         if(response.data === 'success')
                         {
                             Fire.$emit('profileUpdate');
-                            swal.fire(
+                            Swal.fire(
                                 'Update',
                                 'User Address Updated Successfully',
                                 'success'

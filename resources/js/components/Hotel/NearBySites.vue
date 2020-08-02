@@ -10,7 +10,7 @@
                     So far you have not selected the tourist sites near your hotel.
                     If you select the tourist sites, it will appear here.
                     People will also know that your hotel is near those tourist sites.
-                    Make sure to update your Region to use this feature.
+                    Make sure to update your <b>Region</b> and <b>City</b> to use this feature.
                 </div>
                 <div v-else class="row">
                     <template v-for="touristSites in NearBySitesList">

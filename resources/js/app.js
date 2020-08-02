@@ -156,7 +156,7 @@ Vue.use(VueGoogleMaps, {
     load: {
         key: 'AIzaSyB-pi4UMAgGCCIm8V6zsvNmNrlK_rGjFOg',
         // key: 'YOUR_API_TOKEN',
-        libraries: 'places', // This is required if you use the Autocomplete plugin
+        libraries: 'places', // This is required if you use the Autocomplete pluginF
         // OR: libraries: 'places,drawing'
         // OR: libraries: 'places,drawing,visualization'
         // (as you require)
