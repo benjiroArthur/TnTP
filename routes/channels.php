@@ -21,7 +21,7 @@ Broadcast::channel('newUser', function () {
     return true;
 });
 
-Broadcast::channel('roomBooked', function () {
+Broadcast::channel('roomBooked.{id}', function () {
     return true;
 });
 

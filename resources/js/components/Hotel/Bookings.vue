@@ -137,9 +137,20 @@
                     this.error = error.response.data.message || error.message;
                 });
             },
+            handleIncomingBooking(book){
+                let booking = book[booking];
+                this.bookings.push(booking)
+            },
         },
         mounted() {
             this.index();
+
+            //listen to room booked event
+            Echo.private(`roomBooked.${this.$parent.userId}`)
+                .listen('RoomBooked', (e) => {
+                    this.handleIncomingBooking(e.book);
+                    console.log(e.book);
+                });
         }
     }
 </script>

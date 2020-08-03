@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Booking;
+use App\Hotel;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -15,15 +16,15 @@ class RoomBooked implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $booking;
+    public $book;
     /**
      * Create a new event instance.
-     * @param Booking $booking
+     * @param $book
      * @return void
      */
-    public function __construct(Booking $booking)
+    public function __construct($book)
     {
-        $this->booking = $booking;
+        $this->book = $book;
     }
 
     /**
@@ -33,10 +34,10 @@ class RoomBooked implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('roomBooked');
+        return new PrivateChannel('roomBooked.'.$this->book['user_id']);
     }
 
     public function broadcastWith(){
-        return ["booking" => $this->booking];
+        return ["book" => $this->book];
     }
 }

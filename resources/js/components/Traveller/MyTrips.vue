@@ -29,8 +29,6 @@
             </div>
         </div>
 
-
-
         <div class="row">
             <div class="col-sm-12 col-md-10 col-lg-10">
                 <traveller-nav></traveller-nav>
@@ -384,7 +382,10 @@
             },
 
             findTouristSite(){
-
+                $('#creatTripInstruction').modal('hide');
+                this.$router.push({
+                    path:'all-tourist-sites'
+                });
             },
 
             addItemToList(item ){
