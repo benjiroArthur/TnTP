@@ -204,7 +204,8 @@
 
                             return ` <router-link :to="'/tourist-site/details/'+${row.id}" class="btn btn-sm show">
                                       <i class="fas fa-edit text-info"></i>
-                                    </router-link>`
+                                    </router-link>  <a class="btn btn-danger destroy" href="#" title="delete"><span class="fas fa-trash"></span></a>`
+
                         },
                         events: {
                             'click .show': function (e, value, row){

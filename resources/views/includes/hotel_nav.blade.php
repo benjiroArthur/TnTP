@@ -10,14 +10,14 @@
                 </p>
             </router-link>
         </li>
-        <li class="nav-item">
+        {{--<li class="nav-item">
             <router-link to="/hotel/dashboard" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
                 <p>
                     Dashboard
                 </p>
             </router-link>
-        </li>
+        </li>--}}
         <li class="nav-item">
             <router-link to="/hotel/rooms" class="nav-link">
                 <i class="nav-icon fas fa-bed"></i>

@@ -271,7 +271,7 @@
                     this.image_file = '';
                     this.site = this.allsite.site;
                     this.site_data = this.allsite.site_data;
-                    this.image_file = this.site.image;
+                    this.image_file = this.site.thumbnail;
                     this.image_files = this.site.images;
                     this.form.reset();
                     this.form.fill(this.site_data);

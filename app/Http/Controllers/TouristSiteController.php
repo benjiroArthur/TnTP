@@ -78,8 +78,9 @@ class TouristSiteController extends Controller
         $touristSite->address()->create($addressData);
 
         $touristSite->map()->create($mapData);
+        $newSite = TouristSite::find($touristSite->id);
 
-        return response()->json($touristSite);
+        return response()->json($newSite);
 
     }
 
