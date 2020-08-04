@@ -234,7 +234,13 @@ class TouristSiteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(auth()->user()->role->name === 'admin'){
+            $toutistSite = TouristSite::find($id);
+            $toutistSite->delete();
+            return response('success');
+        }
+            return response('Unauthorised Access');
+
     }
 
 

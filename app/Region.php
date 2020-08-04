@@ -11,7 +11,7 @@ class Region extends Model
     protected $fillable = ['name'];
 
     protected $appends = [
-        'url_name'
+        'url_name', 'image'
     ];
 
     //relationship
@@ -28,6 +28,9 @@ class Region extends Model
     public function getUrlNameAttribute()
     {
         return Str::slug($this->name);
+    }
+    public function getImageAttribute(){
+        return strtolower($this->name);
     }
 
 }

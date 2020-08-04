@@ -57,7 +57,7 @@
             </div>
             <div class="col-sm-12 col-md-2 col-lg-2">
 
-                <button class="btn btn-block btn-primary btn-block" @click="showInstruction">Create</button>
+                <button class="btn btn-block bg-trip btn-block" @click="showInstruction">Create</button>
             </div>
         </div>
 

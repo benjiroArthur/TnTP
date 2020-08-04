@@ -4,7 +4,7 @@
         <div class="card mb-3 " >
             <div class="card-body">
                 <h5 class="card-title">{{hotel.name}}</h5>
-                <button class="btn btn-primary btn-block" @click="$emit('hotel-clicked',hotel)">Book a room</button>
+                <button class="btn bg-trip btn-block" @click="$emit('hotel-clicked',hotel)">Book a room</button>
             </div>
         </div>
     </div>
