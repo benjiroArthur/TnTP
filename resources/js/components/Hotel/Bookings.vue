@@ -48,7 +48,7 @@
 
                             return `<p>${index+1}</p>`;
                         }},
-                    { field: 'booking_id', title: 'Booking ID', sortable: true},
+                    { field: 'booking_code', title: 'Booking Code', sortable: true},
                     { field: 'room.room_number', title: 'Room Number', sortable: true},
                     { field: 'user.userable.full_name', title: 'Client', sortable: true},
                     { field: 'start_date', title: 'CheckIn Date', sortable: true},

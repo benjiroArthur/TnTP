@@ -179,7 +179,7 @@ class HotelMasterController extends Controller
 
         $book = Array();
         $book['booking'] = $booking;
-        $book['user_id'] = $booking->hotel()->user()->id;
+        $book['user_id'] = $room->hotel->user->id;
 
 //        Send Broadcast to Hotel
         broadcast(new RoomBooked($book));

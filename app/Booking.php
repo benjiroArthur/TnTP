@@ -25,7 +25,8 @@ class Booking extends Model
     //relationship
     public function hotel()
     {
-        return $this->room->hotel();
+        //return $this->room->hotel();
+        return $this->hasOneThrough(Hotel::class, Room::class);
     }
     public function room()
     {

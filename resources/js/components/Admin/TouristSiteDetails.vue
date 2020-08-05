@@ -30,18 +30,11 @@
                                                class="form-control" :class="{ 'is-invalid': form.errors.has('price') }">
                                         <has-error :form="form" field="price"></has-error>
                                     </div>
-                                    <h4>Map Details</h4>
                                     <div class="form-group">
-                                        <label>Latitude</label>
-                                        <input v-model="form.lat" type="text" name="lat"
-                                               class="form-control" :class="{ 'is-invalid': form.errors.has('lat') }">
-                                        <has-error :form="form" field="lat"></has-error>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Longitude</label>
-                                        <input v-model="form.long" type="text" name="long"
-                                               class="form-control" :class="{ 'is-invalid': form.errors.has('long') }">
-                                        <has-error :form="form" field="long"></has-error>
+                                        <label>Description</label>
+                                        <textarea v-model="form.description" type="text" name="description"
+                                                  class="form-control" :class="{ 'is-invalid': form.errors.has('description') }"></textarea>
+                                        <has-error :form="form" field="description"></has-error>
                                     </div>
                                 </div>
 
@@ -78,13 +71,34 @@
 
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <button type="button" class="btn btn-danger" v-on:click="resetFields">Cancel</button>
-                                                <button type="submit" class="btn bg-trip">Update <i class="fas fa-upload"></i></button>
-                                            </div>
-                                        </div>
+
+                                </div>
+                            </div>
+                            <h4 class="text-center">Map Details</h4>
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Latitude</label>
+                                        <input v-model="form.lat" type="text" name="lat"
+                                               class="form-control" :class="{ 'is-invalid': form.errors.has('lat') }">
+                                        <has-error :form="form" field="lat"></has-error>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Longitude</label>
+                                        <input v-model="form.long" type="text" name="long"
+                                               class="form-control" :class="{ 'is-invalid': form.errors.has('long') }">
+                                        <has-error :form="form" field="long"></has-error>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row justify-content-center text-center">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-danger" v-on:click="resetFields">Cancel</button>
+                                        <button type="submit" class="btn bg-trip">Update <i class="fas fa-upload"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -251,6 +265,7 @@
                 form: new Form({
                     name: '',
                     price: '',
+                    description: '',
                     lat: '',
                     long: '',
                     region: '',
