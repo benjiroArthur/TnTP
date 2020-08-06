@@ -1,7 +1,7 @@
 <template>
     <div >
         <div class="container-fluid">
-            <h3>{{activeHotel.name}} | <strong>{{activeHotel.email}}</strong></h3>
+            <h3>{{activeHotel.full_name}} | <strong>{{activeHotel.email}}</strong></h3>
 
             <div class="row">
                <div class="col-sm-12 col-md-6">
@@ -22,7 +22,7 @@
 
                            <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
 
-                           <p class="text-muted">{{activeHotel.map ? activeHotel.map.region : "Unknown"}}</p>
+                           <p class="text-muted">{{hotelAddress.region ? hotelAddress.region : "Unknown"}} | {{hotelAddress.city ? hotelAddress.city : "Unknown"}}</p>
 
                            <hr>
 
@@ -193,6 +193,7 @@
 
                 activeHotel:{},
                 hotelRooms:{},
+                hotelAddress:{}
             }
         },
         methods:{
@@ -258,6 +259,10 @@
                     case 344:
                         vm.loadHotelRooms(param);
                         break;
+
+                        case 730:
+                        vm.loadHotelAddress(param);
+                        break;
                 }
             },
             registerError(code, param, message) {
@@ -298,7 +303,7 @@
                     let data = {
                         mode: "add-to-near-site",
                         errorMessage:"",
-                        errorCode:"",
+                        "",
                          url:"",
                     }*/
                     let problem = true;
@@ -330,7 +335,7 @@
                 let data = {
                     mode: "load-hotel",
                     errorMessage: "The was problem loading Hotel.",
-                    errorCode: "233",
+                    errorCode: 233,
                     url: "/data/hotel/master",
                     hotel_id: hotelId,
                 }
@@ -344,12 +349,27 @@
                 let data = {
                     mode: "load-hotel-rooms",
                     errorMessage: "The was problem loading Hotel Rooms.",
-                    errorCode: "344",
+                    errorCode: 344,
                     url: "/data/hotel/master",
                     hotel_id: hotelId,
                 }
                 this.loadSomething(data).then((response) => {
                     vm.hotelRooms = response;
+                })
+            },
+
+            loadHotelAddress(hotelId){
+                let vm = this;
+
+                let data = {
+                    mode: "load-hotel-address",
+                    errorMessage: "The was problem loading Hotel Address.",
+                    errorCode: 730,
+                    url: "/data/hotel/master",
+                    hotel_id: hotelId,
+                }
+                this.loadSomething(data).then((response) => {
+                    vm.hotelAddress = response;
                 })
             },
 
@@ -381,10 +401,12 @@
                 vm.activeHotel = vm.pHotel;
                 vm.hotelRooms = vm.pHotel.rooms;
                 vm.makeAction(344, vm.pHotel.id);
+                vm.makeAction(730, vm.pHotel.id);
                 vm.appState(1);
             }else{
                 let hotelId = vm.$route.params.hotelId;
                 vm.makeAction(233, hotelId);
+                vm.makeAction(730, hotelId);
                 vm.makeAction(344, hotelId);
                 vm.appState(1);
                 // vm.appState(2);

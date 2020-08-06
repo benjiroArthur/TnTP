@@ -47,6 +47,9 @@ class HotelMasterController extends Controller
             case "load-hotel-rooms":
                 return $this->loadHotelRooms($request);
                 break;
+            case "load-hotel-address":
+                return $this->loadHotelAddress($request);
+                break;
             case "load-nearby-hotels":
                 return $this->loadNearbyHotel($request);
                 break;
@@ -122,7 +125,8 @@ class HotelMasterController extends Controller
 
     private function loadHotel(Request $request)
     {
-        return Hotel::find($request->hotel_id);
+//        return  abort(404);
+        return Hotel::findOrFail($request->hotel_id);
     }
 
     private function loadRoom(Request $request)
@@ -200,8 +204,8 @@ class HotelMasterController extends Controller
         $code = $request->code;
 //        return $code;
 
-//        $book = Booking::where('booking_code',$code)->first()->withoutRelations();
-        $book = Booking::where('booking_code','TIG-H-001100-0697')->first()->withoutRelations();
+        $book = Booking::where('booking_code',$code)->first()->withoutRelations();
+//        $book = Booking::where('booking_code','TIG-H-001100-0697')->first()->withoutRelations();
 
         $room = Room::find($book->room_id)->withoutRelations();
 
@@ -249,5 +253,11 @@ class HotelMasterController extends Controller
         return [
           'available'=>true,
         ];
+    }
+
+    private function loadHotelAddress(Request $request)
+    {
+        $hotel = Hotel::findOrFail($request->hotel_id);
+        return $hotel->loc;
     }
 }

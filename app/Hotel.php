@@ -28,6 +28,7 @@ class Hotel extends Model
     {
         return $this->morphOne('App\Address', 'addressable');
     }
+
     public function map()
     {
         return $this->morphOne('App\Map', 'mappable');
@@ -77,6 +78,9 @@ class Hotel extends Model
         return asset('storage/images/hotel/original/'.$this->image);
     }
 
+    public function getLocAttribute(){
+        return $this->user->address;
+    }
 
     public function getFirstNameAttribute(){
         $phName = $this->name;
