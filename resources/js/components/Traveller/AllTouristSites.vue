@@ -53,7 +53,7 @@
                 </template>
             </div>
 
-            <button class="btn btn-primary my-5" @click="makeAction(488)">Load More Sites</button>
+            <button class="btn bg-trip my-5" @click="makeAction(488)">Load More Sites</button>
 
         </div>
 

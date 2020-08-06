@@ -75,7 +75,7 @@
             <slick v-if="showingSitesSlick" :options="slickOptions">
                 <site-mini :class="slickClasses" v-for="site in sites"  :key="site.id" :site="site" @site-clicked="viewSiteFull(site)"></site-mini>
             </slick>
-            <button class="btn btn-block btn-primary">Show All</button>
+            <button class="btn btn-block bg-trip">Show All</button>
         </div>
         <hr>
         <br>

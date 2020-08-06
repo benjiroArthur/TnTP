@@ -32,7 +32,7 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Room Number</th>
+                <th scope="col">Booking Code</th>
                 <th scope="col">Start Date</th>
                 <th scope="col">End Date</th>
                 <th scope="col">Created At</th>

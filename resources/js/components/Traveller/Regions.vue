@@ -12,7 +12,7 @@
 
                 <div class="btn btn-primary animate__animated animate__zoomInDown"  @click="makeAction(490,region)">
                     <img
-                        src="/region_back.jpg" alt=""
+                        :src="'/assets/Regions/'+region.image+'.jpg'" alt=""
                         class="img-fluid  ">
                     <div class="caption ">
                         <h5 class="p-3 text-white animate__animated animate__zoomInDown">{{region.name}}</h5>

@@ -20,7 +20,8 @@ class BookingController extends Controller
     {
        if(auth()->user()->role->name === 'hotel'){
            $hotel = auth()->user()->userable;
-           $bookings = Booking::where('hotel', $hotel->id)->get();
+           //$bookings = Booking::where('hotel', $hotel->id)->get();
+           $bookings = $hotel->bookings()->with('room')->get();
            return response()->json($bookings);
        }
     }

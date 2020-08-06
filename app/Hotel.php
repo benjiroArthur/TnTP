@@ -26,7 +26,8 @@ class Hotel extends Model
     //relationship
     public function address()
     {
-        return $this->morphOne('App\Address', 'addressable');
+        //return $this->morphOne('App\Address', 'addressable');
+        return $this->user()->address;
     }
 
     public function map()

@@ -14,7 +14,7 @@ class Room extends Model
 
     protected $withCount = ['bookings'];
 
-    protected $with =['bookings', 'images'];
+    protected $with =['images'];
 
     protected $appends = ['thumbnail', 'source','url_name'];
 

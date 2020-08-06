@@ -202,9 +202,9 @@
                         render: function(e, value, row){},
                         formatter: function (e, value, row){
 
-                            return ` <router-link :to="'/tourist-site/details/'+${row.id}" class="btn btn-sm show">
+                            return ` <router-link :to="'/tourist-site/details/'+${row.id}" class="btn btn-sm show" title="details">
                                       <i class="fas fa-edit text-info"></i>
-                                    </router-link>  <a class="btn btn-danger destroy" href="#" title="delete"><span class="fas fa-trash"></span></a>`
+                                    </router-link>  <a class="btn btn-sm destroy" href="#" title="delete"><span class="fas fa-trash text-danger"></span></a>`
 
                         },
                         events: {
@@ -217,7 +217,7 @@
 
                             },
                             'click .edit': function (e, value, row){
-                                return window.location.assign('/admin/show/'+row.id)
+                               // return window.location.assign('/admin/show/'+row.id)
 
                             },
                             'click .destroy': function (e, value, row){
@@ -231,13 +231,13 @@
                                     confirmButtonText: 'Yes, delete it!'
                                 }).then((result) => {
                                     if (result.value) {
-                                        axios.delete('/data/admin/' + row.id).then((response) => {
+                                        axios.delete('/data/tourist-site/' + row.id).then((response) => {
                                             if(response.data === "success")
                                             {
                                                 Fire.$emit('tableUpdate');
                                                 Swal.fire(
                                                     'Deleted!',
-                                                    'User Deleted Successfully',
+                                                    'Tourist Site Deleted Successfully',
                                                     'success'
                                                 );
 

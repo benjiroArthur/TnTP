@@ -59,7 +59,8 @@ class TouristSiteController extends Controller
         //organise the data
         $siteData = [
             'name' => $request->name,
-            'price' => $request->price
+            'price' => $request->price,
+            'description' => $request->description
         ];
 
         $addressData = [
@@ -198,12 +199,14 @@ class TouristSiteController extends Controller
             'region' => 'required',
             'city' => 'required',
             'gp_digital_address' => 'required',
+            'description' => 'required',
         ]);
 
         //organise the data
         $siteData = [
             'name' => $request->name,
-            'price' => $request->price
+            'price' => $request->price,
+            'description' => $request->description
         ];
 
         $addressData = [
@@ -234,7 +237,13 @@ class TouristSiteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(auth()->user()->role->name === 'admin'){
+            $toutistSite = TouristSite::find($id);
+            $toutistSite->delete();
+            return response('success');
+        }
+            return response('Unauthorised Access');
+
     }
 
 

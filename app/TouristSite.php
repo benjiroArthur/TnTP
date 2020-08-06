@@ -11,7 +11,7 @@ class TouristSite extends Model
 {
     use UrlName, FromNow;
     //fillables
-    protected $fillable = ['name', 'image', 'price'];
+    protected $fillable = ['name', 'image', 'price', 'description'];
 
     protected $with = ['map', 'reviews', 'address', 'images'];
 

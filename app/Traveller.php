@@ -11,7 +11,7 @@ class Traveller extends Model
     protected $fillable = ['last_name', 'first_name', 'other_name', 'email', 'dob', 'gender', 'phone_number', 'image'];
 
     protected $guarded = [];
-    protected $appends = ['registered', 'updated'];
+    protected $appends = ['registered', 'updated', 'full_name'];
 
 
     /*public function address(){
@@ -31,5 +31,9 @@ class Traveller extends Model
 
     public function getUpdatedAttribute(){
         return Carbon::parse($this->updated_at)->isoFormat('Do MMMM, YYYY');
+    }
+
+    public function getFullNameAttribute(){
+        return $this->first_name.' '.$this->other_name.' '.$this->last_name;
     }
 }
